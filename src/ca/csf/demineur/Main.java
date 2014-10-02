@@ -1,4 +1,4 @@
-package application;
+package ca.csf.demineur;
 	
 import javafx.application.Application;
 import javafx.stage.Stage;
