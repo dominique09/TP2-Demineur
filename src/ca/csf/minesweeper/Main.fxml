@@ -1,7 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
-	
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.GridPane?>
-	
-<GridPane xmlns:fx="http://javafx.com/fxml" fx:controller="ca.csf.demineur.mainController">
-	<!-- TODO Add Nodes -->
-</GridPane>
+
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity"
+	minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
+	prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+	<top>
+		<MenuBar BorderPane.alignment="CENTER">
+			<menus>
+				<Menu text="Partie">
+					<items>
+						<MenuItem text="Nouveau" />
+						<SeparatorMenuItem mnemonicParsing="false" />
+						<RadioMenuItem selected="true" text="Débutant">
+							<toggleGroup>
+								<ToggleGroup fx:id="level" />
+							</toggleGroup>
+						</RadioMenuItem>
+						<RadioMenuItem text="Intermédiaire" toggleGroup="$level" />
+						<RadioMenuItem text="Expert" toggleGroup="$level" />
+						<SeparatorMenuItem mnemonicParsing="false" />
+						<CheckMenuItem text="Tricher" />
+						<SeparatorMenuItem mnemonicParsing="false" />
+						<MenuItem text="Meilleurs résultats" />
+					</items>
+				</Menu>
+				<Menu text="?">
+					<items>
+						<MenuItem text="Aide" />
+						<SeparatorMenuItem mnemonicParsing="false" />
+						<MenuItem text="À propos" />
+					</items>
+				</Menu>
+			</menus>
+		</MenuBar>
+	</top>
+</BorderPane>
