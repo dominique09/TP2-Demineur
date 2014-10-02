@@ -1,4 +1,4 @@
-package ca.csf.demineur;
+package ca.csf.minesweeper;
 
 public class MainController {
 	
