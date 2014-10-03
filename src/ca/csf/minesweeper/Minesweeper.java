@@ -59,4 +59,14 @@ public class Minesweeper {
 			minesPositions[i] = (int) randomNumbers.get(i);
 		}
 	}
+	
+	void initializeCellArray() {
+		for (Cell[] cellRow : cellArray) {
+			for (Cell cell : cellRow){
+				cell = new Cell(Cell.CellType.EMPTY, true);
+			}
+		}
+		for (int element : minesPositions) {
+		}
+	}
 }
