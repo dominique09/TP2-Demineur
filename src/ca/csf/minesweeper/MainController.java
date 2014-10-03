@@ -36,9 +36,9 @@ public class MainController extends SimpleFXController{
 	@FXML
 	public void openInformations(){
 		try {
-			SimpleFXScene informationsScene = new SimpleFXScene(HelpController.class.getResource("Help.fxml"), new HelpController());
+			SimpleFXScene informationsScene = new SimpleFXScene(InformationsController.class.getResource("Informations.fxml"), new HelpController());
 			
-			SimpleFXStage informationsStage = new SimpleFXStage("Aide", StageStyle.UTILITY, informationsScene, this.getSimpleFXApplication(), this.getSimpleFxStage());
+			SimpleFXStage informationsStage = new SimpleFXStage("À propos !", StageStyle.UTILITY, informationsScene, this.getSimpleFXApplication(), this.getSimpleFxStage());
 			
 			informationsStage.setResizable(false);
 			informationsStage.show();
