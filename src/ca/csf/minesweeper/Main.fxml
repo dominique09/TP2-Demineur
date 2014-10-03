@@ -1,42 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.GridPane?>
 
-
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity"
-	minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
-	prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
-	<top>
-		<MenuBar BorderPane.alignment="CENTER">
-			<menus>
-				<Menu text="Partie">
-					<items>
-						<MenuItem text="Nouveau" />
-						<SeparatorMenuItem mnemonicParsing="false" />
-						<RadioMenuItem selected="true" text="Débutant">
-							<toggleGroup>
-								<ToggleGroup fx:id="level" />
-							</toggleGroup>
-						</RadioMenuItem>
-						<RadioMenuItem text="Intermédiaire" toggleGroup="$level" />
-						<RadioMenuItem text="Expert" toggleGroup="$level" />
-						<SeparatorMenuItem mnemonicParsing="false" />
-						<CheckMenuItem text="Tricher" />
-						<SeparatorMenuItem mnemonicParsing="false" />
-						<MenuItem text="Meilleurs résultats" />
-					</items>
-				</Menu>
-				<Menu text="?">
-					<items>
-						<MenuItem text="Aide" />
-						<SeparatorMenuItem mnemonicParsing="false" />
-						<MenuItem text="À propos" />
-					</items>
-				</Menu>
-			</menus>
-		</MenuBar>
-	</top>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="446.0" prefWidth="388.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.csf.minesweeper.MainController">
+   <top>
+      <MenuBar BorderPane.alignment="CENTER">
+        <menus>
+          <Menu text="Partie">
+            <items>
+              <MenuItem accelerator="F2" onAction="#newGame" text="Nouveau" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <RadioMenuItem selected="true" text="Débutant">
+                     <toggleGroup>
+                        <ToggleGroup fx:id="level" />
+                     </toggleGroup>
+                  </RadioMenuItem>
+                  <RadioMenuItem text="Intermédiaire" toggleGroup="$level" />
+                  <RadioMenuItem text="Expert" toggleGroup="$level" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <CheckMenuItem text="Tricher" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem text="Meilleurs résultats" />
+            </items>
+          </Menu>
+          <Menu text="?">
+            <items>
+              <MenuItem accelerator="F1" onAction="#openHelpWindow" text="Aide" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem onAction="#openInformations" text="À propos" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+   </top>
+   <center>
+      <VBox fx:id="gameContainer" prefHeight="200.0" prefWidth="100.0">
+         <children>
+            <GridPane>
+              <columnConstraints>
+                <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" />
+              </rowConstraints>
+               <children>
+                  <Button fx:id="faceButton" mnemonicParsing="false" onAction="#newGame" text=":)" GridPane.columnIndex="1" />
+                  <Label fx:id="minesLabel" contentDisplay="CENTER" styleClass="gameLabel" text="0" textAlignment="CENTER" />
+                  <Label fx:id="timeLabel" alignment="CENTER" contentDisplay="CENTER" styleClass="gameLabel" text="0" textAlignment="CENTER" GridPane.columnIndex="2" />
+               </children>
+            </GridPane>
+         </children>
+      </VBox>
+   </center>
 </BorderPane>
