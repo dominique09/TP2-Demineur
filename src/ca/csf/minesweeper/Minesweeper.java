@@ -10,6 +10,7 @@ public class Minesweeper {
 	private int sizeY;
 	private int nbMines;
 	private int[] minesPositions;
+	private boolean playerIsDead;
 	
 	public static enum Difficulty {
 		EASY(10, 9, 9), MEDIUM(40, 16, 16), HARD(99, 30, 16);
@@ -47,6 +48,8 @@ public class Minesweeper {
 		this.sizeY = sizeY;
 		this.nbMines = nbMines;
 		
+		playerIsDead = false;
+		
 		cellArray = new Cell[sizeX][sizeY];
 	// Generate random mines positions
 		ArrayList<Integer> randomNumbers = new ArrayList<Integer>(sizeX*sizeY);
@@ -74,11 +77,30 @@ public class Minesweeper {
 		displayCellArray();
 		
 		for (int element : minesPositions) {
-			(this.cellArray[(element % sizeX)][(element / sizeY)]).type = Cell.CellType.MINE;
+			(this.#cellArray[(element % sizeX)][(element / sizeY)]).type = Cell.CellType.MINE;
 			displayCellArray();
 		}
 		
 		displayCellArray();
+	}
+	
+	void activate(int coordX, int coordY){
+		
+		if (cellArray[coordX-1][coordY-1].type == Cell.CellType.MINE){
+			playerIsDead = true;
+			
+			// Show all mines
+			
+			for (Cell[] row : cellArray){
+				for (Cell cell : row){
+					if (cell.type == Cell.CellType.MINE){
+						cell.isHidden = false;
+					}
+				}
+			}
+		}
+		
+		
 	}
 	
 	public void displayCellArray(){
