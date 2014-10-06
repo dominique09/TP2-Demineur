@@ -23,66 +23,118 @@ public class MainController extends SimpleFXController {
 
 	private Minesweeper minesweeper;
 	private GridPane gameGrid;
-	
+	private CellButton[][] cellButtonArray;
+
+	private int sizeX;
+	private int sizeY;
+
 	private static final double TOGGLE_BUTTON_HEIGHT = 30.00;
-	private static final double TOGGLE_BUTTON_WIDTH = 60.00;
+	private static final double TOGGLE_BUTTON_WIDTH = 30.00;
 
 	@FXML
 	public void newGame() {
-		minesweeper = new Minesweeper();
-		String selectedLevel = ((RadioMenuItem) level.getSelectedToggle()).getId();
-		switch (selectedLevel) {
-		case "EASY":
-			minesweeper.newGame(Minesweeper.Difficulty.EASY);
-			break;
-		case "MEDIUM":
-			minesweeper.newGame(Minesweeper.Difficulty.MEDIUM);
-			break;
-		case "HARD":
-			minesweeper.newGame(Minesweeper.Difficulty.HARD);
-			break;
-		}
-		
-		placeTile();
-	}
-	
-	private void placeTile(){
-		int sizeX = 9;
-		int sizeY = 9;
-		
-		gameGrid = new GridPane();
-		
-		for (int x=0; x < sizeX; ++x){
-			for (int y=0; y < sizeY; ++y){
-				ToggleButton toggleButton = new ToggleButton();
-				toggleButton.prefHeight(TOGGLE_BUTTON_HEIGHT);
-				toggleButton.prefWidth(TOGGLE_BUTTON_WIDTH);
-				toggleButton.setId(x + "," + y);
-				
-				toggleButton.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>(){
+		try {
+			minesweeper = new Minesweeper();
+			String selectedLevel = ((RadioMenuItem) level.getSelectedToggle()).getId();
+			switch (selectedLevel) {
+			case "EASY":
+				minesweeper.newGame(Minesweeper.Difficulty.EASY);
+				break;
+			case "MEDIUM":
+				minesweeper.newGame(Minesweeper.Difficulty.MEDIUM);
+				break;
+			case "HARD":
+				minesweeper.newGame(Minesweeper.Difficulty.HARD);
+				break;
+			}
 
-					@Override
-					public void handle(MouseEvent event) {
-						if (event.getButton() == MouseButton.PRIMARY){
-							
-						} else {
-							
-						}							
-					}
-					
-				});
+			sizeX = minesweeper.getSizeX();
+			sizeY = minesweeper.getSizeY();
+			
+			cellButtonArray = new CellButton[sizeX][sizeY];
+
+			placeTile();
+		} catch (Exception ex) {
+			System.out.println(ex);
+		}
+	}
+
+	public class CellButton extends ToggleButton {
+
+		public int x;
+		public int y;
+
+		public CellButton(int x, int y) {
+			super();
+			this.x = x;
+			this.y = y;
+		}
+	}
+
+	private void placeTile() {
+		if (gameGrid != null){
+			gameGrid.getChildren().clear();
+		}
+		gameGrid = new GridPane();
+
+		for (int y = 0; y < sizeY; ++y) {
+			for (int x = 0; x < sizeX; ++x) {
+				CellButton cellButton = new CellButton(x, y);
+				cellButton.setPrefSize(TOGGLE_BUTTON_WIDTH,
+						TOGGLE_BUTTON_HEIGHT);
+
+				cellButton.addEventHandler(MouseEvent.MOUSE_CLICKED,
+						new EventHandler<MouseEvent>() {
+
+							@Override
+							public void handle(MouseEvent event) {
+								if (event.getButton() == MouseButton.PRIMARY) {
+									minesweeper.activate(cellButton.x,
+											cellButton.y);
+								} else {
+									// minesweeper. function have to be determine
+								}
+
+								updateGameGrid();
+							}
+
+						});
 				
-				gameGrid.add(toggleButton, x, y);
+				cellButtonArray[x][y] = cellButton;
+
+				gameGrid.add(cellButton, x, y);
 			}
 		}
-		
+
 		gameContainer.getChildren().add(gameGrid);
 	}
-	
-	
+
+	private void updateGameGrid() {
+		Cell[][] cellArray = minesweeper.getCellArray();
+
+		for (int y = 0; y < sizeY; ++y) {
+			for (int x = 0; x < sizeX; ++x) {
+				cellButtonArray[x][y].setSelected(!cellArray[x][y].isHidden);
+				
+				if(!cellArray[x][y].isHidden){
+					cellButtonArray[x][y].setText("*");
+					
+				}
+				
+				if (cellArray[x][y].isFlagged){
+					cellButtonArray[x][y].setText("F");
+				}
+				
+				if (cellArray[x][y].isNotSure){
+					cellButtonArray[x][y].setText("?");
+				}
+			}
+		}
+	}
+
 	@FXML
 	public void levelChange() {
-
+		newGame();
 	}
 
 	@FXML
