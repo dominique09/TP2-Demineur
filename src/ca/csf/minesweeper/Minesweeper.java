@@ -69,8 +69,8 @@ public class Minesweeper {
 	}
 	
 	void initializeCellArray() {
-		for (int i = 0; i < cellArray.length; i++){
-			for (int j = 0; j < cellArray[i].length; ++j){
+		for (int i = 0; i < sizeX - 1; i++){
+			for (int j = 0; j < sizeY - 1; ++j){
 				cellArray[i][j] = new Cell(Cell.CellType.EMPTY, true);
 			}
         }
@@ -114,5 +114,9 @@ public class Minesweeper {
 			System.out.println();
 		}
 		System.out.println("===END===");
+	}
+	
+	public Cell[][] getCellArray(){
+		return this.cellArray;
 	}
 }
