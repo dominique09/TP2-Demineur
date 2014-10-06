@@ -38,14 +38,17 @@ public class Minesweeper {
 		}
 	}
 
-	public void newGame(Difficulty difficulty) {
+	public void newGame(Difficulty difficulty) throws Exception {
 		newGame(difficulty.getNbMines(), difficulty.getSizeX(), difficulty.getSizeY());
 	}
 
-	public void newGame(int nbMines, int sizeX, int sizeY) {
+	public void newGame(int nbMines, int sizeX, int sizeY) throws Exception {
 		
-		this.setSixeX(sizeX);
-		this.setSizeY(sizeY);
+		if (sizeX < 0 || sizeY < 0 || nbMines < 1){
+			throw new Exception("Les valeurs doivent être positives");
+		}
+		this.sizeX = sizeX;
+		this.sizeY = sizeY;
 		this.nbMines = nbMines;
 		
 		playerIsDead = false;
