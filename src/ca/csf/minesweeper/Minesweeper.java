@@ -13,7 +13,7 @@ public class Minesweeper {
 	private boolean playerIsDead;
 	
 	public static enum Difficulty {
-		EASY(10, 9, 9), MEDIUM(40, 16, 16), HARD(99, 20, 20);
+		EASY(10, 9, 9), MEDIUM(40, 16, 16), HARD(99, 30, 16);
 
 		private int nbMines;
 		private int sizeX;
@@ -72,9 +72,9 @@ public class Minesweeper {
 	}
 	
 	void initializeCellArray() {
-		for (int i = 0; i < getSizeY(); i++){
-			for (int j = 0; j < getSizeX(); ++j){
-				cellArray[j][i] = new Cell(Cell.CellType.EMPTY, true);
+		for (int j = 0; j < getSizeY(); ++j){
+			for (int i = 0; i < getSizeX(); ++i){
+				cellArray[i][j] = new Cell(Cell.CellType.EMPTY, true);
 			}
         }
 		
@@ -129,5 +129,9 @@ public class Minesweeper {
 
 	public int getSizeY() {
 		return sizeY;
+	}
+	
+	public int getNbMines(){
+		return this.nbMines;
 	}
 }
