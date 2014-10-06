@@ -6,7 +6,11 @@ public class TestClass {
 
 	public static void main(String[] args) {
 		Minesweeper msGame = new Minesweeper();
-		msGame.newGame(Difficulty.HARD);
+		try {
+			msGame.newGame(Difficulty.HARD);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 }
