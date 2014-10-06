@@ -2,6 +2,9 @@ package ca.csf.minesweeper;
 
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.control.Label;
 import javafx.scene.control.RadioMenuItem;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
@@ -20,6 +23,8 @@ public class MainController extends SimpleFXController {
 	private VBox gameContainer;
 	@FXML
 	private ToggleGroup level;
+	@FXML
+	private Label minesLabel;
 
 	private Minesweeper minesweeper;
 	private GridPane gameGrid;
@@ -31,6 +36,11 @@ public class MainController extends SimpleFXController {
 	private static final double TOGGLE_BUTTON_HEIGHT = 30.00;
 	private static final double TOGGLE_BUTTON_WIDTH = 30.00;
 
+	@FXML
+	public void initialize(){
+		newGame();
+	}
+	
 	@FXML
 	public void newGame() {
 		try {
@@ -54,6 +64,7 @@ public class MainController extends SimpleFXController {
 			cellButtonArray = new CellButton[sizeX][sizeY];
 
 			placeTile();
+			this.getSimpleFxStage().sizeToScene();
 		} catch (Exception ex) {
 			System.out.println(ex);
 		}
@@ -73,9 +84,10 @@ public class MainController extends SimpleFXController {
 
 	private void placeTile() {
 		if (gameGrid != null){
-			gameGrid.getChildren().clear();
+			gameContainer.getChildren().removeAll(gameGrid);
 		}
 		gameGrid = new GridPane();
+		gameGrid.setPadding(new Insets(10, 10, 10, 10));
 
 		for (int y = 0; y < sizeY; ++y) {
 			for (int x = 0; x < sizeX; ++x) {
@@ -96,6 +108,7 @@ public class MainController extends SimpleFXController {
 								}
 
 								updateGameGrid();
+								updateMineNumber();
 							}
 
 						});
@@ -107,6 +120,12 @@ public class MainController extends SimpleFXController {
 		}
 
 		gameContainer.getChildren().add(gameGrid);
+		gameGrid.setAlignment(Pos.CENTER);
+		updateMineNumber();
+	}
+
+	private void updateMineNumber() {
+		minesLabel.setText("8");
 	}
 
 	private void updateGameGrid() {
@@ -117,8 +136,8 @@ public class MainController extends SimpleFXController {
 				cellButtonArray[x][y].setSelected(!cellArray[x][y].isHidden);
 				
 				if(!cellArray[x][y].isHidden){
+					cellButtonArray[x][y].setDisable(true);
 					cellButtonArray[x][y].setText("*");
-					
 				}
 				
 				if (cellArray[x][y].isFlagged){
