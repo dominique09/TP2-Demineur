@@ -78,12 +78,12 @@ public class Minesweeper {
 		for (int element : minesPositions) {
 			(this.cellArray[(element % sizeX)][(element / sizeY)]).type = Cell.CellType.MINE;
 		}
-		
+		displayCellArray();
 	}
 	
 	public void activate(int coordX, int coordY){
 		
-		if (cellArray[coordX-1][coordY-1].type == Cell.CellType.MINE){
+		if (cellArray[coordX][coordY].type == Cell.CellType.MINE){
 			playerIsDead = true;
 			
 			// Show all mines
@@ -96,7 +96,6 @@ public class Minesweeper {
 				}
 			}
 		}
-		
 		
 	}
 	
@@ -114,6 +113,6 @@ public class Minesweeper {
 			}
 			System.out.println();
 		}
-		System.out.println("------- END ------");
+		System.out.println("===END===");
 	}
 }
