@@ -38,14 +38,14 @@ public class Minesweeper {
 		}
 	}
 
-	public void newGame(Difficulty difficulty) throws Exception {
+	public void newGame(Difficulty difficulty) throws IndexOutOfBoundsException {
 		newGame(difficulty.getNbMines(), difficulty.getSizeX(), difficulty.getSizeY());
 	}
 
-	public void newGame(int nbMines, int sizeX, int sizeY) throws Exception {
+	public void newGame(int nbMines, int sizeX, int sizeY) throws IndexOutOfBoundsException {
 		
 		if (sizeX < 0 || sizeY < 0 || nbMines < 1){
-			throw new Exception("Les valeurs doivent être positives");
+			throw new IndexOutOfBoundsException("Les valeurs doivent être positives");
 		}
 		this.sizeX = sizeX;
 		this.sizeY = sizeY;
@@ -103,9 +103,9 @@ public class Minesweeper {
 	}
 	
 	public void displayCellArray(){
-		for (Cell[] row : cellArray){
-			for (Cell element : row){
-				switch (element.type.toString()){
+		for (int i = 0; i< sizeX; ++i){
+			for (int j = 0; j < sizeY; ++j){
+				switch (cellArray[i][j].type.toString()){
 				case "MINE":
 					System.out.print("*");
 					break;
