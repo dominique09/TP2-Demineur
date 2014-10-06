@@ -1,9 +1,8 @@
 package ca.csf.minesweeper;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
-import java.util.Vector;
 
 public class Minesweeper {
 	private Cell[][] cellArray;
@@ -43,6 +42,11 @@ public class Minesweeper {
 	}
 
 	public void newGame(int nbMines, int sizeX, int sizeY) {
+		
+		this.sizeX = sizeX;
+		this.sizeY = sizeY;
+		this.nbMines = nbMines;
+		
 		cellArray = new Cell[sizeX][sizeY];
 	// Generate random mines positions
 		ArrayList<Integer> randomNumbers = new ArrayList<Integer>(sizeX*sizeY);
@@ -58,15 +62,39 @@ public class Minesweeper {
 		for (int i = 0; i < nbMines; ++i){
 			minesPositions[i] = (int) randomNumbers.get(i);
 		}
+		initializeCellArray();
 	}
 	
 	void initializeCellArray() {
-		for (Cell[] cellRow : cellArray) {
-			for (Cell cell : cellRow){
-				cell = new Cell(Cell.CellType.EMPTY, true);
+		for (int i = 0; i < cellArray.length; i++){
+			for (int j = 0; j < cellArray[i].length; ++j){
+				cellArray[i][j] = new Cell(Cell.CellType.EMPTY, true);
 			}
-		}
+        }
+		displayCellArray();
+		
 		for (int element : minesPositions) {
+			(this.cellArray[(element % sizeX)][(element / sizeY)]).type = Cell.CellType.MINE;
+			displayCellArray();
 		}
+		
+		displayCellArray();
+	}
+	
+	public void displayCellArray(){
+		for (Cell[] row : cellArray){
+			for (Cell element : row){
+				switch (element.type.toString()){
+				case "MINE":
+					System.out.print("*");
+					break;
+				case "EMPTY":
+					System.out.print("-");
+					break;
+				}
+			}
+			System.out.println();
+		}
+		System.out.println("------- END ------");
 	}
 }
