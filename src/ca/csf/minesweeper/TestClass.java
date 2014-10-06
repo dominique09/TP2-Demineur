@@ -6,7 +6,7 @@ public class TestClass {
 
 	public static void main(String[] args) {
 		Minesweeper msGame = new Minesweeper();
-		msGame.newGame(Difficulty.EASY);
+		msGame.newGame(Difficulty.HARD);
 	}
 
 }

@@ -44,8 +44,8 @@ public class Minesweeper {
 
 	public void newGame(int nbMines, int sizeX, int sizeY) {
 		
-		this.sizeX = sizeX;
-		this.sizeY = sizeY;
+		this.setSixeX(sizeX);
+		this.setSizeY(sizeY);
 		this.nbMines = nbMines;
 		
 		playerIsDead = false;
@@ -69,14 +69,14 @@ public class Minesweeper {
 	}
 	
 	void initializeCellArray() {
-		for (int i = 0; i < sizeX - 1; i++){
-			for (int j = 0; j < sizeY - 1; ++j){
+		for (int i = 0; i < getSizeY(); i++){
+			for (int j = 0; j < getSizeX(); ++j){
 				cellArray[i][j] = new Cell(Cell.CellType.EMPTY, true);
 			}
         }
 		
 		for (int element : minesPositions) {
-			(this.cellArray[(element % sizeX)][(element / sizeY)]).type = Cell.CellType.MINE;
+			(this.cellArray[(element % getSizeY())][(element / getSizeX())]).type = Cell.CellType.MINE;
 		}
 		displayCellArray();
 	}
@@ -118,5 +118,13 @@ public class Minesweeper {
 	
 	public Cell[][] getCellArray(){
 		return this.cellArray;
+	}
+
+	public int getSizeX() {
+		return sizeX;
+	}
+
+	public int getSizeY() {
+		return sizeY;
 	}
 }
