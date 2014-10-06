@@ -84,7 +84,7 @@ public class Minesweeper {
 		displayCellArray();
 	}
 	
-	void activate(int coordX, int coordY){
+	public void activate(int coordX, int coordY){
 		
 		if (cellArray[coordX-1][coordY-1].type == Cell.CellType.MINE){
 			playerIsDead = true;
