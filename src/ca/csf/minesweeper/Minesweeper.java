@@ -13,7 +13,7 @@ public class Minesweeper {
 	private boolean playerIsDead;
 	
 	public static enum Difficulty {
-		EASY(10, 9, 9), MEDIUM(40, 16, 16), HARD(99, 30, 16);
+		EASY(10, 9, 9), MEDIUM(40, 16, 16), HARD(99, 20, 20);
 
 		private int nbMines;
 		private int sizeX;
@@ -74,7 +74,7 @@ public class Minesweeper {
 	void initializeCellArray() {
 		for (int i = 0; i < getSizeY(); i++){
 			for (int j = 0; j < getSizeX(); ++j){
-				cellArray[i][j] = new Cell(Cell.CellType.EMPTY, true);
+				cellArray[j][i] = new Cell(Cell.CellType.EMPTY, true);
 			}
         }
 		
