@@ -50,7 +50,7 @@ public class Minesweeper {
 		this.sizeX = sizeX;
 		this.sizeY = sizeY;
 		this.nbMines = nbMines;
-		
+		this.playerIsDead = false;
 		
 		
 		cellArray = new Cell[sizeX][sizeY];
@@ -95,6 +95,8 @@ public class Minesweeper {
 				for (Cell cell : row){
 					if (cell.type == Cell.CellType.MINE){
 						cell.isHidden = false;
+						this.playerIsDead = true;
+						
 					}
 				}
 			}
