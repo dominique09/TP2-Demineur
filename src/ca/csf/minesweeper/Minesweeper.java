@@ -135,7 +135,8 @@ public class Minesweeper {
 		return this.nbMines;
 	}
 
-	public boolean getIsPlayerIsDead() {
+	
+	public boolean getPlayerIsDead() {
 		return this.playerIsDead;
 	}
 
