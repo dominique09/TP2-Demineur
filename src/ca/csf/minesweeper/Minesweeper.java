@@ -51,7 +51,7 @@ public class Minesweeper {
 		this.sizeY = sizeY;
 		this.nbMines = nbMines;
 		
-		playerIsDead = false;
+		
 		
 		cellArray = new Cell[sizeX][sizeY];
 	// Generate random mines positions
@@ -87,7 +87,7 @@ public class Minesweeper {
 	public void activate(int coordX, int coordY){
 		
 		if (cellArray[coordX][coordY].type == Cell.CellType.MINE){
-			playerIsDead = true;
+		
 			
 			// Show all mines
 			
@@ -134,4 +134,9 @@ public class Minesweeper {
 	public int getNbMines(){
 		return this.nbMines;
 	}
+
+	public boolean getIsPlayerIsDead() {
+		return this.playerIsDead;
+	}
+
 }
