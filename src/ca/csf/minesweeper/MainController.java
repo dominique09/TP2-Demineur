@@ -4,6 +4,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioMenuItem;
 import javafx.scene.control.ToggleButton;
@@ -25,6 +26,8 @@ public class MainController extends SimpleFXController {
 	private ToggleGroup level;
 	@FXML
 	private Label minesLabel;
+	@FXML
+	private Button faceButton;
 
 	private Minesweeper minesweeper;
 	private GridPane gameGrid;
@@ -64,7 +67,10 @@ public class MainController extends SimpleFXController {
 			cellButtonArray = new CellButton[sizeX][sizeY];
 
 			placeTile();
+			if (this.getSimpleFxStage() != null)
+			{
 			this.getSimpleFxStage().sizeToScene();
+			}
 		} catch (Exception ex) {
 			System.out.println(ex);
 		}
@@ -109,6 +115,7 @@ public class MainController extends SimpleFXController {
 
 								updateGameGrid();
 								updateMineNumber();
+								updateFaceButton();
 							}
 
 						});
@@ -148,6 +155,14 @@ public class MainController extends SimpleFXController {
 					cellButtonArray[x][y].setText("?");
 				}
 			}
+		}
+	}
+	
+	private void updateFaceButton(){
+		if ( minesweeper.getPlayerIsDead() == true){
+			this.faceButton.setText(");");
+		} else {
+			this.faceButton.setText(":)");
 		}
 	}
 
