@@ -60,6 +60,22 @@ public class MinesweeperTest {
 	}
 	
 	@Test
+	public void whenGameCreatedAndParametersWrong_ThenExceptionThrow(){
+		
+		Minesweeper testGame = new Minesweeper();
+		
+		try {
+		    testGame.newGame(10, -1, -1);
+		    fail( "Minesweeper doesn't work properly with wrong args" );
+		} catch (IndexOutOfBoundsException expectedException){
+			assertTrue(true);
+		}
+		
+
+
+	}
+	
+	@Test
 	public void whenMineClicked_ThenPlayerIsDead(){
 		
 		Minesweeper testGame = new Minesweeper();
