@@ -72,14 +72,14 @@ public class Minesweeper {
 	}
 	
 	void initializeCellArray() {
-		for (int j = 0; j < getSizeY(); ++j){
-			for (int i = 0; i < getSizeX(); ++i){
+		for (int i = 0; i < getSizeX(); ++i){
+			for (int j = 0; j < getSizeY(); ++j){
 				cellArray[i][j] = new Cell(Cell.CellType.EMPTY, true);
 			}
         }
 		
 		for (int element : minesPositions) {
-			(this.cellArray[(element % getSizeY())][(element / getSizeX())]).type = Cell.CellType.MINE;
+			(this.cellArray[(element % sizeX)][(element / sizeX)]).type = Cell.CellType.MINE;
 		}
 		displayCellArray();
 	}

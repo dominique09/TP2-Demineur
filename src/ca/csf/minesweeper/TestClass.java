@@ -7,7 +7,7 @@ public class TestClass {
 	public static void main(String[] args) {
 		Minesweeper msGame = new Minesweeper();
 		try {
-			msGame.newGame(Difficulty.HARD);
+			msGame.newGame(Minesweeper.Difficulty.HARD);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
