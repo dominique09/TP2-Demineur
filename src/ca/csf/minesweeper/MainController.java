@@ -173,7 +173,22 @@ public class MainController extends SimpleFXController {
 
 	@FXML
 	public void openResults() {
+		try {
+			SimpleFXScene resultScene = new SimpleFXScene(
+					InformationsController.class
+							.getResource("Result.fxml"),
+					new HelpController());
 
+			SimpleFXStage resultStage = new SimpleFXStage("Meilleurs Temps !",
+					StageStyle.UTILITY, resultScene,
+					this.getSimpleFXApplication(), this.getSimpleFxStage());
+
+			resultStage.setResizable(false);
+			resultStage.show();
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
 	}
 
 	@FXML
