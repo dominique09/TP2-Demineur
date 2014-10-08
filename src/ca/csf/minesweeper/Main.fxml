@@ -15,7 +15,7 @@
 				<Menu text="Partie">
 					<items>
 						<MenuItem accelerator="F2" onAction="#newGame" text="Nouveau" />
-						<SeparatorMenuItem mnemonicParsing="false" />
+						<SeparatorMenuItem mnemonicParsing="true" />
 						<RadioMenuItem fx:id="EASY" onAction="#levelChange" selected="true" text="Débutant">
 							<toggleGroup>
 								<ToggleGroup fx:id="level" />
@@ -23,16 +23,16 @@
 						</RadioMenuItem>
 						<RadioMenuItem fx:id="MEDIUM" onAction="#levelChange" text="Intermédiaire" toggleGroup="$level" />
 						<RadioMenuItem fx:id="HARD" onAction="#levelChange" text="Expert" toggleGroup="$level" />
-						<SeparatorMenuItem mnemonicParsing="false" />
+						<SeparatorMenuItem mnemonicParsing="true" />
 						<CheckMenuItem onAction="#hintCheck" text="Tricher" />
-						<SeparatorMenuItem mnemonicParsing="false" />
+						<SeparatorMenuItem mnemonicParsing="true" />
 						<MenuItem onAction="#openResults" text="Meilleurs résultats" />
 					</items>
 				</Menu>
 				<Menu text="?">
 					<items>
 						<MenuItem accelerator="F1" onAction="#openHelpWindow" text="Aide" />
-						<SeparatorMenuItem mnemonicParsing="false" />
+						<SeparatorMenuItem mnemonicParsing="true" />
 						<MenuItem onAction="#openInformations" text="À propos" />
 					</items>
 				</Menu>
