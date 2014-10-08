@@ -8,6 +8,7 @@ public class TestClass {
 		Minesweeper msGame = new Minesweeper();
 		try {
 			msGame.newGame(Minesweeper.Difficulty.HARD);
+			msGame.activate(0,0);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

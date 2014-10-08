@@ -11,7 +11,7 @@ public class Minesweeper {
 	private int nbMines;
 	private int[] minesPositions;
 	private boolean playerIsDead;
-	
+
 	public static enum Difficulty {
 		EASY(10, 9, 9), MEDIUM(40, 16, 16), HARD(99, 30, 16);
 
@@ -39,77 +39,142 @@ public class Minesweeper {
 	}
 
 	public void newGame(Difficulty difficulty) throws IndexOutOfBoundsException {
-		newGame(difficulty.getNbMines(), difficulty.getSizeX(), difficulty.getSizeY());
+		newGame(difficulty.getNbMines(), difficulty.getSizeX(),
+				difficulty.getSizeY());
 	}
 
-	public void newGame(int nbMines, int sizeX, int sizeY) throws IndexOutOfBoundsException {
-		
-		if (sizeX < 0 || sizeY < 0 || nbMines < 1){
-			throw new IndexOutOfBoundsException("Les valeurs doivent être positives");
+	public void newGame(int nbMines, int sizeX, int sizeY)
+			throws IndexOutOfBoundsException {
+
+		if (sizeX < 0 || sizeY < 0 || nbMines < 1) {
+			throw new IndexOutOfBoundsException(
+					"Les valeurs doivent être positives");
 		}
 		this.sizeX = sizeX;
 		this.sizeY = sizeY;
 		this.nbMines = nbMines;
 		this.playerIsDead = false;
-		
-		
+
 		cellArray = new Cell[sizeX][sizeY];
-	// Generate random mines positions
-		ArrayList<Integer> randomNumbers = new ArrayList<Integer>(sizeX*sizeY);
-		for (int i = 0; i < sizeX*sizeY; ++i){
+		// Generate random mines positions
+		ArrayList<Integer> randomNumbers = new ArrayList<Integer>(sizeX * sizeY);
+		for (int i = 0; i < sizeX * sizeY; ++i) {
 			randomNumbers.add(i, i);
 		}
 		Collections.shuffle(randomNumbers);
-		
+
 		// Push the first mines in minesPositions
-		
+
 		minesPositions = new int[nbMines];
-		
-		for (int i = 0; i < nbMines; ++i){
+
+		for (int i = 0; i < nbMines; ++i) {
 			minesPositions[i] = (int) randomNumbers.get(i);
 		}
 		initializeCellArray();
 	}
-	
+
 	void initializeCellArray() {
-		for (int i = 0; i < getSizeX(); ++i){
-			for (int j = 0; j < getSizeY(); ++j){
+		for (int i = 0; i < getSizeX(); ++i) {
+			for (int j = 0; j < getSizeY(); ++j) {
 				cellArray[i][j] = new Cell(Cell.CellType.EMPTY, true);
 			}
-        }
-		
+		}
+
 		for (int element : minesPositions) {
 			(this.cellArray[(element % sizeX)][(element / sizeX)]).type = Cell.CellType.MINE;
 		}
+
 		displayCellArray();
 	}
-	
-	public void activate(int coordX, int coordY){
-		
-		if (cellArray[coordX][coordY].type == Cell.CellType.MINE){
-		
-			
-			// Show all mines
-			
-			for (Cell[] row : cellArray){
-				for (Cell cell : row){
-					if (cell.type == Cell.CellType.MINE){
+
+	public void activate(int coordX, int coordY) {
+
+		if (cellArray[coordX][coordY].type == Cell.CellType.MINE) {
+			// Show all mines and die
+
+			for (Cell[] row : cellArray) {
+				for (Cell cell : row) {
+					if (cell.type == Cell.CellType.MINE) {
 						cell.isHidden = false;
 						this.playerIsDead = true;
-						
+
 					}
 				}
 			}
 		}
-		
+		discover(coordX, coordY);
+		displayCellArray();
 	}
-	
-	public void displayCellArray(){
-		for (int j = 0; j < sizeY; ++j){
-			for (int i = 0; i < sizeX; ++i){
-				switch (cellArray[i][j].type.toString()){
+
+	private void discover(int coordX, int coordY) {
+
+		if (cellArray[coordX][coordY].type == Cell.CellType.EMPTY) {
+			cellArray[coordX][coordY].isHidden = false;
+		}
+
+		int startingValueX = -1;
+		int startingValueY = -1;
+		int endingValueX = 1;
+		int endingValueY = 1;
+
+		int nbOfMinesTouched = 0;
+
+		if (coordX == 0) {
+			startingValueX = 0;
+		} else if (coordX == sizeX - 1) {
+			endingValueX = 0;
+		}
+
+		if (coordY == 0) {
+			startingValueY = 0;
+		} else if (coordY == sizeY - 1) {
+			endingValueY = 0;
+		}
+
+		for (int i = startingValueX; i <= endingValueX; i++) {
+			for (int j = startingValueY; j <= endingValueY; j++) {
+				if (i != 0 && j != 0) {
+					if (cellArray[coordX + i][coordY + j].type == Cell.CellType.MINE) {
+						nbOfMinesTouched++;
+					} else {
+						discover(coordX + i, coordY + j);
+					}
+				}
+			}
+		}
+		cellArray[coordX][coordY].setNbOfMinesTouched(nbOfMinesTouched);
+	}
+
+	public void displayCellArray() {
+		for (int j = 0; j < sizeY; ++j) {
+			for (int i = 0; i < sizeX; ++i) {
+				switch (cellArray[i][j].type.toString()) {
 				case "MINE":
 					System.out.print("*");
+					break;
+				case "ONE":
+					System.out.print("1");
+					break;
+				case "TWO":
+					System.out.print("2");
+					break;
+				case "THREE":
+					System.out.print("3");
+					break;
+				case "FOUR":
+					System.out.print("4");
+					break;
+				case "FIVE":
+					System.out.print("5");
+					break;
+				case "SIX":
+					System.out.print("6");
+					break;
+				case "SEVEN":
+					System.out.print("7");
+					break;
+				case "EIGHT":
+					System.out.print("8");
 					break;
 				case "EMPTY":
 					System.out.print("-");
@@ -121,7 +186,11 @@ public class Minesweeper {
 		System.out.println("===END===");
 	}
 	
-	public Cell[][] getCellArray(){
+	public void hintActivate(){
+		//When Teacher decide to activate special glasses to see mines. :P
+	}
+
+	public Cell[][] getCellArray() {
 		return this.cellArray;
 	}
 
@@ -132,12 +201,11 @@ public class Minesweeper {
 	public int getSizeY() {
 		return sizeY;
 	}
-	
-	public int getNbMines(){
+
+	public int getNbMines() {
 		return this.nbMines;
 	}
 
-	
 	public boolean getPlayerIsDead() {
 		return this.playerIsDead;
 	}

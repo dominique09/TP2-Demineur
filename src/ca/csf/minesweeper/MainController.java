@@ -178,7 +178,8 @@ public class MainController extends SimpleFXController {
 
 	@FXML
 	public void hintCheck() {
-
+		minesweeper.hintActivate();
+		this.updateGameGrid();
 	}
 
 	@FXML
