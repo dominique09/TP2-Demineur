@@ -18,7 +18,7 @@ import ca.csf.simpleFx.SimpleFXController;
 import ca.csf.simpleFx.SimpleFXScene;
 import ca.csf.simpleFx.SimpleFXStage;
 
-public class MainController extends SimpleFXController {
+public class MainController extends SimpleFXController{
 
 	@FXML
 	private VBox gameContainer;
@@ -28,6 +28,7 @@ public class MainController extends SimpleFXController {
 	private Label minesLabel;
 	@FXML
 	private Button faceButton;
+	@FXML Label timeLabel;
 
 	private Minesweeper minesweeper;
 	private GridPane gameGrid;
