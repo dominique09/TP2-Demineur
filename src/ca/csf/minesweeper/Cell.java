@@ -8,6 +8,7 @@ public class Cell {
 	public boolean isHidden;
 	public boolean isFlagged;
 	public boolean isNotSure;
+	private int nbOfMinesTouched;
 	
 	public CellType type;
 	
@@ -16,5 +17,41 @@ public class Cell {
 		this.isHidden = isHidden;
 		this.isFlagged = false;
 		this.isNotSure = false;
+		this.nbOfMinesTouched = 0;
+	}
+	
+	public void setNbOfMinesTouched(int nbOfMines){
+		this.nbOfMinesTouched = nbOfMines;
+		switch(nbOfMinesTouched){
+		case 1:
+			type = CellType.ONE;
+			break;
+		case 2:
+			type = CellType.TWO;
+			break;
+		case 3:
+			type = CellType.THREE;
+			break;
+		case 4:
+			type = CellType.FOUR;
+			break;
+		case 5:
+			type = CellType.FIVE;
+			break;
+		case 6:
+			type = CellType.SIX;
+			break;
+		case 7:
+			type = CellType.SEVEN;
+			break;
+		case 8:
+			type = CellType.EIGHT;
+			break;
+			
+		}
+	}
+	
+	public int getNbMinesTouched(){
+		return this.nbOfMinesTouched;
 	}
 }
