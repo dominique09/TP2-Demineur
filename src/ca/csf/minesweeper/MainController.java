@@ -18,7 +18,7 @@ import ca.csf.simpleFx.SimpleFXController;
 import ca.csf.simpleFx.SimpleFXScene;
 import ca.csf.simpleFx.SimpleFXStage;
 
-public class MainController extends SimpleFXController {
+public class MainController extends SimpleFXController{
 
 	@FXML
 	private VBox gameContainer;
@@ -28,6 +28,7 @@ public class MainController extends SimpleFXController {
 	private Label minesLabel;
 	@FXML
 	private Button faceButton;
+	@FXML Label timeLabel;
 
 	private Minesweeper minesweeper;
 	private GridPane gameGrid;
@@ -173,12 +174,28 @@ public class MainController extends SimpleFXController {
 
 	@FXML
 	public void openResults() {
+		try {
+			SimpleFXScene resultScene = new SimpleFXScene(
+					ResultController.class
+							.getResource("Result.fxml"),
+					new ResultController());
 
+			SimpleFXStage resultStage = new SimpleFXStage("Meilleurs Temps !",
+					StageStyle.UTILITY, resultScene,
+					this.getSimpleFXApplication(), this.getSimpleFxStage());
+
+			resultStage.setResizable(false);
+			resultStage.show();
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
 	}
 
 	@FXML
 	public void hintCheck() {
-
+		minesweeper.hintActivate();
+		this.updateGameGrid();
 	}
 
 	@FXML
@@ -206,7 +223,7 @@ public class MainController extends SimpleFXController {
 			SimpleFXScene informationsScene = new SimpleFXScene(
 					InformationsController.class
 							.getResource("Informations.fxml"),
-					new HelpController());
+					new InformationsController());
 
 			SimpleFXStage informationsStage = new SimpleFXStage("À propos !",
 					StageStyle.UTILITY, informationsScene,

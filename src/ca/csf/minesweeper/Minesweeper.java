@@ -185,6 +185,10 @@ public class Minesweeper {
 		}
 		System.out.println("===END===");
 	}
+	
+	public void hintActivate(){
+		//When Teacher decide to activate special glasses to see mines. :P
+	}
 
 	public Cell[][] getCellArray() {
 		return this.cellArray;
