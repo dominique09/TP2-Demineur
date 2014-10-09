@@ -175,9 +175,9 @@ public class MainController extends SimpleFXController {
 	public void openResults() {
 		try {
 			SimpleFXScene resultScene = new SimpleFXScene(
-					InformationsController.class
+					ResultController.class
 							.getResource("Result.fxml"),
-					new HelpController());
+					new ResultController());
 
 			SimpleFXStage resultStage = new SimpleFXStage("Meilleurs Temps !",
 					StageStyle.UTILITY, resultScene,
@@ -222,7 +222,7 @@ public class MainController extends SimpleFXController {
 			SimpleFXScene informationsScene = new SimpleFXScene(
 					InformationsController.class
 							.getResource("Informations.fxml"),
-					new HelpController());
+					new InformationsController());
 
 			SimpleFXStage informationsStage = new SimpleFXStage("À propos !",
 					StageStyle.UTILITY, informationsScene,

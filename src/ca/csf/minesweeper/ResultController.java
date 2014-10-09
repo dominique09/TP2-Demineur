@@ -20,6 +20,10 @@ public class ResultController extends SimpleFXController{
 	
 	@FXML
 	public void initialize(){
+		writeResult();
+	}
+	
+	private void writeResult(){
 		timeEasy.setText("");
 		nameEasy.setText("");
 		timeMedium.setText("");
@@ -30,7 +34,7 @@ public class ResultController extends SimpleFXController{
 	
 	@FXML
 	public void eraseTime(){
-		
+		writeResult();
 	}
 	
 	@FXML
