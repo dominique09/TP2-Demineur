@@ -18,7 +18,7 @@ import ca.csf.simpleFx.SimpleFXController;
 import ca.csf.simpleFx.SimpleFXScene;
 import ca.csf.simpleFx.SimpleFXStage;
 
-public class MainController extends SimpleFXController{
+public class MainController extends SimpleFXController implements TimerUtilsObserver{
 
 	@FXML
 	private VBox gameContainer;
@@ -33,6 +33,8 @@ public class MainController extends SimpleFXController{
 	private Minesweeper minesweeper;
 	private GridPane gameGrid;
 	private CellButton[][] cellButtonArray;
+	
+	private TimerUtils timerUtils;
 
 	private int sizeX;
 	private int sizeY;
@@ -40,6 +42,17 @@ public class MainController extends SimpleFXController{
 	private static final double TOGGLE_BUTTON_HEIGHT = 30.00;
 	private static final double TOGGLE_BUTTON_WIDTH = 30.00;
 
+	public MainController(){
+		this.timerUtils.addObserver(this);
+	}
+	
+	@Override
+	public void timeChange(String time, Boolean timeChange) {
+		if (timeChange){
+			timeLabel.setText(time);
+		}
+	}
+	
 	@FXML
 	public void initialize(){
 		newGame();

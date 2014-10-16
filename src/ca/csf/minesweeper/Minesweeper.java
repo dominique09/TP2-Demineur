@@ -1,7 +1,6 @@
 package ca.csf.minesweeper;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 
 public class Minesweeper {
