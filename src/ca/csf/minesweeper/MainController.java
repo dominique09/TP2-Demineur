@@ -41,16 +41,10 @@ public class MainController extends SimpleFXController implements TimerUtilsObse
 
 	private static final double TOGGLE_BUTTON_HEIGHT = 30.00;
 	private static final double TOGGLE_BUTTON_WIDTH = 30.00;
-
-	public MainController(){
-		this.timerUtils.addObserver(this);
-	}
 	
 	@Override
-	public void timeChange(String time, Boolean timeChange) {
-		if (timeChange){
-			timeLabel.setText(time);
-		}
+	public void timeChange(String time) {
+		timeLabel.setText(time);
 	}
 	
 	@FXML
@@ -74,6 +68,9 @@ public class MainController extends SimpleFXController implements TimerUtilsObse
 				minesweeper.newGame(Minesweeper.Difficulty.HARD);
 				break;
 			}
+			
+			timerUtils = new TimerUtils();
+			timerUtils.addObserver(this);
 
 			sizeX = minesweeper.getSizeX();
 			sizeY = minesweeper.getSizeY();

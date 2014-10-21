@@ -1,5 +1,5 @@
 package ca.csf.minesweeper;
 
 public interface TimerUtilsObserver {
-	public void timeChange(String time, Boolean timeChange);
+	public void timeChange(String time);
 }
