@@ -75,7 +75,7 @@ public class Minesweeper {
 	void initializeCellArray() {
 		for (int i = 0; i < getSizeX(); ++i) {
 			for (int j = 0; j < getSizeY(); ++j) {
-				cellArray[i][j] = new Cell(Cell.CellType.EMPTY, true);
+				cellArray[i][j] = new Cell(true);
 			}
 		}
 
@@ -83,7 +83,47 @@ public class Minesweeper {
 			(this.cellArray[(element % sizeX)][(element / sizeX)]).type = Cell.CellType.MINE;
 		}
 
+		for (int i = 0; i < getSizeX(); ++i) {
+			for (int j = 0; j < getSizeY(); ++j) {
+				calculateMinesTouched(i, j);
+			}
+		}
+
 		displayCellArray();
+	}
+
+	private void calculateMinesTouched(int coordX, int coordY) {
+		if (cellArray[coordX][coordY].type != Cell.CellType.MINE) {
+			int startingValueX = -1;
+			int startingValueY = -1;
+			int endingValueX = 1;
+			int endingValueY = 1;
+
+			int nbOfMinesTouched = 0;
+
+			if (coordX == 0) {
+				startingValueX = 0;
+			} else if (coordX == sizeX - 1) {
+				endingValueX = 0;
+			}
+
+			if (coordY == 0) {
+				startingValueY = 0;
+			} else if (coordY == sizeY - 1) {
+				endingValueY = 0;
+			}
+
+			for (int i = startingValueX; i <= endingValueX; i++) {
+				for (int j = startingValueY; j <= endingValueY; j++) {
+					if (cellArray[coordX + i][coordY + j].type == Cell.CellType.MINE) {
+						nbOfMinesTouched++;
+					}
+				}
+			}
+
+			this.cellArray[coordX][coordY]
+					.setNbOfMinesTouched(nbOfMinesTouched);
+		}
 	}
 
 	public void activate(int coordX, int coordY) {
@@ -100,48 +140,45 @@ public class Minesweeper {
 					}
 				}
 			}
+		} else {
+			discover(coordX, coordY);
 		}
-		discover(coordX, coordY);
+
 		displayCellArray();
 	}
 
 	private void discover(int coordX, int coordY) {
-
 		if (cellArray[coordX][coordY].type == Cell.CellType.EMPTY) {
 			cellArray[coordX][coordY].isHidden = false;
-		}
 
-		int startingValueX = -1;
-		int startingValueY = -1;
-		int endingValueX = 1;
-		int endingValueY = 1;
+			int startingValueX = -1;
+			int startingValueY = -1;
+			int endingValueX = 1;
+			int endingValueY = 1;
 
-		int nbOfMinesTouched = 0;
+			if (coordX == 0) {
+				startingValueX = 0;
+			} else if (coordX == sizeX - 1) {
+				endingValueX = 0;
+			}
 
-		if (coordX == 0) {
-			startingValueX = 0;
-		} else if (coordX == sizeX - 1) {
-			endingValueX = 0;
-		}
+			if (coordY == 0) {
+				startingValueY = 0;
+			} else if (coordY == sizeY - 1) {
+				endingValueY = 0;
+			}
 
-		if (coordY == 0) {
-			startingValueY = 0;
-		} else if (coordY == sizeY - 1) {
-			endingValueY = 0;
-		}
-
-		for (int i = startingValueX; i <= endingValueX; i++) {
-			for (int j = startingValueY; j <= endingValueY; j++) {
-				if (i != 0 && j != 0) {
-					if (cellArray[coordX + i][coordY + j].type == Cell.CellType.MINE) {
-						nbOfMinesTouched++;
-					} else {
-						discover(coordX + i, coordY + j);
+			for (int i = startingValueX; i <= endingValueX; i++) {
+				for (int j = startingValueY; j <= endingValueY; j++) {
+					if (cellArray[coordX + i][coordY + j].isHidden) {
+						discover(coordX + i, coordY + i);
 					}
 				}
 			}
 		}
-		cellArray[coordX][coordY].setNbOfMinesTouched(nbOfMinesTouched);
+		else {
+			cellArray[coordX][coordY].isHidden = false;
+		}
 	}
 
 	public void displayCellArray() {
@@ -184,9 +221,9 @@ public class Minesweeper {
 		}
 		System.out.println("===END===");
 	}
-	
-	public void hintActivate(){
-		//When Teacher decide to activate special glasses to see mines. :P
+
+	public void hintActivate() {
+		// When Teacher decide to activate special glasses to see mines. :P
 	}
 
 	public Cell[][] getCellArray() {
