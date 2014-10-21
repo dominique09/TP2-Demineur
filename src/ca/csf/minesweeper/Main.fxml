@@ -52,7 +52,7 @@
 						<RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" />
 					</rowConstraints>
 					<children>
-						<Button fx:id="faceButton" mnemonicParsing="false" onAction="#newGame" text=":)" GridPane.columnIndex="1" />
+						<Button fx:id="faceButton" mnemonicParsing="false" onAction="#newGame" GridPane.columnIndex="1" />
 						<Label fx:id="minesLabel" contentDisplay="CENTER" styleClass="gameLabel" text="0" textAlignment="CENTER" />
 						<Label fx:id="timeLabel" alignment="CENTER" contentDisplay="CENTER" styleClass="gameLabel" text="0" textAlignment="CENTER" GridPane.columnIndex="2" />
 					</children>

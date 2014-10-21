@@ -9,6 +9,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.RadioMenuItem;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
@@ -72,6 +74,8 @@ public class MainController extends SimpleFXController implements TimerUtilsObse
 			timerUtils = new TimerUtils();
 			timerUtils.addObserver(this);
 
+			faceButton.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("resources/normal.png"))));
+			
 			sizeX = minesweeper.getSizeX();
 			sizeY = minesweeper.getSizeY();
 			
@@ -171,9 +175,9 @@ public class MainController extends SimpleFXController implements TimerUtilsObse
 	
 	private void updateFaceButton(){
 		if ( minesweeper.getPlayerIsDead() == true){
-			this.faceButton.setText(");");
+			faceButton.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("resources/lose.png"))));
 		} else {
-			this.faceButton.setText(":)");
+			faceButton.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("resources/normal.png"))));
 		}
 	}
 
