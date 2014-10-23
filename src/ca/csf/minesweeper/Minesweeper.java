@@ -1,7 +1,6 @@
 package ca.csf.minesweeper;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 
 public class Minesweeper {
@@ -76,7 +75,7 @@ public class Minesweeper {
 	void initializeCellArray() {
 		for (int i = 0; i < getSizeX(); ++i) {
 			for (int j = 0; j < getSizeY(); ++j) {
-				cellArray[i][j] = new Cell(Cell.CellType.EMPTY, true);
+				cellArray[i][j] = new Cell(true);
 			}
 		}
 
@@ -84,12 +83,51 @@ public class Minesweeper {
 			(this.cellArray[(element % sizeX)][(element / sizeX)]).type = Cell.CellType.MINE;
 		}
 
+		for (int i = 0; i < getSizeX(); ++i) {
+			for (int j = 0; j < getSizeY(); ++j) {
+				calculateMinesTouched(i, j);
+			}
+		}
+
 		displayCellArray();
+	}
+
+	private void calculateMinesTouched(int coordX, int coordY) {
+		if (cellArray[coordX][coordY].type != Cell.CellType.MINE) {
+			int startingValueX = -1;
+			int startingValueY = -1;
+			int endingValueX = 1;
+			int endingValueY = 1;
+
+			int nbOfMinesTouched = 0;
+
+			if (coordX == 0) {
+				startingValueX = 0;
+			} else if (coordX == sizeX - 1) {
+				endingValueX = 0;
+			}
+
+			if (coordY == 0) {
+				startingValueY = 0;
+			} else if (coordY == sizeY - 1) {
+				endingValueY = 0;
+			}
+
+			for (int i = startingValueX; i <= endingValueX; i++) {
+				for (int j = startingValueY; j <= endingValueY; j++) {
+					if (cellArray[coordX + i][coordY + j].type == Cell.CellType.MINE) {
+						nbOfMinesTouched++;
+					}
+				}
+			}
+
+			this.cellArray[coordX][coordY].setNbOfMinesTouched(nbOfMinesTouched);
+		}
 	}
 
 	public void activate(int coordX, int coordY) {
 
-		if (cellArray[coordX][coordY].type == Cell.CellType.MINE) {
+		if (cellArray[coordX][coordY].type == Cell.CellType.MINE) { // If step on a mine
 			// Show all mines and die
 
 			for (Cell[] row : cellArray) {
@@ -101,53 +139,58 @@ public class Minesweeper {
 					}
 				}
 			}
+		} else {
+			discover(coordX, coordY);
 		}
-		discover(coordX, coordY);
+
 		displayCellArray();
 	}
 
 	private void discover(int coordX, int coordY) {
+		cellArray[coordX][coordY].isHidden = false;
+		displayCellArray();
+		if (cellArray[coordX][coordY].type == Cell.CellType.EMPTY){
+			int startingValueX = -1;
+			int startingValueY = -1;
+			int endingValueX = 1;
+			int endingValueY = 1;
 
-		if (cellArray[coordX][coordY].type == Cell.CellType.EMPTY) {
-			cellArray[coordX][coordY].isHidden = false;
-		}
+			if (coordX == 0) {
+				startingValueX = 0;
+			} else if (coordX == sizeX - 1) {
+				endingValueX = 0;
+			}
 
-		int startingValueX = -1;
-		int startingValueY = -1;
-		int endingValueX = 1;
-		int endingValueY = 1;
+			if (coordY == 0) {
+				startingValueY = 0;
+			} else if (coordY == sizeY - 1) {
+				endingValueY = 0;
+			}
 
-		int nbOfMinesTouched = 0;
-
-		if (coordX == 0) {
-			startingValueX = 0;
-		} else if (coordX == sizeX - 1) {
-			endingValueX = 0;
-		}
-
-		if (coordY == 0) {
-			startingValueY = 0;
-		} else if (coordY == sizeY - 1) {
-			endingValueY = 0;
-		}
-
-		for (int i = startingValueX; i <= endingValueX; i++) {
-			for (int j = startingValueY; j <= endingValueY; j++) {
-				if (i != 0 && j != 0) {
-					if (cellArray[coordX + i][coordY + j].type == Cell.CellType.MINE) {
-						nbOfMinesTouched++;
-					} else {
+			for (int i = startingValueX; i <= endingValueX; i++) {
+				for (int j = startingValueY; j <= endingValueY; j++) {
+					if (cellArray[coordX + i][coordY + j].isHidden == true)
 						discover(coordX + i, coordY + j);
-					}
 				}
 			}
 		}
-		cellArray[coordX][coordY].setNbOfMinesTouched(nbOfMinesTouched);
 	}
 
 	public void displayCellArray() {
 		for (int j = 0; j < sizeY; ++j) {
 			for (int i = 0; i < sizeX; ++i) {
+				if (cellArray[i][j].isFlagged){
+					System.out.print("F");
+					continue;
+				}
+				if (cellArray[i][j].isNotSure){
+					System.out.print("?");
+					continue;
+				}
+				if (cellArray[i][j].isHidden){
+					System.out.print(".");
+					continue;
+				}
 				switch (cellArray[i][j].type.toString()) {
 				case "MINE":
 					System.out.print("*");
@@ -186,6 +229,10 @@ public class Minesweeper {
 		System.out.println("===END===");
 	}
 
+	public void hintActivate() {
+		// When Teacher decide to activate special glasses to see mines. :P
+	}
+
 	public Cell[][] getCellArray() {
 		return this.cellArray;
 	}
@@ -205,5 +252,8 @@ public class Minesweeper {
 	public boolean getPlayerIsDead() {
 		return this.playerIsDead;
 	}
-
+	
+	public void setCellArray(Cell[][] cellArray){
+		this.cellArray = cellArray;
+	}
 }

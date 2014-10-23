@@ -11,7 +11,7 @@ public class HelpController extends SimpleFXController{
 	
 	@FXML
 	public void initialize(){
-		helpWebView.getEngine().load(HelpController.class.getResource("help.html").toExternalForm());
+		helpWebView.getEngine().load(HelpController.class.getResource("resources/help.html").toExternalForm());
 	}
 	
 	@FXML

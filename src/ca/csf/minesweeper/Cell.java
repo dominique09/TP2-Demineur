@@ -12,8 +12,8 @@ public class Cell {
 	
 	public CellType type;
 	
-	public Cell(CellType type, boolean isHidden) {
-		this.type = type;
+	public Cell(boolean isHidden) {
+		this.type = null;
 		this.isHidden = isHidden;
 		this.isFlagged = false;
 		this.isNotSure = false;
@@ -23,6 +23,9 @@ public class Cell {
 	public void setNbOfMinesTouched(int nbOfMines){
 		this.nbOfMinesTouched = nbOfMines;
 		switch(nbOfMinesTouched){
+		case 0:
+			type = CellType.EMPTY;
+			break;
 		case 1:
 			type = CellType.ONE;
 			break;
@@ -47,7 +50,6 @@ public class Cell {
 		case 8:
 			type = CellType.EIGHT;
 			break;
-			
 		}
 	}
 	

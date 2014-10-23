@@ -9,6 +9,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.RadioMenuItem;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
@@ -18,7 +20,7 @@ import ca.csf.simpleFx.SimpleFXController;
 import ca.csf.simpleFx.SimpleFXScene;
 import ca.csf.simpleFx.SimpleFXStage;
 
-public class MainController extends SimpleFXController {
+public class MainController extends SimpleFXController implements TimerUtilsObserver{
 
 	@FXML
 	private VBox gameContainer;
@@ -28,17 +30,25 @@ public class MainController extends SimpleFXController {
 	private Label minesLabel;
 	@FXML
 	private Button faceButton;
+	@FXML Label timeLabel;
 
 	private Minesweeper minesweeper;
 	private GridPane gameGrid;
 	private CellButton[][] cellButtonArray;
+	
+	private TimerUtils timerUtils;
 
 	private int sizeX;
 	private int sizeY;
 
 	private static final double TOGGLE_BUTTON_HEIGHT = 30.00;
 	private static final double TOGGLE_BUTTON_WIDTH = 30.00;
-
+	
+	@Override
+	public void timeChange(String time) {
+		timeLabel.setText(time);
+	}
+	
 	@FXML
 	public void initialize(){
 		newGame();
@@ -60,7 +70,12 @@ public class MainController extends SimpleFXController {
 				minesweeper.newGame(Minesweeper.Difficulty.HARD);
 				break;
 			}
+			
+			timerUtils = new TimerUtils();
+			timerUtils.addObserver(this);
 
+			faceButton.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("resources/normal.png"))));
+			
 			sizeX = minesweeper.getSizeX();
 			sizeY = minesweeper.getSizeY();
 			
@@ -145,6 +160,7 @@ public class MainController extends SimpleFXController {
 				if(!cellArray[x][y].isHidden){
 					cellButtonArray[x][y].setDisable(true);
 					cellButtonArray[x][y].setText("*");
+					cellButtonArray[x][y]
 				}
 				
 				if (cellArray[x][y].isFlagged){
@@ -160,9 +176,9 @@ public class MainController extends SimpleFXController {
 	
 	private void updateFaceButton(){
 		if ( minesweeper.getPlayerIsDead() == true){
-			this.faceButton.setText(");");
+			faceButton.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("resources/lose.png"))));
 		} else {
-			this.faceButton.setText(":)");
+			faceButton.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("resources/normal.png"))));
 		}
 	}
 
@@ -173,12 +189,28 @@ public class MainController extends SimpleFXController {
 
 	@FXML
 	public void openResults() {
+		try {
+			SimpleFXScene resultScene = new SimpleFXScene(
+					ResultController.class
+							.getResource("Result.fxml"),
+					new ResultController());
 
+			SimpleFXStage resultStage = new SimpleFXStage("Meilleurs Temps !",
+					StageStyle.UTILITY, resultScene,
+					this.getSimpleFXApplication(), this.getSimpleFxStage());
+
+			resultStage.setResizable(false);
+			resultStage.show();
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
 	}
 
 	@FXML
 	public void hintCheck() {
-
+		minesweeper.hintActivate();
+		this.updateGameGrid();
 	}
 
 	@FXML
@@ -206,7 +238,7 @@ public class MainController extends SimpleFXController {
 			SimpleFXScene informationsScene = new SimpleFXScene(
 					InformationsController.class
 							.getResource("Informations.fxml"),
-					new HelpController());
+					new InformationsController());
 
 			SimpleFXStage informationsStage = new SimpleFXStage("À propos !",
 					StageStyle.UTILITY, informationsScene,
