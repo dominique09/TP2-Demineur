@@ -160,6 +160,7 @@ public class MainController extends SimpleFXController implements TimerUtilsObse
 				if(!cellArray[x][y].isHidden){
 					cellButtonArray[x][y].setDisable(true);
 					cellButtonArray[x][y].setText("*");
+					cellButtonArray[x][y]
 				}
 				
 				if (cellArray[x][y].isFlagged){
