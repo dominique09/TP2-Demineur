@@ -107,6 +107,7 @@ public class MainController extends SimpleFXController implements TimerUtilsObse
 		if (gameGrid != null){
 			gameContainer.getChildren().removeAll(gameGrid);
 		}
+		
 		gameGrid = new GridPane();
 		gameGrid.setPadding(new Insets(10, 10, 10, 10));
 
@@ -122,8 +123,7 @@ public class MainController extends SimpleFXController implements TimerUtilsObse
 							@Override
 							public void handle(MouseEvent event) {
 								if (event.getButton() == MouseButton.PRIMARY) {
-									minesweeper.activate(cellButton.x,
-											cellButton.y);
+									minesweeper.activate(cellButton.x,cellButton.y);
 								} else {
 									// minesweeper. function have to be determine
 								}
@@ -143,7 +143,6 @@ public class MainController extends SimpleFXController implements TimerUtilsObse
 
 		gameContainer.getChildren().add(gameGrid);
 		gameGrid.setAlignment(Pos.CENTER);
-		updateMineNumber();
 	}
 
 	private void updateMineNumber() {
@@ -159,16 +158,23 @@ public class MainController extends SimpleFXController implements TimerUtilsObse
 				
 				if(!cellArray[x][y].isHidden){
 					cellButtonArray[x][y].setDisable(true);
-					cellButtonArray[x][y].setText("*");
-					cellButtonArray[x][y]
+					cellButtonArray[x][y].setSelected(true);
+					String link = "resources/"+ cellArray[x][y].type.toString() + ".png";
+					try{
+						cellButtonArray[x][y].setGraphic(new ImageView(new Image(getClass().getResourceAsStream(link))));
+					} catch(Exception ex){
+						System.out.println(ex.toString());
+					}
 				}
 				
 				if (cellArray[x][y].isFlagged){
 					cellButtonArray[x][y].setText("F");
+					cellButtonArray[x][y].setSelected(false);
 				}
 				
 				if (cellArray[x][y].isNotSure){
 					cellButtonArray[x][y].setText("?");
+					cellButtonArray[x][y].setSelected(false);
 				}
 			}
 		}
