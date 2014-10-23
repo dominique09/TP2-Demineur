@@ -252,4 +252,8 @@ public class Minesweeper {
 	public boolean getPlayerIsDead() {
 		return this.playerIsDead;
 	}
+	
+	public void setCellArray(Cell[][] cellArray){
+		this.cellArray = cellArray;
+	}
 }
