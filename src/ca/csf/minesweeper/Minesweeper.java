@@ -121,14 +121,13 @@ public class Minesweeper {
 				}
 			}
 
-			this.cellArray[coordX][coordY]
-					.setNbOfMinesTouched(nbOfMinesTouched);
+			this.cellArray[coordX][coordY].setNbOfMinesTouched(nbOfMinesTouched);
 		}
 	}
 
 	public void activate(int coordX, int coordY) {
 
-		if (cellArray[coordX][coordY].type == Cell.CellType.MINE) {
+		if (cellArray[coordX][coordY].type == Cell.CellType.MINE) { // If step on a mine
 			// Show all mines and die
 
 			for (Cell[] row : cellArray) {
@@ -148,9 +147,9 @@ public class Minesweeper {
 	}
 
 	private void discover(int coordX, int coordY) {
-		if (cellArray[coordX][coordY].type == Cell.CellType.EMPTY) {
-			cellArray[coordX][coordY].isHidden = false;
-
+		cellArray[coordX][coordY].isHidden = false;
+		displayCellArray();
+		if (cellArray[coordX][coordY].type == Cell.CellType.EMPTY){
 			int startingValueX = -1;
 			int startingValueY = -1;
 			int endingValueX = 1;
@@ -170,20 +169,28 @@ public class Minesweeper {
 
 			for (int i = startingValueX; i <= endingValueX; i++) {
 				for (int j = startingValueY; j <= endingValueY; j++) {
-					if (cellArray[coordX + i][coordY + j].isHidden) {
-						discover(coordX + i, coordY + i);
-					}
+					if (cellArray[coordX + i][coordY + j].isHidden == true)
+						discover(coordX + i, coordY + j);
 				}
 			}
-		}
-		else {
-			cellArray[coordX][coordY].isHidden = false;
 		}
 	}
 
 	public void displayCellArray() {
 		for (int j = 0; j < sizeY; ++j) {
 			for (int i = 0; i < sizeX; ++i) {
+				if (cellArray[i][j].isFlagged){
+					System.out.print("F");
+					continue;
+				}
+				if (cellArray[i][j].isNotSure){
+					System.out.print("?");
+					continue;
+				}
+				if (cellArray[i][j].isHidden){
+					System.out.print(".");
+					continue;
+				}
 				switch (cellArray[i][j].type.toString()) {
 				case "MINE":
 					System.out.print("*");
@@ -245,5 +252,8 @@ public class Minesweeper {
 	public boolean getPlayerIsDead() {
 		return this.playerIsDead;
 	}
-
+	
+	public void setCellArray(Cell[][] cellArray){
+		this.cellArray = cellArray;
+	}
 }
