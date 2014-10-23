@@ -30,7 +30,14 @@ public final class TimerUtils {
 				});
 		timeLine = new Timeline(keyFrame);;
 		timeLine.setCycleCount(Timeline.INDEFINITE);
-	    timeLine.play();
+	}
+	
+	public void startTimer(){
+		timeLine.play();
+	}
+	
+	public void stopTimer(){
+		timeLine.stop();
 	}
 
 	public void addObserver(TimerUtilsObserver observer) {

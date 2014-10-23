@@ -159,8 +159,12 @@ public class MainController extends SimpleFXController implements TimerUtilsObse
 				if(!cellArray[x][y].isHidden){
 					cellButtonArray[x][y].setDisable(true);
 					cellButtonArray[x][y].setSelected(true);
-					String link = "ressources/"+ minesweeper.getCellArray()[x][y].type.toString() + ".png";
-					cellButtonArray[x][y].setGraphic(new ImageView(new Image(getClass().getResourceAsStream(link))));
+					String link = "resources/"+ cellArray[x][y].type.toString() + ".png";
+					try{
+						cellButtonArray[x][y].setGraphic(new ImageView(new Image(getClass().getResourceAsStream(link))));
+					} catch(Exception ex){
+						System.out.println(ex.toString());
+					}
 				}
 				
 				if (cellArray[x][y].isFlagged){
