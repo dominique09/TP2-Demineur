@@ -146,7 +146,7 @@ public class MainController extends SimpleFXController implements TimerUtilsObse
 	}
 
 	private void updateMineNumber() {
-		//minesLabel.setText(minesweeper.getFlagsLeft());
+		minesLabel.setText(minesweeper.getFlagsLeft());
 	}
 
 	private void updateGameGrid() {
