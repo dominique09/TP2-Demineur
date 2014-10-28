@@ -84,7 +84,7 @@ public class MainController extends SimpleFXController implements TimerUtilsObse
 			placeTile();
 			if (this.getSimpleFxStage() != null)
 			{
-			this.getSimpleFxStage().sizeToScene();
+				this.getSimpleFxStage().sizeToScene();
 			}
 		} catch (Exception ex) {
 			System.out.println(ex);
