@@ -10,6 +10,7 @@ public class Minesweeper {
 	private int nbMines;
 	private int[] minesPositions;
 	private boolean playerIsDead;
+	private int flagsLeft;
 
 	public static enum Difficulty {
 		EASY(10, 9, 9), MEDIUM(40, 16, 16), HARD(99, 30, 16);
@@ -52,6 +53,7 @@ public class Minesweeper {
 		this.sizeX = sizeX;
 		this.sizeY = sizeY;
 		this.nbMines = nbMines;
+		this.flagsLeft = nbMines;
 		this.playerIsDead = false;
 
 		cellArray = new Cell[sizeX][sizeY];
@@ -144,6 +146,22 @@ public class Minesweeper {
 		}
 
 		displayCellArray();
+	}
+	
+	public void toggleCellState(int coordX, int coordY){
+		if (cellArray[coordX][coordY].isHidden){
+			if (!cellArray[coordX][coordY].isFlagged && !cellArray[coordX][coordY].isNotSure){
+				cellArray[coordX][coordY].isFlagged = true;
+			}
+			else if (cellArray[coordX][coordY].isFlagged){
+				cellArray[coordX][coordY].isFlagged = false;
+				cellArray[coordX][coordY].isNotSure = true;
+			}
+			else if (cellArray[coordX][coordY].isNotSure){
+				cellArray[coordX][coordY].isFlagged = false;
+				cellArray[coordX][coordY].isNotSure = false;
+			}
+		}
 	}
 
 	private void discover(int coordX, int coordY) {
