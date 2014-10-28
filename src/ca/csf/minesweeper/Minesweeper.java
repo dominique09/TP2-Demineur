@@ -152,6 +152,24 @@ public class Minesweeper {
 		if (cellArray[coordX][coordY].isHidden){
 			if (!cellArray[coordX][coordY].isFlagged && !cellArray[coordX][coordY].isNotSure){
 				cellArray[coordX][coordY].isFlagged = true;
+				flagsLeft--;
+			}
+			else if (cellArray[coordX][coordY].isFlagged){
+				cellArray[coordX][coordY].isFlagged = false;
+				cellArray[coordX][coordY].isNotSure = true;
+				flagsLeft++;
+			}
+			else if (cellArray[coordX][coordY].isNotSure){
+				cellArray[coordX][coordY].isFlagged = false;
+				cellArray[coordX][coordY].isNotSure = false;
+			}
+		}
+	}
+	
+	public void toggleCellState(int coordX, int coordY){
+		if (cellArray[coordX][coordY].isHidden){
+			if (!cellArray[coordX][coordY].isFlagged && !cellArray[coordX][coordY].isNotSure){
+				cellArray[coordX][coordY].isFlagged = true;
 			}
 			else if (cellArray[coordX][coordY].isFlagged){
 				cellArray[coordX][coordY].isFlagged = false;
@@ -273,5 +291,8 @@ public class Minesweeper {
 	
 	public void setCellArray(Cell[][] cellArray){
 		this.cellArray = cellArray;
+	}
+	public int getFlagsLeft(){
+		return this.flagsLeft;
 	}
 }
