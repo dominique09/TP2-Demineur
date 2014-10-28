@@ -128,24 +128,28 @@ public class Minesweeper {
 	}
 
 	public void activate(int coordX, int coordY) {
-
-		if (cellArray[coordX][coordY].type == Cell.CellType.MINE) { // If step on a mine
-			// Show all mines and die
-
-			for (Cell[] row : cellArray) {
-				for (Cell cell : row) {
-					if (cell.type == Cell.CellType.MINE) {
-						cell.isHidden = false;
-						this.playerIsDead = true;
-
+		
+		if (!cellArray[coordX][coordY].isFlagged && !cellArray[coordX][coordY].isNotSure){
+		
+		
+			if (cellArray[coordX][coordY].type == Cell.CellType.MINE) { // If step on a mine
+				// Show all mines and die
+	
+				for (Cell[] row : cellArray) {
+					for (Cell cell : row) {
+						if (cell.type == Cell.CellType.MINE) {
+							cell.isHidden = false;
+							this.playerIsDead = true;
+	
+						}
 					}
 				}
+			} else {
+				discover(coordX, coordY);
 			}
-		} else {
-			discover(coordX, coordY);
+	
+			displayCellArray();
 		}
-
-		displayCellArray();
 	}
 	
 	public void toggleCellState(int coordX, int coordY){
