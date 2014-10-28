@@ -1,27 +1,29 @@
 package ca.csf.minesweeper;
-	
-import javafx.application.Application;
-import javafx.stage.Stage;
-import javafx.scene.Scene;
-import javafx.scene.layout.GridPane;
-import javafx.fxml.FXMLLoader;
 
+import javafx.stage.StageStyle;
+import ca.csf.simpleFx.SimpleFXApplication;
+import ca.csf.simpleFx.SimpleFXApplicationLauncher;
+import ca.csf.simpleFx.SimpleFXScene;
+import ca.csf.simpleFx.SimpleFXStage;
 
-public class Main extends Application {
-	@Override
-	public void start(Stage primaryStage) {
-		try {
-			GridPane root = (GridPane)FXMLLoader.load(getClass().getResource("Main.fxml"));
-			Scene scene = new Scene(root,400,400);
-			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-			primaryStage.setScene(scene);
-			primaryStage.show();
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
+public class Main extends SimpleFXApplication {
+		
 	public static void main(String[] args) {
-		launch(args);
+		SimpleFXApplicationLauncher.startSimpleFXApplication(Main.class, args);
+	}
+
+	public void start() {
+		try {
+			SimpleFXScene mainFXScene = new SimpleFXScene(
+					MainController.class.getResource("Main.fxml"),
+					MainController.class.getResource("application.css"),
+					new MainController());
+
+			SimpleFXStage mainFXStage = new SimpleFXStage("Démineur", StageStyle.DECORATED, mainFXScene, this);
+			mainFXStage.setResizable(false);
+			mainFXStage.show();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
 	}
 }
