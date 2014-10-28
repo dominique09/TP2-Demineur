@@ -125,7 +125,7 @@ public class MainController extends SimpleFXController implements TimerUtilsObse
 								if (event.getButton() == MouseButton.PRIMARY) {
 									minesweeper.activate(cellButton.x,cellButton.y);
 								} else {
-									// minesweeper. function have to be determine
+									minesweeper.toggleCellState(cellButton.x, cellButton.y);
 								}
 
 								updateGameGrid();
@@ -146,7 +146,7 @@ public class MainController extends SimpleFXController implements TimerUtilsObse
 	}
 
 	private void updateMineNumber() {
-		minesLabel.setText("8");
+		minesLabel.setText(minesweeper.getFlagsLeft());
 	}
 
 	private void updateGameGrid() {
@@ -168,12 +168,12 @@ public class MainController extends SimpleFXController implements TimerUtilsObse
 				}
 				
 				if (cellArray[x][y].isFlagged){
-					cellButtonArray[x][y].setText("F");
+					cellButtonArray[x][y].setGraphic(new ImageView(new Image(getClass().getResourceAsStream("resources/FLAG.png"))));
 					cellButtonArray[x][y].setSelected(false);
 				}
 				
 				if (cellArray[x][y].isNotSure){
-					cellButtonArray[x][y].setText("?");
+					cellButtonArray[x][y].setGraphic(new ImageView(new Image(getClass().getResourceAsStream("resources/QUESTION.png"))));
 					cellButtonArray[x][y].setSelected(false);
 				}
 			}
