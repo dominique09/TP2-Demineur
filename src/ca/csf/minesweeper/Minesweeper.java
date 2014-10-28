@@ -165,7 +165,7 @@ public class Minesweeper {
 			}
 		}
 	}
-
+	
 	private void discover(int coordX, int coordY) {
 		cellArray[coordX][coordY].isHidden = false;
 		displayCellArray();
