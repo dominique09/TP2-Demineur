@@ -157,6 +157,7 @@ public class MainController extends SimpleFXController implements TimerUtilsObse
 				cellButtonArray[x][y].setSelected(!cellArray[x][y].isHidden);
 				
 				if(!cellArray[x][y].isHidden){
+					cellButtonArray[x][y].setDisable(true);
 					cellButtonArray[x][y].setSelected(true);
 					String link = "resources/"+ cellArray[x][y].type.toString() + ".png";
 					try{
