@@ -171,21 +171,18 @@ public class Minesweeper implements TimerUtilsObserver{
 			if (!cellArray[coordX][coordY].isFlagged && !cellArray[coordX][coordY].isNotSure){
 				cellArray[coordX][coordY].isFlagged = true;
 				flagsLeft--;
-				for (MinesweeperObserver observer : observers){
-					observer.setNumberOfFlagsLeft(flagsLeft);
-				}
-			}
-			else if (cellArray[coordX][coordY].isFlagged){
+			} else if (cellArray[coordX][coordY].isFlagged){
 				cellArray[coordX][coordY].isFlagged = false;
 				cellArray[coordX][coordY].isNotSure = true;
 				flagsLeft++;
-				for (MinesweeperObserver observer : observers){
-					observer.setNumberOfFlagsLeft(flagsLeft);
-				}
-			}
-			else if (cellArray[coordX][coordY].isNotSure){
+			} else if (cellArray[coordX][coordY].isNotSure){
 				cellArray[coordX][coordY].isFlagged = false;
 				cellArray[coordX][coordY].isNotSure = false;
+			}
+			
+			for (MinesweeperObserver observer : observers){
+				observer.setNumberOfFlagsLeft(flagsLeft);
+				observer.updateCell(coordX, coordY, cellArray[coordX][coordY]);
 			}
 		}
 	}
