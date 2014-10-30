@@ -1,17 +1,13 @@
 package ca.csf.minesweeper;
 
 import java.io.BufferedReader;
-import java.io.Console;
 import java.io.InputStreamReader;
-
-import ca.csf.minesweeper.Minesweeper.Difficulty;
 
 public class TestClass {
 
 	public static void main(String[] args) {
 		Minesweeper msGame = new Minesweeper();
 		try {
-			Console console = System.console();
 			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 			msGame.newGame(Minesweeper.Difficulty.MEDIUM);
 			while (true){

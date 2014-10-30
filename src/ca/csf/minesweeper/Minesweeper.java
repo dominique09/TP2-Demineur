@@ -10,6 +10,7 @@ public class Minesweeper {
 	private int nbMines;
 	private int[] minesPositions;
 	private boolean playerIsDead;
+	private boolean gameIsWon;
 	private int flagsLeft;
 
 	public static enum Difficulty {
@@ -55,6 +56,7 @@ public class Minesweeper {
 		this.nbMines = nbMines;
 		this.flagsLeft = nbMines;
 		this.playerIsDead = false;
+		this.gameIsWon = false;
 
 		cellArray = new Cell[sizeX][sizeY];
 		// Generate random mines positions
@@ -252,8 +254,23 @@ public class Minesweeper {
 		}
 		System.out.println("===END===");
 	}
+	
+	private boolean checkIfGameWon(){
+		
+	}
+	
+	public boolean gameIsWon() {
+		return this.gameIsWon;
+	}
 
 	public void hintActivate() {
+		for (Cell[] cellRow : cellArray){
+			for (Cell cell : cellRow){
+				if (cell.type == Cell.CellType.MINE){
+					cell.isHidden = false;
+				}
+			}
+		}
 		// When Teacher decide to activate special glasses to see mines. :P
 	}
 
