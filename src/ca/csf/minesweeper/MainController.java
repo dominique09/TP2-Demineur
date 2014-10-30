@@ -241,35 +241,28 @@ public class MainController extends SimpleFXController implements TimerUtilsObse
 
 	@Override
 	public void updateCell(int coordX, int coordY, Cell cell) {
-		Cell[][] cellArray = cell[coordX][coordY];
-		
-		for (int y = 0; y < sizeY; ++y) {
-			for (int x = 0; x < sizeX; ++x) {
-				cellButtonArray[x][y].setSelected(!cellArray[x][y].isHidden);
-				
-				if (cellArray[x][y].isFlagged){
-					cellButtonArray[x][y].setGraphic(new ImageView(new Image(getClass().getResourceAsStream("resources/FLAG.png"))));
-					cellButtonArray[x][y].setSelected(false);
-				} else if (cellArray[x][y].isNotSure){
-					cellButtonArray[x][y].setGraphic(new ImageView(new Image(getClass().getResourceAsStream("resources/QUESTION.png"))));
-					cellButtonArray[x][y].setSelected(false);
-				} else if(this.hint && cellArray[x][y].type == Cell.CellType.MINE){
-					cellButtonArray[x][y].setGraphic(new ImageView(new Image(getClass().getResourceAsStream("resources/MINE.png"))));
-				} else {
-						
-					if(!cellArray[x][y].isHidden){
-						cellButtonArray[x][y].setDisable(true);
-						cellButtonArray[x][y].setSelected(true);
-						String link = "resources/"+ cellArray[x][y].type.toString() + ".png";
-						try{
-							cellButtonArray[x][y].setGraphic(new ImageView(new Image(getClass().getResourceAsStream(link))));
-						} catch(Exception ex){
-							System.out.println(ex.toString());
-						}
-					} else {
-						cellButtonArray[x][y].setGraphic(null);
-					}
+		cellButtonArray[coordX][coordY].setSelected(!cell.isHidden);
+
+		if (cell.isFlagged){
+			cellButtonArray[coordX][coordY].setGraphic(new ImageView(new Image(getClass().getResourceAsStream("resources/FLAG.png"))));
+			cellButtonArray[coordX][coordY].setSelected(false);
+		} else if (cell.isNotSure){
+			cellButtonArray[coordX][coordY].setGraphic(new ImageView(new Image(getClass().getResourceAsStream("resources/QUESTION.png"))));
+			cellButtonArray[coordX][coordY].setSelected(false);
+		} else if(this.hint && cell.type == Cell.CellType.MINE){
+			cellButtonArray[coordX][coordY].setGraphic(new ImageView(new Image(getClass().getResourceAsStream("resources/MINE.png"))));
+		} else {
+			if(!cell.isHidden){
+				cellButtonArray[coordX][coordY].setDisable(true);
+				cellButtonArray[coordX][coordY].setSelected(true);
+				String link = "resources/"+ cell.type.toString() + ".png";
+				try{
+					cellButtonArray[coordX][coordY].setGraphic(new ImageView(new Image(getClass().getResourceAsStream(link))));
+				} catch(Exception ex){
+					System.out.println(ex.toString());
 				}
+			} else {
+				cellButtonArray[coordX][coordY].setGraphic(null);
 			}
 		}
 		
@@ -277,6 +270,6 @@ public class MainController extends SimpleFXController implements TimerUtilsObse
 
 	@Override
 	public void setNumberOfFlagsLeft(int nbFlags) {
-		// TODO Auto-generated method stub
+		this.minesLabel.setText(Integer.toString(nbFlags));
 	}
 }
