@@ -153,12 +153,6 @@ public class MainController extends SimpleFXController implements TimerUtilsObse
 		gameGrid.setAlignment(Pos.CENTER);
 	}
 
-	private void updateGameGrid() {
-		Cell[][] cellArray = minesweeper.getCellArray();
-
-		
-	}
-
 	@FXML
 	public void levelChange() {
 		newGame();
@@ -187,7 +181,6 @@ public class MainController extends SimpleFXController implements TimerUtilsObse
 	@FXML
 	public void hintCheck() {
 		this.hint = !this.hint;
-		this.updateGameGrid();
 	}
 
 	@FXML
