@@ -80,6 +80,7 @@ public class MainController extends SimpleFXController implements
 
 			timerUtils = TimerUtils.getInstance();
 			timerUtils.addObserver(this);
+			
 
 			faceButton.setGraphic(new ImageView(new Image(getClass()
 					.getResourceAsStream("resources/normal.png"))));

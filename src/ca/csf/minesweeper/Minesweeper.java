@@ -161,6 +161,8 @@ public class Minesweeper implements TimerUtilsObserver{
 	}
 	
 	private void playerDead(int coordX, int coordY) {
+		timerUtils.stopTimer();
+		
 		System.out.println("You are dead.");
 
 		cellArray[coordX][coordY].type = Cell.CellType.MINEEXPLODED;
@@ -307,7 +309,7 @@ public class Minesweeper implements TimerUtilsObserver{
 		for (MinesweeperObserver observer : observers){
 			observer.gameIsWon(gameIsWon);
 		}
-		
+		timerUtils.stopTimer();
 		return true;
 	}
 
