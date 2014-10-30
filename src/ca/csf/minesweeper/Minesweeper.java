@@ -137,12 +137,12 @@ public class Minesweeper {
 			if (cellArray[coordX][coordY].type == Cell.CellType.MINE) { // If step on a mine
 				// Show all mines and die
 	
+				System.out.println("You are dead.");
 				for (Cell[] row : cellArray) {
 					for (Cell cell : row) {
 						if (cell.type == Cell.CellType.MINE) {
 							cell.isHidden = false;
 							this.playerIsDead = true;
-							System.out.println("You are dead.");
 						}
 					}
 				}
