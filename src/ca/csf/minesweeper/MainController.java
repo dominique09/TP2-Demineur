@@ -264,4 +264,16 @@ public class MainController extends SimpleFXController implements TimerUtilsObse
 			ex.printStackTrace();
 		}
 	}
+
+	@Override
+	public void playerIsDead(boolean playerIsDead) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void gameIsWon(boolean gameIsWon) {
+		// TODO Auto-generated method stub
+		
+	}
 }
