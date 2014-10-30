@@ -38,6 +38,8 @@ public class MainController extends SimpleFXController implements TimerUtilsObse
 	
 	private TimerUtils timerUtils;
 
+	private boolean hint = false;
+	
 	private int sizeX;
 	private int sizeY;
 
@@ -52,6 +54,8 @@ public class MainController extends SimpleFXController implements TimerUtilsObse
 	@FXML
 	public void initialize(){
 		newGame();
+		updateMineNumber();
+		updateGameGrid();
 	}
 	
 	@FXML
@@ -162,7 +166,10 @@ public class MainController extends SimpleFXController implements TimerUtilsObse
 				} else if (cellArray[x][y].isNotSure){
 					cellButtonArray[x][y].setGraphic(new ImageView(new Image(getClass().getResourceAsStream("resources/QUESTION.png"))));
 					cellButtonArray[x][y].setSelected(false);
+				} else if(this.hint && cellArray[x][y].type == Cell.CellType.MINE){
+					cellButtonArray[x][y].setGraphic(new ImageView(new Image(getClass().getResourceAsStream("resources/MINE.png"))));
 				} else {
+						
 					if(!cellArray[x][y].isHidden){
 						cellButtonArray[x][y].setDisable(true);
 						cellButtonArray[x][y].setSelected(true);
@@ -173,7 +180,7 @@ public class MainController extends SimpleFXController implements TimerUtilsObse
 							System.out.println(ex.toString());
 						}
 					} else {
-						cellButtonArray[x][y].setGraphic(new ImageView(new Image(getClass().getResourceAsStream("resources/EMPTY.png"))));
+						cellButtonArray[x][y].setGraphic(null);
 					}
 				}
 			}
@@ -215,7 +222,7 @@ public class MainController extends SimpleFXController implements TimerUtilsObse
 
 	@FXML
 	public void hintCheck() {
-		minesweeper.hintActivate();
+		this.hint = !this.hint;
 		this.updateGameGrid();
 	}
 
