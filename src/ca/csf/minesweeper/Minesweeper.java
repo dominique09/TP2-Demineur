@@ -175,9 +175,11 @@ public class Minesweeper implements TimerUtilsObserver{
 				}
 			}
 		}
+
+		cellArray[coordX][coordY].type = Cell.CellType.MINEEXPLODED;
 		
 		for (MinesweeperObserver observer : observers){
-			observer.playerIsDead(coordX, coordY);
+			observer.playerIsDead();
 		}
 	}
 

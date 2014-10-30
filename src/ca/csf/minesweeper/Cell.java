@@ -2,7 +2,7 @@ package ca.csf.minesweeper;
 
 public class Cell {
 	public static enum CellType {
-		EMPTY, MINE, ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT
+		EMPTY, MINE, MINEEXPLODED, ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT
 	}
 	
 	public boolean isHidden;

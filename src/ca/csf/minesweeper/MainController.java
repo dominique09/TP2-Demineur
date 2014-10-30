@@ -223,7 +223,7 @@ public class MainController extends SimpleFXController implements TimerUtilsObse
 	}
 
 	@Override
-	public void playerIsDead(int coordX, int coordY) {
+	public void playerIsDead() {
 		faceButton.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("resources/lose.png"))));
 	}
 
@@ -242,7 +242,7 @@ public class MainController extends SimpleFXController implements TimerUtilsObse
 		} else if (cell.isNotSure){
 			cellButtonArray[coordX][coordY].setGraphic(new ImageView(new Image(getClass().getResourceAsStream("resources/QUESTION.png"))));
 			cellButtonArray[coordX][coordY].setSelected(false);
-		} else if((!cell.isHidden || this.hint) && cell.type == Cell.CellType.MINE){
+		} else if(((!cell.isHidden && (!cell.isFlagged || !cell.isNotSure)) || this.hint) && cell.type == Cell.CellType.MINE){
 			cellButtonArray[coordX][coordY].setGraphic(new ImageView(new Image(getClass().getResourceAsStream("resources/MINE.png"))));
 		} else {
 			if(!cell.isHidden){
