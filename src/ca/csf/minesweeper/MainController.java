@@ -183,10 +183,6 @@ public class MainController extends SimpleFXController implements TimerUtilsObse
 						cellButtonArray[x][y].setGraphic(null);
 					}
 				}
-				
-				if(minesweeper.gameIsWon()){
-					cellButtonArray[x][y].setDisable(true);
-				}
 			}
 		}
 	}
