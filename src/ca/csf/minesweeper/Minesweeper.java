@@ -163,14 +163,14 @@ public class Minesweeper implements TimerUtilsObserver{
 	private void playerDead(int coordX, int coordY) {
 		System.out.println("You are dead.");
 		
-		for (Cell[] row : cellArray) {
-			for (Cell cell : row) {
-				if (cell.type == Cell.CellType.MINE) {
-					cell.isHidden = false;
+		for (int x = 0; x < sizeX; ++x) {
+			for (int y = 0; y < sizeY; ++y) {
+				if (cellArray[x][y].type == Cell.CellType.MINE) {
+					cellArray[x][y].isHidden = false;
 					this.playerIsDead = true;
 					
 					for (MinesweeperObserver observer : observers){
-						observer.updateCell(coordX, coordY, cell);
+						observer.updateCell(x, y, cellArray[x][y]);
 					}
 				}
 			}
