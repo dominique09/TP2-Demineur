@@ -256,22 +256,11 @@ public class Minesweeper {
 	}
 	
 	private boolean checkIfGameWon(){
-		
+		return false;
 	}
 	
 	public boolean gameIsWon() {
 		return this.gameIsWon;
-	}
-
-	public void hintActivate() {
-		for (Cell[] cellRow : cellArray){
-			for (Cell cell : cellRow){
-				if (cell.type == Cell.CellType.MINE){
-					cell.isHidden = false;
-				}
-			}
-		}
-		// When Teacher decide to activate special glasses to see mines. :P
 	}
 
 	public Cell[][] getCellArray() {
