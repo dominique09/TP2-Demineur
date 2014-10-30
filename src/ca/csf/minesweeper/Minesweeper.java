@@ -10,6 +10,7 @@ public class Minesweeper {
 	private int nbMines;
 	private int[] minesPositions;
 	private boolean playerIsDead;
+	private int flagsLeft;
 
 	public static enum Difficulty {
 		EASY(10, 9, 9), MEDIUM(40, 16, 16), HARD(99, 30, 16);
@@ -52,6 +53,7 @@ public class Minesweeper {
 		this.sizeX = sizeX;
 		this.sizeY = sizeY;
 		this.nbMines = nbMines;
+		this.flagsLeft = nbMines;
 		this.playerIsDead = false;
 
 		cellArray = new Cell[sizeX][sizeY];
@@ -126,26 +128,48 @@ public class Minesweeper {
 	}
 
 	public void activate(int coordX, int coordY) {
-
-		if (cellArray[coordX][coordY].type == Cell.CellType.MINE) { // If step on a mine
-			// Show all mines and die
-
-			for (Cell[] row : cellArray) {
-				for (Cell cell : row) {
-					if (cell.type == Cell.CellType.MINE) {
-						cell.isHidden = false;
-						this.playerIsDead = true;
-
+		
+		if (!cellArray[coordX][coordY].isFlagged && !cellArray[coordX][coordY].isNotSure){
+		
+		
+			if (cellArray[coordX][coordY].type == Cell.CellType.MINE) { // If step on a mine
+				// Show all mines and die
+	
+				for (Cell[] row : cellArray) {
+					for (Cell cell : row) {
+						if (cell.type == Cell.CellType.MINE) {
+							cell.isHidden = false;
+							this.playerIsDead = true;
+	
+						}
 					}
 				}
+			} else {
+				discover(coordX, coordY);
 			}
-		} else {
-			discover(coordX, coordY);
+	
+			displayCellArray();
 		}
-
-		displayCellArray();
 	}
-
+	
+	public void toggleCellState(int coordX, int coordY){
+		if (cellArray[coordX][coordY].isHidden){
+			if (!cellArray[coordX][coordY].isFlagged && !cellArray[coordX][coordY].isNotSure){
+				cellArray[coordX][coordY].isFlagged = true;
+				flagsLeft--;
+			}
+			else if (cellArray[coordX][coordY].isFlagged){
+				cellArray[coordX][coordY].isFlagged = false;
+				cellArray[coordX][coordY].isNotSure = true;
+				flagsLeft++;
+			}
+			else if (cellArray[coordX][coordY].isNotSure){
+				cellArray[coordX][coordY].isFlagged = false;
+				cellArray[coordX][coordY].isNotSure = false;
+			}
+		}
+	}
+	
 	private void discover(int coordX, int coordY) {
 		cellArray[coordX][coordY].isHidden = false;
 		displayCellArray();
@@ -255,5 +279,8 @@ public class Minesweeper {
 	
 	public void setCellArray(Cell[][] cellArray){
 		this.cellArray = cellArray;
+	}
+	public int getFlagsLeft(){
+		return this.flagsLeft;
 	}
 }

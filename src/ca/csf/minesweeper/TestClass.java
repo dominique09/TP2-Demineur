@@ -13,7 +13,7 @@ public class TestClass {
 		try {
 			Console console = System.console();
 			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-			msGame.newGame(Minesweeper.Difficulty.EASY);
+			msGame.newGame(Minesweeper.Difficulty.MEDIUM);
 			while (true){
 			System.out.println("Entrez un X");
 			int x = Integer.parseInt(br.readLine());
