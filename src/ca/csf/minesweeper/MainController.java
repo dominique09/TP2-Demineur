@@ -54,8 +54,6 @@ public class MainController extends SimpleFXController implements TimerUtilsObse
 	@FXML
 	public void initialize(){
 		newGame();
-		updateMineNumber();
-		updateGameGrid();
 	}
 	
 	@FXML
@@ -114,10 +112,6 @@ public class MainController extends SimpleFXController implements TimerUtilsObse
 			} else {
 				minesweeper.toggleCellState(this.cellX,this.cellY);
 			}
-
-			updateGameGrid();
-			updateMineNumber();
-			updateGameStatus();
 		}
 	}
 
@@ -159,10 +153,6 @@ public class MainController extends SimpleFXController implements TimerUtilsObse
 		gameGrid.setAlignment(Pos.CENTER);
 	}
 
-	private void updateMineNumber() {
-		minesLabel.setText(Integer.toString(minesweeper.getFlagsLeft()));
-	}
-
 	private void updateGameGrid() {
 		Cell[][] cellArray = minesweeper.getCellArray();
 
@@ -198,16 +188,6 @@ public class MainController extends SimpleFXController implements TimerUtilsObse
 					cellButtonArray[x][y].setDisable(true);
 				}
 			}
-		}
-	}
-	
-	private void updateGameStatus(){
-		if ( minesweeper.getPlayerIsDead() == true){
-			faceButton.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("resources/lose.png"))));
-		} else if(minesweeper.gameIsWon()){
-			faceButton.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("resources/win.png"))));
-		} else {
-			faceButton.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("resources/normal.png"))));
 		}
 	}
 
@@ -283,13 +263,11 @@ public class MainController extends SimpleFXController implements TimerUtilsObse
 
 	@Override
 	public void playerIsDead(boolean playerIsDead) {
-		// TODO Auto-generated method stub
-		
+		faceButton.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("resources/lose.png"))));
 	}
 
 	@Override
 	public void gameIsWon(boolean gameIsWon) {
-		// TODO Auto-generated method stub
-		
+		faceButton.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("resources/win.png"))));
 	}
 }
