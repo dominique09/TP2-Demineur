@@ -256,7 +256,14 @@ public class Minesweeper {
 	}
 	
 	private boolean checkIfGameWon(){
-		return false;
+		for (Cell[] cellRow : cellArray){
+			for (Cell cell : cellRow){
+				if (cell.type != Cell.CellType.MINE && cell.isHidden){
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 	
 	public boolean gameIsWon() {
