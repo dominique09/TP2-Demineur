@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Minesweeper {
 	
-	private List<Object> observers;
+	private List<MinesweeperObserver> observers;
 	
 	private Cell[][] cellArray;
 	private int sizeX;
@@ -18,10 +18,10 @@ public class Minesweeper {
 	private int flagsLeft;
 
 	public Minesweeper() {
-		observers = new ArrayList<Object>();
+		observers = new ArrayList<MinesweeperObserver>();
 	}
 	
-	public void addObserver(Object observer) {
+	public void addObserver(MinesweeperObserver observer) {
 		observers.add(observer);
 	}
 	
@@ -105,7 +105,6 @@ public class Minesweeper {
 				calculateMinesTouched(i, j);
 			}
 		}
-
 		displayCellArray();
 	}
 
@@ -145,8 +144,6 @@ public class Minesweeper {
 	public void activate(int coordX, int coordY) {
 		
 		if (!cellArray[coordX][coordY].isFlagged && !cellArray[coordX][coordY].isNotSure){
-		
-		
 			if (cellArray[coordX][coordY].type == Cell.CellType.MINE) { // If step on a mine
 				// Show all mines and die
 	
@@ -172,11 +169,17 @@ public class Minesweeper {
 			if (!cellArray[coordX][coordY].isFlagged && !cellArray[coordX][coordY].isNotSure){
 				cellArray[coordX][coordY].isFlagged = true;
 				flagsLeft--;
+				for (MinesweeperObserver observer : observers){
+					observer.setNumberOfFlagsLeft(flagsLeft);
+				}
 			}
 			else if (cellArray[coordX][coordY].isFlagged){
 				cellArray[coordX][coordY].isFlagged = false;
 				cellArray[coordX][coordY].isNotSure = true;
 				flagsLeft++;
+				for (MinesweeperObserver observer : observers){
+					observer.setNumberOfFlagsLeft(flagsLeft);
+				}
 			}
 			else if (cellArray[coordX][coordY].isNotSure){
 				cellArray[coordX][coordY].isFlagged = false;
@@ -210,8 +213,9 @@ public class Minesweeper {
 				for (int j = startingValueY; j <= endingValueY; j++) {
 					if (cellArray[coordX + i][coordY + j].isHidden == true
 							&& !cellArray[coordX + i][coordY + j].isFlagged
-							&& !cellArray[coordX + i][coordY + j].isNotSure)
+							&& !cellArray[coordX + i][coordY + j].isNotSure){
 						discover(coordX + i, coordY + j);
+					}
 				}
 			}
 		}
