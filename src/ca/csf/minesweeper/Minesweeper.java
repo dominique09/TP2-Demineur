@@ -2,8 +2,12 @@ package ca.csf.minesweeper;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 public class Minesweeper {
+	
+	private List<MinesweeperObserver> observers;
+	
 	private Cell[][] cellArray;
 	private int sizeX;
 	private int sizeY;
