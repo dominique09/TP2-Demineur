@@ -175,10 +175,7 @@ public class Minesweeper {
 	private void discover(int coordX, int coordY) {
 		cellArray[coordX][coordY].isHidden = false;
 		displayCellArray();
-		boolean canContinue = cellArray[coordX][coordY].type == Cell.CellType.EMPTY
-				&& !cellArray[coordX][coordY].isFlagged
-				&& !cellArray[coordX][coordY].isNotSure;
-		if (canContinue){
+		if (cellArray[coordX][coordY].type == Cell.CellType.EMPTY){
 			int startingValueX = -1;
 			int startingValueY = -1;
 			int endingValueX = 1;
@@ -198,12 +195,14 @@ public class Minesweeper {
 
 			for (int i = startingValueX; i <= endingValueX; i++) {
 				for (int j = startingValueY; j <= endingValueY; j++) {
-					if (cellArray[coordX + i][coordY + j].isHidden == true)
+					if (cellArray[coordX + i][coordY + j].isHidden == true
+							&& !cellArray[coordX + i][coordY + j].isFlagged
+							&& !cellArray[coordX + i][coordY + j].isNotSure)
 						discover(coordX + i, coordY + j);
 				}
 			}
 		}
-	}
+		}
 
 	public void displayCellArray() {
 		for (int j = 0; j < sizeY; ++j) {
