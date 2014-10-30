@@ -20,7 +20,8 @@ import ca.csf.simpleFx.SimpleFXController;
 import ca.csf.simpleFx.SimpleFXScene;
 import ca.csf.simpleFx.SimpleFXStage;
 
-public class MainController extends SimpleFXController implements TimerUtilsObserver, MinesweeperObserver{
+public class MainController extends SimpleFXController implements
+		TimerUtilsObserver, MinesweeperObserver {
 
 	@FXML
 	private VBox gameContainer;
@@ -30,39 +31,41 @@ public class MainController extends SimpleFXController implements TimerUtilsObse
 	private Label minesLabel;
 	@FXML
 	private Button faceButton;
-	@FXML Label timeLabel;
+	@FXML
+	Label timeLabel;
 
 	private Minesweeper minesweeper;
 	private GridPane gameGrid;
 	private CellButton[][] cellButtonArray;
-	
+
 	private TimerUtils timerUtils;
 
 	private boolean hint = false;
-	
+
 	private int sizeX;
 	private int sizeY;
 
 	private static final double TOGGLE_BUTTON_HEIGHT = 30.00;
 	private static final double TOGGLE_BUTTON_WIDTH = 30.00;
-	
+
 	@Override
 	public void timeChange(String time) {
 		timeLabel.setText(time);
 	}
-	
+
 	@FXML
-	public void initialize(){
+	public void initialize() {
 		newGame();
 	}
-	
+
 	@FXML
 	public void newGame() {
 		try {
 			minesweeper = new Minesweeper();
 			minesweeper.addObserver(this);
-			
-			String selectedLevel = ((RadioMenuItem) level.getSelectedToggle()).getId();
+
+			String selectedLevel = ((RadioMenuItem) level.getSelectedToggle())
+					.getId();
 			switch (selectedLevel) {
 			case "EASY":
 				minesweeper.newGame(Minesweeper.Difficulty.EASY);
@@ -74,24 +77,24 @@ public class MainController extends SimpleFXController implements TimerUtilsObse
 				minesweeper.newGame(Minesweeper.Difficulty.HARD);
 				break;
 			}
-			
+
 			timerUtils = new TimerUtils();
 			timerUtils.addObserver(this);
 
-			faceButton.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("resources/normal.png"))));
-			
+			faceButton.setGraphic(new ImageView(new Image(getClass()
+					.getResourceAsStream("resources/normal.png"))));
+
 			sizeX = minesweeper.getSizeX();
 			sizeY = minesweeper.getSizeY();
-			
+
 			cellButtonArray = new CellButton[sizeX][sizeY];
 
 			placeTile();
-			
-			if (this.getSimpleFxStage() != null)
-			{
-			this.getSimpleFxStage().sizeToScene();
+
+			if (this.getSimpleFxStage() != null) {
+				this.getSimpleFxStage().sizeToScene();
 			}
-			
+
 		} catch (Exception ex) {
 			System.out.println(ex);
 		}
@@ -109,29 +112,30 @@ public class MainController extends SimpleFXController implements TimerUtilsObse
 		}
 	}
 
-	private final class EventHandlerImplementation implements EventHandler<MouseEvent> {
+	private final class EventHandlerImplementation implements
+			EventHandler<MouseEvent> {
 		private int cellX, cellY;
-		
-		EventHandlerImplementation(int cellX,int cellY){
+
+		EventHandlerImplementation(int cellX, int cellY) {
 			this.cellX = cellX;
 			this.cellY = cellY;
 		}
-		
+
 		@Override
 		public void handle(MouseEvent event) {
 			if (event.getButton() == MouseButton.PRIMARY) {
-				minesweeper.activate(this.cellX,this.cellY);
+				minesweeper.activate(this.cellX, this.cellY);
 			} else {
-				minesweeper.toggleCellState(this.cellX,this.cellY);
+				minesweeper.toggleCellState(this.cellX, this.cellY);
 			}
 		}
 	}
 
 	private void placeTile() {
-		if (gameGrid != null){
+		if (gameGrid != null) {
 			gameContainer.getChildren().removeAll(gameGrid);
 		}
-		
+
 		gameGrid = new GridPane();
 		gameGrid.setPadding(new Insets(10, 10, 10, 10));
 
@@ -142,8 +146,9 @@ public class MainController extends SimpleFXController implements TimerUtilsObse
 						TOGGLE_BUTTON_HEIGHT);
 
 				cellButton.addEventHandler(MouseEvent.MOUSE_CLICKED,
-						new EventHandlerImplementation(cellButton.x, cellButton.y));
-				
+						new EventHandlerImplementation(cellButton.x,
+								cellButton.y));
+
 				cellButtonArray[x][y] = cellButton;
 				gameGrid.add(cellButton, x, y);
 			}
@@ -157,7 +162,7 @@ public class MainController extends SimpleFXController implements TimerUtilsObse
 	public void levelChange() {
 		newGame();
 	}
-	
+
 	@FXML
 	public void hintCheck() {
 		this.hint = !this.hint;
@@ -167,8 +172,7 @@ public class MainController extends SimpleFXController implements TimerUtilsObse
 	public void openResults() {
 		try {
 			SimpleFXScene resultScene = new SimpleFXScene(
-					ResultController.class
-							.getResource("Result.fxml"),
+					ResultController.class.getResource("Result.fxml"),
 					new ResultController());
 
 			SimpleFXStage resultStage = new SimpleFXStage("Meilleurs Temps !",
@@ -224,41 +228,60 @@ public class MainController extends SimpleFXController implements TimerUtilsObse
 
 	@Override
 	public void playerIsDead() {
-		faceButton.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("resources/lose.png"))));
+		faceButton.setGraphic(new ImageView(new Image(getClass()
+				.getResourceAsStream("resources/lose.png"))));
+
+		gameIsFinish();
 	}
 
 	@Override
 	public void gameIsWon(boolean gameIsWon) {
-		faceButton.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("resources/win.png"))));
+		faceButton.setGraphic(new ImageView(new Image(getClass()
+				.getResourceAsStream("resources/win.png"))));
+		
+		gameIsFinish();
+	}
+	
+	public void gameIsFinish(){
+		for (int x = 0; x < sizeX; ++x) {
+			for (int y = 0; y < sizeY; ++y) {
+				cellButtonArray[x][y].setDisable(true);
+			}
+		}
 	}
 
 	@Override
 	public void updateCell(int coordX, int coordY, Cell cell) {
 		cellButtonArray[coordX][coordY].setSelected(!cell.isHidden);
 
-		if (cell.isFlagged){
-			cellButtonArray[coordX][coordY].setGraphic(new ImageView(new Image(getClass().getResourceAsStream("resources/FLAG.png"))));
+		if (cell.isFlagged) {
+			cellButtonArray[coordX][coordY].setGraphic(new ImageView(new Image(
+					getClass().getResourceAsStream("resources/FLAG.png"))));
 			cellButtonArray[coordX][coordY].setSelected(false);
-		} else if (cell.isNotSure){
-			cellButtonArray[coordX][coordY].setGraphic(new ImageView(new Image(getClass().getResourceAsStream("resources/QUESTION.png"))));
+		} else if (cell.isNotSure) {
+			cellButtonArray[coordX][coordY].setGraphic(new ImageView(new Image(
+					getClass().getResourceAsStream("resources/QUESTION.png"))));
 			cellButtonArray[coordX][coordY].setSelected(false);
-		} else if(((!cell.isHidden && (!cell.isFlagged || !cell.isNotSure)) || this.hint) && cell.type == Cell.CellType.MINE){
-			cellButtonArray[coordX][coordY].setGraphic(new ImageView(new Image(getClass().getResourceAsStream("resources/MINE.png"))));
+		} else if (((!cell.isHidden && (!cell.isFlagged || !cell.isNotSure)) || this.hint)
+				&& cell.type == Cell.CellType.MINE) {
+			cellButtonArray[coordX][coordY].setGraphic(new ImageView(new Image(
+					getClass().getResourceAsStream("resources/MINE.png"))));
 		} else {
-			if(!cell.isHidden){
+			if (!cell.isHidden) {
 				cellButtonArray[coordX][coordY].setDisable(true);
 				cellButtonArray[coordX][coordY].setSelected(true);
-				String link = "resources/"+ cell.type.toString() + ".png";
-				try{
-					cellButtonArray[coordX][coordY].setGraphic(new ImageView(new Image(getClass().getResourceAsStream(link))));
-				} catch(Exception ex){
+				String link = "resources/" + cell.type.toString() + ".png";
+				try {
+					cellButtonArray[coordX][coordY].setGraphic(new ImageView(
+							new Image(getClass().getResourceAsStream(link))));
+				} catch (Exception ex) {
 					System.out.println(ex.toString());
 				}
 			} else {
 				cellButtonArray[coordX][coordY].setGraphic(null);
 			}
 		}
-		
+
 	}
 
 	@Override

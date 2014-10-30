@@ -88,7 +88,7 @@ public class Minesweeper implements TimerUtilsObserver{
 			minesPositions[i] = (int) randomNumbers.get(i);
 		}
 		initializeCellArray();
-		timerUtils.startTimer();
+		timerUtils.resetTimer();
 		for (MinesweeperObserver observer : observers){
 			observer.setNumberOfFlagsLeft(flagsLeft);
 		}
@@ -162,10 +162,12 @@ public class Minesweeper implements TimerUtilsObserver{
 	
 	private void playerDead(int coordX, int coordY) {
 		System.out.println("You are dead.");
+
+		cellArray[coordX][coordY].type = Cell.CellType.MINEEXPLODED;
 		
 		for (int x = 0; x < sizeX; ++x) {
 			for (int y = 0; y < sizeY; ++y) {
-				if (cellArray[x][y].type == Cell.CellType.MINE) {
+				if (cellArray[x][y].type == Cell.CellType.MINE || cellArray[x][y].type == Cell.CellType.MINEEXPLODED) {
 					cellArray[x][y].isHidden = false;
 					this.playerIsDead = true;
 					
@@ -175,8 +177,6 @@ public class Minesweeper implements TimerUtilsObserver{
 				}
 			}
 		}
-
-		cellArray[coordX][coordY].type = Cell.CellType.MINEEXPLODED;
 		
 		for (MinesweeperObserver observer : observers){
 			observer.playerIsDead();

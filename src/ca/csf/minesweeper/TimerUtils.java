@@ -13,23 +13,26 @@ public final class TimerUtils {
 	private List<TimerUtilsObserver> observers;
 	private Integer time;
 	private KeyFrame keyFrame;
-	private Timeline timeLine;
+	private static Timeline timeLine;
 
+	private final class EventHandlerImplementation implements EventHandler<ActionEvent> {
+		@Override
+		public void handle(ActionEvent event) {
+			timeChange();
+		}
+	}
+	
 	public TimerUtils() {
 		time = 0;
 		
 		observers = new ArrayList<TimerUtilsObserver>();
 		
-		keyFrame = new KeyFrame(Duration.seconds(1),
-				new EventHandler<ActionEvent>() {
-					@Override
-					public void handle(ActionEvent event) {
-						time++;
-						timeChange();
-					}
-				});
-		timeLine = new Timeline(keyFrame);;
-		timeLine.setCycleCount(Timeline.INDEFINITE);
+		keyFrame = new KeyFrame(Duration.seconds(1), new EventHandlerImplementation());
+		
+		if(timeLine == null){
+			timeLine = new Timeline(keyFrame);
+			timeLine.setCycleCount(Timeline.INDEFINITE);
+		}
 	}
 	
 	public void startTimer(){
@@ -50,6 +53,7 @@ public final class TimerUtils {
 	}
 
 	public void timeChange() {
+		time++;
 		for (TimerUtilsObserver observer : observers) {
 			observer.timeChange((this.time).toString());
 		}
