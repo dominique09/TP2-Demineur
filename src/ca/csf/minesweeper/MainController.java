@@ -97,6 +97,18 @@ public class MainController extends SimpleFXController implements TimerUtilsObse
 		}
 	}
 
+	public class CellButton extends ToggleButton {
+
+		public int x;
+		public int y;
+
+		public CellButton(int x, int y) {
+			super();
+			this.x = x;
+			this.y = y;
+		}
+	}
+
 	private final class EventHandlerImplementation implements EventHandler<MouseEvent> {
 		private int cellX, cellY;
 		
@@ -112,18 +124,6 @@ public class MainController extends SimpleFXController implements TimerUtilsObse
 			} else {
 				minesweeper.toggleCellState(this.cellX,this.cellY);
 			}
-		}
-	}
-
-	public class CellButton extends ToggleButton {
-
-		public int x;
-		public int y;
-
-		public CellButton(int x, int y) {
-			super();
-			this.x = x;
-			this.y = y;
 		}
 	}
 
@@ -157,6 +157,11 @@ public class MainController extends SimpleFXController implements TimerUtilsObse
 	public void levelChange() {
 		newGame();
 	}
+	
+	@FXML
+	public void hintCheck() {
+		this.hint = !this.hint;
+	}
 
 	@FXML
 	public void openResults() {
@@ -176,11 +181,6 @@ public class MainController extends SimpleFXController implements TimerUtilsObse
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
-	}
-
-	@FXML
-	public void hintCheck() {
-		this.hint = !this.hint;
 	}
 
 	@FXML
@@ -223,7 +223,7 @@ public class MainController extends SimpleFXController implements TimerUtilsObse
 	}
 
 	@Override
-	public void playerIsDead(boolean playerIsDead) {
+	public void playerIsDead(int coordX, int coordY) {
 		faceButton.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("resources/lose.png"))));
 	}
 
@@ -242,7 +242,7 @@ public class MainController extends SimpleFXController implements TimerUtilsObse
 		} else if (cell.isNotSure){
 			cellButtonArray[coordX][coordY].setGraphic(new ImageView(new Image(getClass().getResourceAsStream("resources/QUESTION.png"))));
 			cellButtonArray[coordX][coordY].setSelected(false);
-		} else if(this.hint && cell.type == Cell.CellType.MINE){
+		} else if((!cell.isHidden || this.hint) && cell.type == Cell.CellType.MINE){
 			cellButtonArray[coordX][coordY].setGraphic(new ImageView(new Image(getClass().getResourceAsStream("resources/MINE.png"))));
 		} else {
 			if(!cell.isHidden){
