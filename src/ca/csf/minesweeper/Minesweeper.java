@@ -149,7 +149,7 @@ public class Minesweeper {
 			} else {
 				discover(coordX, coordY);
 			}
-	
+			checkIfGameWon();
 			displayCellArray();
 		}
 	}
@@ -265,6 +265,7 @@ public class Minesweeper {
 				}
 			}
 		}
+		System.out.println("!!! Game is won !!!");
 		return true;
 	}
 	
