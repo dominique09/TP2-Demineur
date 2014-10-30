@@ -86,12 +86,36 @@ public class MainController extends SimpleFXController implements TimerUtilsObse
 			cellButtonArray = new CellButton[sizeX][sizeY];
 
 			placeTile();
+			
 			if (this.getSimpleFxStage() != null)
 			{
 			this.getSimpleFxStage().sizeToScene();
 			}
+			
 		} catch (Exception ex) {
 			System.out.println(ex);
+		}
+	}
+
+	private final class EventHandlerImplementation implements EventHandler<MouseEvent> {
+		private int cellX, cellY;
+		
+		EventHandlerImplementation(int cellX,int cellY){
+			this.cellX = cellX;
+			this.cellY = cellY;
+		}
+		
+		@Override
+		public void handle(MouseEvent event) {
+			if (event.getButton() == MouseButton.PRIMARY) {
+				minesweeper.activate(this.cellX,this.cellY);
+			} else {
+				minesweeper.toggleCellState(this.cellX,this.cellY);
+			}
+
+			updateGameGrid();
+			updateMineNumber();
+			updateGameStatus();
 		}
 	}
 
@@ -121,26 +145,9 @@ public class MainController extends SimpleFXController implements TimerUtilsObse
 				cellButton.setPrefSize(TOGGLE_BUTTON_WIDTH,
 						TOGGLE_BUTTON_HEIGHT);
 
-				cellButton.addEventHandler(MouseEvent.MOUSE_CLICKED,
-						new EventHandler<MouseEvent>() {
-
-							@Override
-							public void handle(MouseEvent event) {
-								if (event.getButton() == MouseButton.PRIMARY) {
-									minesweeper.activate(cellButton.x,cellButton.y);
-								} else {
-									minesweeper.toggleCellState(cellButton.x, cellButton.y);
-								}
-
-								updateGameGrid();
-								updateMineNumber();
-								updateFaceButton();
-							}
-
-						});
+				cellButton.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandlerImplementation(cellButton.x, cellButton.y));
 				
 				cellButtonArray[x][y] = cellButton;
-
 				gameGrid.add(cellButton, x, y);
 			}
 		}
@@ -183,13 +190,19 @@ public class MainController extends SimpleFXController implements TimerUtilsObse
 						cellButtonArray[x][y].setGraphic(null);
 					}
 				}
+				
+				if(minesweeper.gameIsWon()){
+					cellButtonArray[x][y].setDisable(true);
+				}
 			}
 		}
 	}
 	
-	private void updateFaceButton(){
+	private void updateGameStatus(){
 		if ( minesweeper.getPlayerIsDead() == true){
 			faceButton.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("resources/lose.png"))));
+		} else if(minesweeper.gameIsWon()){
+			faceButton.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("resources/win.png"))));
 		} else {
 			faceButton.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("resources/normal.png"))));
 		}
