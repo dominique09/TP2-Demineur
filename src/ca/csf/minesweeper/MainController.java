@@ -62,6 +62,8 @@ public class MainController extends SimpleFXController implements TimerUtilsObse
 	public void newGame() {
 		try {
 			minesweeper = new Minesweeper();
+			minesweeper.addObserver(this);
+			
 			String selectedLevel = ((RadioMenuItem) level.getSelectedToggle()).getId();
 			switch (selectedLevel) {
 			case "EASY":
@@ -145,7 +147,8 @@ public class MainController extends SimpleFXController implements TimerUtilsObse
 				cellButton.setPrefSize(TOGGLE_BUTTON_WIDTH,
 						TOGGLE_BUTTON_HEIGHT);
 
-				cellButton.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandlerImplementation(cellButton.x, cellButton.y));
+				cellButton.addEventHandler(MouseEvent.MOUSE_CLICKED,
+						new EventHandlerImplementation(cellButton.x, cellButton.y));
 				
 				cellButtonArray[x][y] = cellButton;
 				gameGrid.add(cellButton, x, y);
