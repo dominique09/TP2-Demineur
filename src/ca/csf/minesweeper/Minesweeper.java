@@ -59,6 +59,7 @@ public class Minesweeper {
 		this.gameIsWon = false;
 
 		cellArray = new Cell[sizeX][sizeY];
+		
 		// Generate random mines positions
 		ArrayList<Integer> randomNumbers = new ArrayList<Integer>(sizeX * sizeY);
 		for (int i = 0; i < sizeX * sizeY; ++i) {

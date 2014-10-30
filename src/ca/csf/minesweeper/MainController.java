@@ -20,7 +20,7 @@ import ca.csf.simpleFx.SimpleFXController;
 import ca.csf.simpleFx.SimpleFXScene;
 import ca.csf.simpleFx.SimpleFXStage;
 
-public class MainController extends SimpleFXController implements TimerUtilsObserver{
+public class MainController extends SimpleFXController implements TimerUtilsObserver, MinesweeperObserver{
 
 	@FXML
 	private VBox gameContainer;
