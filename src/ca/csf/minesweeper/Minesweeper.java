@@ -142,7 +142,7 @@ public class Minesweeper {
 						if (cell.type == Cell.CellType.MINE) {
 							cell.isHidden = false;
 							this.playerIsDead = true;
-	
+							System.out.println("You are dead.");
 						}
 					}
 				}
@@ -265,7 +265,7 @@ public class Minesweeper {
 				}
 			}
 		}
-		System.out.println("!!! Game is won !!!");
+		System.out.println("Game is won !");
 		return true;
 	}
 	
