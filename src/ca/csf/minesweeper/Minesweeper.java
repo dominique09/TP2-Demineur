@@ -193,7 +193,7 @@ public class Minesweeper implements TimerUtilsObserver{
 	private void discover(int coordX, int coordY) {
 		cellArray[coordX][coordY].isHidden = false;
 		displayCellArray();
-		if (cellArray[coordX][coordY].type == Cell.CellType.EMPTY){
+		if (cellArray[coordX][coordY].type == Cell.CellType.EMPTY) {
 			int startingValueX = -1;
 			int startingValueY = -1;
 			int endingValueX = 1;
@@ -215,13 +215,16 @@ public class Minesweeper implements TimerUtilsObserver{
 				for (int j = startingValueY; j <= endingValueY; j++) {
 					if (cellArray[coordX + i][coordY + j].isHidden == true
 							&& !cellArray[coordX + i][coordY + j].isFlagged
-							&& !cellArray[coordX + i][coordY + j].isNotSure){
+							&& !cellArray[coordX + i][coordY + j].isNotSure) {
 						discover(coordX + i, coordY + j);
 					}
 				}
 			}
 		}
+		for (MinesweeperObserver observer : observers){
+			observer.updateCell(coordX, coordY, cellArray[coordX][coordY]);
 		}
+	}
 
 	public void displayCellArray() {
 		for (int j = 0; j < sizeY; ++j) {
