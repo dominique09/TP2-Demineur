@@ -9,41 +9,50 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.util.Duration;
 
-public final class TimerUtils {
+public class TimerUtils {
+	private static TimerUtils instance;
 	private List<TimerUtilsObserver> observers;
 	private Integer time;
 	private KeyFrame keyFrame;
-	private static Timeline timeLine;
+	private Timeline timeLine;
 
-	private final class EventHandlerImplementation implements EventHandler<ActionEvent> {
+	private final class EventHandlerImplementation implements
+			EventHandler<ActionEvent> {
 		@Override
 		public void handle(ActionEvent event) {
 			timeChange();
 		}
 	}
-	
-	public TimerUtils() {
-		time = 0;
-		
-		observers = new ArrayList<TimerUtilsObserver>();
-		
-		keyFrame = new KeyFrame(Duration.seconds(1), new EventHandlerImplementation());
-		
-		if(timeLine == null){
-			timeLine = new Timeline(keyFrame);
-			timeLine.setCycleCount(Timeline.INDEFINITE);
-		}
+
+	static {
+		instance = new TimerUtils();
 	}
 	
-	public void startTimer(){
+	private TimerUtils() {
+		time = 0;
+
+		observers = new ArrayList<TimerUtilsObserver>();
+
+		keyFrame = new KeyFrame(Duration.seconds(1),
+				new EventHandlerImplementation());
+
+		timeLine = new Timeline(keyFrame);
+		timeLine.setCycleCount(Timeline.INDEFINITE);
+	}
+	
+	public static TimerUtils getInstance(){
+		return instance;
+	}
+
+	public void startTimer() {
 		timeLine.play();
 	}
-	
-	public void stopTimer(){
+
+	public void stopTimer() {
 		timeLine.stop();
 	}
-	
-	public void resetTimer(){
+
+	public void resetTimer() {
 		this.time = 0;
 		startTimer();
 	}

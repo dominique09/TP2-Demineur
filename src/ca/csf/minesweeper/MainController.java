@@ -78,7 +78,7 @@ public class MainController extends SimpleFXController implements
 				break;
 			}
 
-			timerUtils = new TimerUtils();
+			timerUtils = TimerUtils.getInstance();
 			timerUtils.addObserver(this);
 
 			faceButton.setGraphic(new ImageView(new Image(getClass()
