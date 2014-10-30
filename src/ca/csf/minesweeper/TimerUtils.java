@@ -39,6 +39,11 @@ public final class TimerUtils {
 	public void stopTimer(){
 		timeLine.stop();
 	}
+	
+	public void resetTimer(){
+		this.time = 0;
+		startTimer();
+	}
 
 	public void addObserver(TimerUtilsObserver observer) {
 		observers.add(observer);

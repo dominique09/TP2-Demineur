@@ -3,10 +3,12 @@ package ca.csf.minesweeper;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class Minesweeper {
+public class Minesweeper implements TimerUtilsObserver{
 	
 	private ArrayList<MinesweeperObserver> observers;
 	
+	public TimerUtils timerUtils;
+
 	private Cell[][] cellArray;
 	private int sizeX;
 	private int sizeY;
@@ -18,6 +20,8 @@ public class Minesweeper {
 
 	public Minesweeper() {
 		observers = new ArrayList<MinesweeperObserver>();
+		timerUtils = new TimerUtils();
+		
 	}
 	
 	public void addObserver(MinesweeperObserver observer) {
@@ -55,12 +59,10 @@ public class Minesweeper {
 				difficulty.getSizeY());
 	}
 
-	public void newGame(int nbMines, int sizeX, int sizeY)
-			throws IndexOutOfBoundsException {
+	public void newGame(int nbMines, int sizeX, int sizeY) throws IndexOutOfBoundsException {
 
 		if (sizeX < 0 || sizeY < 0 || nbMines < 1) {
-			throw new IndexOutOfBoundsException(
-					"Les valeurs doivent être positives");
+			throw new IndexOutOfBoundsException("Les valeurs doivent être positives");
 		}
 		this.sizeX = sizeX;
 		this.sizeY = sizeY;
@@ -86,6 +88,7 @@ public class Minesweeper {
 			minesPositions[i] = (int) randomNumbers.get(i);
 		}
 		initializeCellArray();
+		timerUtils.startTimer();
 	}
 
 	void initializeCellArray() {
@@ -314,5 +317,9 @@ public class Minesweeper {
 	}
 	public int getFlagsLeft(){
 		return this.flagsLeft;
+	}
+
+	@Override
+	public void timeChange(String time) {
 	}
 }
