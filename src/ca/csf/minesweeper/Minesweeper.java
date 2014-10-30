@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Minesweeper {
 	
-	private List<MinesweeperObserver> observers;
+	private List<Object> observers;
 	
 	private Cell[][] cellArray;
 	private int sizeX;
@@ -17,6 +17,14 @@ public class Minesweeper {
 	private boolean gameIsWon;
 	private int flagsLeft;
 
+	public Minesweeper() {
+		observers = new ArrayList<Object>();
+	}
+	
+	public void addObserver(Object observer) {
+		observers.add(observer);
+	}
+	
 	public static enum Difficulty {
 		EASY(10, 9, 9), MEDIUM(40, 16, 16), HARD(99, 30, 16);
 
