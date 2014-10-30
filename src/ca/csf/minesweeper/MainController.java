@@ -20,7 +20,7 @@ import ca.csf.simpleFx.SimpleFXController;
 import ca.csf.simpleFx.SimpleFXScene;
 import ca.csf.simpleFx.SimpleFXStage;
 
-public class MainController extends SimpleFXController implements TimerUtilsObserver{
+public class MainController extends SimpleFXController implements TimerUtilsObserver, MinesweeperObserver{
 
 	@FXML
 	private VBox gameContainer;
@@ -276,5 +276,17 @@ public class MainController extends SimpleFXController implements TimerUtilsObse
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
+	}
+
+	@Override
+	public void playerIsDead(boolean playerIsDead) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void gameIsWon(boolean gameIsWon) {
+		// TODO Auto-generated method stub
+		
 	}
 }
