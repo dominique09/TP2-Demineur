@@ -4,12 +4,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class Minesweeper {
-<<<<<<< HEAD
 	
-	private List<MinesweeperObserver> observers;
+	private ArrayList<MinesweeperObserver> observers;
 	
-=======
->>>>>>> Clear
 	private Cell[][] cellArray;
 	private int sizeX;
 	private int sizeY;
@@ -19,7 +16,6 @@ public class Minesweeper {
 	private boolean gameIsWon;
 	private int flagsLeft;
 
-<<<<<<< HEAD
 	public Minesweeper() {
 		observers = new ArrayList<MinesweeperObserver>();
 	}
@@ -28,8 +24,6 @@ public class Minesweeper {
 		observers.add(observer);
 	}
 	
-=======
->>>>>>> Clear
 	public static enum Difficulty {
 		EASY(10, 9, 9), MEDIUM(40, 16, 16), HARD(99, 30, 16);
 

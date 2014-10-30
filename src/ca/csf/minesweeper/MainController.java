@@ -156,35 +156,7 @@ public class MainController extends SimpleFXController implements TimerUtilsObse
 	private void updateGameGrid() {
 		Cell[][] cellArray = minesweeper.getCellArray();
 
-		for (int y = 0; y < sizeY; ++y) {
-			for (int x = 0; x < sizeX; ++x) {
-				cellButtonArray[x][y].setSelected(!cellArray[x][y].isHidden);
-				
-				if (cellArray[x][y].isFlagged){
-					cellButtonArray[x][y].setGraphic(new ImageView(new Image(getClass().getResourceAsStream("resources/FLAG.png"))));
-					cellButtonArray[x][y].setSelected(false);
-				} else if (cellArray[x][y].isNotSure){
-					cellButtonArray[x][y].setGraphic(new ImageView(new Image(getClass().getResourceAsStream("resources/QUESTION.png"))));
-					cellButtonArray[x][y].setSelected(false);
-				} else if(this.hint && cellArray[x][y].type == Cell.CellType.MINE){
-					cellButtonArray[x][y].setGraphic(new ImageView(new Image(getClass().getResourceAsStream("resources/MINE.png"))));
-				} else {
-						
-					if(!cellArray[x][y].isHidden){
-						cellButtonArray[x][y].setDisable(true);
-						cellButtonArray[x][y].setSelected(true);
-						String link = "resources/"+ cellArray[x][y].type.toString() + ".png";
-						try{
-							cellButtonArray[x][y].setGraphic(new ImageView(new Image(getClass().getResourceAsStream(link))));
-						} catch(Exception ex){
-							System.out.println(ex.toString());
-						}
-					} else {
-						cellButtonArray[x][y].setGraphic(null);
-					}
-				}
-			}
-		}
+		
 	}
 
 	@FXML
@@ -265,5 +237,46 @@ public class MainController extends SimpleFXController implements TimerUtilsObse
 	@Override
 	public void gameIsWon(boolean gameIsWon) {
 		faceButton.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("resources/win.png"))));
+	}
+
+	@Override
+	public void updateCell(int coordX, int coordY, Cell cell) {
+		Cell[][] cellArray = cell[coordX][coordY];
+		
+		for (int y = 0; y < sizeY; ++y) {
+			for (int x = 0; x < sizeX; ++x) {
+				cellButtonArray[x][y].setSelected(!cellArray[x][y].isHidden);
+				
+				if (cellArray[x][y].isFlagged){
+					cellButtonArray[x][y].setGraphic(new ImageView(new Image(getClass().getResourceAsStream("resources/FLAG.png"))));
+					cellButtonArray[x][y].setSelected(false);
+				} else if (cellArray[x][y].isNotSure){
+					cellButtonArray[x][y].setGraphic(new ImageView(new Image(getClass().getResourceAsStream("resources/QUESTION.png"))));
+					cellButtonArray[x][y].setSelected(false);
+				} else if(this.hint && cellArray[x][y].type == Cell.CellType.MINE){
+					cellButtonArray[x][y].setGraphic(new ImageView(new Image(getClass().getResourceAsStream("resources/MINE.png"))));
+				} else {
+						
+					if(!cellArray[x][y].isHidden){
+						cellButtonArray[x][y].setDisable(true);
+						cellButtonArray[x][y].setSelected(true);
+						String link = "resources/"+ cellArray[x][y].type.toString() + ".png";
+						try{
+							cellButtonArray[x][y].setGraphic(new ImageView(new Image(getClass().getResourceAsStream(link))));
+						} catch(Exception ex){
+							System.out.println(ex.toString());
+						}
+					} else {
+						cellButtonArray[x][y].setGraphic(null);
+					}
+				}
+			}
+		}
+		
+	}
+
+	@Override
+	public void setNumberOfFlagsLeft(int nbFlags) {
+		// TODO Auto-generated method stub
 	}
 }
