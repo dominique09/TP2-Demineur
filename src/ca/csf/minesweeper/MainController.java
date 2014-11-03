@@ -80,7 +80,6 @@ public class MainController extends SimpleFXController implements
 
 			timerUtils = TimerUtils.getInstance();
 			timerUtils.addObserver(this);
-			
 
 			faceButton.setGraphic(new ImageView(new Image(getClass()
 					.getResourceAsStream("resources/normal.png"))));
@@ -239,11 +238,11 @@ public class MainController extends SimpleFXController implements
 	public void gameIsWon(boolean gameIsWon) {
 		faceButton.setGraphic(new ImageView(new Image(getClass()
 				.getResourceAsStream("resources/win.png"))));
-		
+
 		gameIsFinish();
 	}
-	
-	public void gameIsFinish(){
+
+	public void gameIsFinish() {
 		for (int x = 0; x < sizeX; ++x) {
 			for (int y = 0; y < sizeY; ++y) {
 				cellButtonArray[x][y].setDisable(true);
@@ -263,10 +262,14 @@ public class MainController extends SimpleFXController implements
 			cellButtonArray[coordX][coordY].setGraphic(new ImageView(new Image(
 					getClass().getResourceAsStream("resources/QUESTION.png"))));
 			cellButtonArray[coordX][coordY].setSelected(false);
-		} else if (((!cell.isHidden && (!cell.isFlagged || !cell.isNotSure)) || this.hint)
-				&& cell.type == Cell.CellType.MINE) {
-			cellButtonArray[coordX][coordY].setGraphic(new ImageView(new Image(
-					getClass().getResourceAsStream("resources/MINE.png"))));
+		} else if ((!cell.isHidden && !cell.isFlagged) && cell.type == Cell.CellType.MINE) {
+				cellButtonArray[coordX][coordY].setGraphic(new ImageView(
+						new Image(getClass().getResourceAsStream(
+								"resources/MINE.png"))));
+		} else if (this.hint && cell.type == Cell.CellType.MINE) {
+			cellButtonArray[coordX][coordY].setGraphic(new ImageView(
+					new Image(getClass().getResourceAsStream(
+							"resources/MINE.png"))));
 		} else {
 			if (!cell.isHidden) {
 				cellButtonArray[coordX][coordY].setDisable(true);
