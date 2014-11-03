@@ -43,6 +43,7 @@ public final class TimerUtils {
 	public void resetTimer(){
 		this.time = 0;
 		startTimer();
+		//TODO should resetTimer start the timer ?
 	}
 
 	public void addObserver(TimerUtilsObserver observer) {

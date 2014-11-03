@@ -17,6 +17,7 @@ public class Minesweeper implements TimerUtilsObserver{
 	private boolean playerIsDead;
 	private boolean gameIsWon;
 	private int flagsLeft;
+	private Scoreboard scoreboard;
 
 	public Minesweeper() {
 		observers = new ArrayList<MinesweeperObserver>();
@@ -70,6 +71,8 @@ public class Minesweeper implements TimerUtilsObserver{
 		this.flagsLeft = nbMines;
 		this.playerIsDead = false;
 		this.gameIsWon = false;
+		
+		scoreboard = new Scoreboard();
 
 		cellArray = new Cell[sizeX][sizeY];
 		
@@ -88,7 +91,9 @@ public class Minesweeper implements TimerUtilsObserver{
 			minesPositions[i] = (int) randomNumbers.get(i);
 		}
 		initializeCellArray();
+		
 		timerUtils.startTimer();
+		
 		for (MinesweeperObserver observer : observers){
 			observer.setNumberOfFlagsLeft(flagsLeft);
 		}
@@ -302,10 +307,16 @@ public class Minesweeper implements TimerUtilsObserver{
 			}
 		}
 		
+		timerUtils.stopTimer();
+		gameIsWon = true;
+		
 		System.out.println("Game is won !");
 		
-		for (MinesweeperObserver observer : observers){
+		boolean isHighScore = (scoreboard.isHighScore(timerUtils.getTime()));
+		
+		for (MinesweeperObserver observer : observers) {
 			observer.gameIsWon(gameIsWon);
+			observer.scoreIsHighScore(isHighScore);
 		}
 		
 		return true;
