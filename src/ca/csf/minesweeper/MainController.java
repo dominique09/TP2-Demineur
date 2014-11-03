@@ -112,21 +112,20 @@ public class MainController extends SimpleFXController implements
 		}
 	}
 
-	private final class EventHandlerImplementation implements
-			EventHandler<MouseEvent> {
+	private final class EventHandlerImplementation implements EventHandler<MouseEvent> {
 		private int cellX, cellY;
-
-		EventHandlerImplementation(int cellX, int cellY) {
+		
+		EventHandlerImplementation(int cellX,int cellY){
 			this.cellX = cellX;
 			this.cellY = cellY;
 		}
-
+		
 		@Override
 		public void handle(MouseEvent event) {
 			if (event.getButton() == MouseButton.PRIMARY) {
-				minesweeper.activate(this.cellX, this.cellY);
+				minesweeper.activate(this.cellX,this.cellY);
 			} else {
-				minesweeper.toggleCellState(this.cellX, this.cellY);
+				minesweeper.toggleCellState(this.cellX,this.cellY);
 			}
 		}
 	}
@@ -162,7 +161,7 @@ public class MainController extends SimpleFXController implements
 	public void levelChange() {
 		newGame();
 	}
-
+	
 	@FXML
 	public void hintCheck() {
 		this.hint = !this.hint;
