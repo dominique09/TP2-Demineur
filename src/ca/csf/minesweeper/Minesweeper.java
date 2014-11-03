@@ -315,13 +315,18 @@ public class Minesweeper implements TimerUtilsObserver{
 		
 		System.out.println("Game is won !");
 		
-		boolean isHighScore = (scoreboard.isHighScore(timerUtils.getTime()));
 		
 		for (MinesweeperObserver observer : observers) {
-			observer.gameIsWon(gameIsWon);
-			observer.scoreIsHighScore(isHighScore);
+			observer.gameIsWon();
 		}
 		
+		boolean isHighScore = (scoreboard.isHighScore(timerUtils.getTime()));
+		
+		if (isHighScore){
+			for (MinesweeperObserver observer : observers) {
+				observer.scoreIsHighScore();
+			}
+		}
 		return true;
 	}
 
