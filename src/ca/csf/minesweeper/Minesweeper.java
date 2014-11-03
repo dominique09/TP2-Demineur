@@ -169,6 +169,7 @@ public class Minesweeper implements TimerUtilsObserver{
 					cellArray[x][y].isHidden = false;
 					this.playerIsDead = true;
 					
+					// Notify observers of mines positions
 					for (MinesweeperObserver observer : observers){
 						observer.updateCell(x, y, cellArray[x][y]);
 					}
@@ -176,6 +177,7 @@ public class Minesweeper implements TimerUtilsObserver{
 			}
 		}
 		
+		// Notify observers that player is dead at coordX, coordY
 		for (MinesweeperObserver observer : observers){
 			observer.playerIsDead(coordX, coordY);
 		}
