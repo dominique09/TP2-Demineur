@@ -360,4 +360,8 @@ public class Minesweeper implements TimerUtilsObserver{
 	@Override
 	public void timeChange(String time) {
 	}
+	
+	public Scoreboard getScoreboard(){
+		return this.scoreboard;
+	}
 }
