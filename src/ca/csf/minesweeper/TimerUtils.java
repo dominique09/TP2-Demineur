@@ -54,4 +54,8 @@ public final class TimerUtils {
 			observer.timeChange((this.time).toString());
 		}
 	}
+	
+	public int getTime(){
+		return this.time;
+	}
 }
