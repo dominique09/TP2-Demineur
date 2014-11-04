@@ -17,7 +17,7 @@ public class Minesweeper implements TimerUtilsObserver{
 	private boolean playerIsDead;
 	private boolean gameIsWon;
 	private int flagsLeft;
-	
+	private Scoreboard scoreboard;
 
 	public Minesweeper() {
 		observers = new ArrayList<MinesweeperObserver>();
@@ -72,6 +72,8 @@ public class Minesweeper implements TimerUtilsObserver{
 		this.playerIsDead = false;
 		this.gameIsWon = false;
 
+		this.scoreboard = new Scoreboard();
+		
 		cellArray = new Cell[sizeX][sizeY];
 		
 		// Generate random mines positions
