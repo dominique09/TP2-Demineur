@@ -3,15 +3,32 @@ package ca.csf.minesweeper;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class Minesweeper {
+public class Minesweeper implements TimerUtilsObserver{
+	
+	private ArrayList<MinesweeperObserver> observers;
+	
+	public TimerUtils timerUtils;
+
 	private Cell[][] cellArray;
 	private int sizeX;
 	private int sizeY;
 	private int nbMines;
 	private int[] minesPositions;
 	private boolean playerIsDead;
+	private boolean gameIsWon;
 	private int flagsLeft;
+	private Scoreboard scoreboard;
 
+	public Minesweeper() {
+		observers = new ArrayList<MinesweeperObserver>();
+		timerUtils = TimerUtils.getInstance();
+		
+	}
+	
+	public void addObserver(MinesweeperObserver observer) {
+		observers.add(observer);
+	}
+	
 	public static enum Difficulty {
 		EASY(10, 9, 9), MEDIUM(40, 16, 16), HARD(99, 30, 16);
 
@@ -43,20 +60,22 @@ public class Minesweeper {
 				difficulty.getSizeY());
 	}
 
-	public void newGame(int nbMines, int sizeX, int sizeY)
-			throws IndexOutOfBoundsException {
+	public void newGame(int nbMines, int sizeX, int sizeY) throws IndexOutOfBoundsException {
 
 		if (sizeX < 0 || sizeY < 0 || nbMines < 1) {
-			throw new IndexOutOfBoundsException(
-					"Les valeurs doivent être positives");
+			throw new IndexOutOfBoundsException("Les valeurs doivent être positives");
 		}
 		this.sizeX = sizeX;
 		this.sizeY = sizeY;
 		this.nbMines = nbMines;
 		this.flagsLeft = nbMines;
 		this.playerIsDead = false;
+		this.gameIsWon = false;
+		
+		scoreboard = new Scoreboard();
 
 		cellArray = new Cell[sizeX][sizeY];
+		
 		// Generate random mines positions
 		ArrayList<Integer> randomNumbers = new ArrayList<Integer>(sizeX * sizeY);
 		for (int i = 0; i < sizeX * sizeY; ++i) {
@@ -72,6 +91,12 @@ public class Minesweeper {
 			minesPositions[i] = (int) randomNumbers.get(i);
 		}
 		initializeCellArray();
+
+		timerUtils.resetTimer();
+		
+		for (MinesweeperObserver observer : observers){
+			observer.setNumberOfFlagsLeft(flagsLeft);
+		}
 	}
 
 	void initializeCellArray() {
@@ -90,7 +115,6 @@ public class Minesweeper {
 				calculateMinesTouched(i, j);
 			}
 		}
-
 		displayCellArray();
 	}
 
@@ -130,42 +154,60 @@ public class Minesweeper {
 	public void activate(int coordX, int coordY) {
 		
 		if (!cellArray[coordX][coordY].isFlagged && !cellArray[coordX][coordY].isNotSure){
-		
-		
 			if (cellArray[coordX][coordY].type == Cell.CellType.MINE) { // If step on a mine
-				// Show all mines and die
-	
-				for (Cell[] row : cellArray) {
-					for (Cell cell : row) {
-						if (cell.type == Cell.CellType.MINE) {
-							cell.isHidden = false;
-							this.playerIsDead = true;
-	
-						}
-					}
-				}
+				playerDead(coordX, coordY);
 			} else {
 				discover(coordX, coordY);
 			}
-	
+			
+			checkIfGameWon();
 			displayCellArray();
 		}
 	}
 	
+	private void playerDead(int coordX, int coordY) {
+
+		timerUtils.stopTimer();
+		
+		System.out.println("You are dead.");
+
+		cellArray[coordX][coordY].type = Cell.CellType.MINEEXPLODED;
+		
+		for (int x = 0; x < sizeX; ++x) {
+			for (int y = 0; y < sizeY; ++y) {
+				if (cellArray[x][y].type == Cell.CellType.MINE || cellArray[x][y].type == Cell.CellType.MINEEXPLODED) {
+					cellArray[x][y].isHidden = false;
+					this.playerIsDead = true;
+					
+					for (MinesweeperObserver observer : observers){
+						observer.updateCell(x, y, cellArray[x][y]);
+					}
+				}
+			}
+		}
+		
+		for (MinesweeperObserver observer : observers){
+			observer.playerIsDead();
+		}
+	}
+
 	public void toggleCellState(int coordX, int coordY){
 		if (cellArray[coordX][coordY].isHidden){
 			if (!cellArray[coordX][coordY].isFlagged && !cellArray[coordX][coordY].isNotSure){
 				cellArray[coordX][coordY].isFlagged = true;
 				flagsLeft--;
-			}
-			else if (cellArray[coordX][coordY].isFlagged){
+			} else if (cellArray[coordX][coordY].isFlagged){
 				cellArray[coordX][coordY].isFlagged = false;
 				cellArray[coordX][coordY].isNotSure = true;
 				flagsLeft++;
-			}
-			else if (cellArray[coordX][coordY].isNotSure){
+			} else if (cellArray[coordX][coordY].isNotSure){
 				cellArray[coordX][coordY].isFlagged = false;
 				cellArray[coordX][coordY].isNotSure = false;
+			}
+			
+			for (MinesweeperObserver observer : observers){
+				observer.setNumberOfFlagsLeft(flagsLeft);
+				observer.updateCell(coordX, coordY, cellArray[coordX][coordY]);
 			}
 		}
 	}
@@ -173,7 +215,7 @@ public class Minesweeper {
 	private void discover(int coordX, int coordY) {
 		cellArray[coordX][coordY].isHidden = false;
 		displayCellArray();
-		if (cellArray[coordX][coordY].type == Cell.CellType.EMPTY){
+		if (cellArray[coordX][coordY].type == Cell.CellType.EMPTY) {
 			int startingValueX = -1;
 			int startingValueY = -1;
 			int endingValueX = 1;
@@ -193,10 +235,16 @@ public class Minesweeper {
 
 			for (int i = startingValueX; i <= endingValueX; i++) {
 				for (int j = startingValueY; j <= endingValueY; j++) {
-					if (cellArray[coordX + i][coordY + j].isHidden == true)
+					if (cellArray[coordX + i][coordY + j].isHidden == true
+							&& !cellArray[coordX + i][coordY + j].isFlagged
+							&& !cellArray[coordX + i][coordY + j].isNotSure) {
 						discover(coordX + i, coordY + j);
+					}
 				}
 			}
+		}
+		for (MinesweeperObserver observer : observers){
+			observer.updateCell(coordX, coordY, cellArray[coordX][coordY]);
 		}
 	}
 
@@ -252,9 +300,34 @@ public class Minesweeper {
 		}
 		System.out.println("===END===");
 	}
-
-	public void hintActivate() {
-		// When Teacher decide to activate special glasses to see mines. :P
+	
+	private boolean checkIfGameWon(){
+		for (Cell[] cellRow : cellArray){
+			for (Cell cell : cellRow){
+				if (cell.type != Cell.CellType.MINE && cell.isHidden){
+					return false;
+				}
+			}
+		}
+		
+		timerUtils.stopTimer();
+		gameIsWon = true;
+		
+		System.out.println("Game is won !");
+		
+		
+		for (MinesweeperObserver observer : observers) {
+			observer.gameIsWon();
+		}
+		
+		boolean isHighScore = (scoreboard.isHighScore(timerUtils.getTime()));
+		
+		if (isHighScore){
+			for (MinesweeperObserver observer : observers) {
+				observer.scoreIsHighScore();
+			}
+		}
+		return true;
 	}
 
 	public Cell[][] getCellArray() {
@@ -282,5 +355,13 @@ public class Minesweeper {
 	}
 	public int getFlagsLeft(){
 		return this.flagsLeft;
+	}
+
+	@Override
+	public void timeChange(String time) {
+	}
+	
+	public Scoreboard getScoreboard(){
+		return this.scoreboard;
 	}
 }

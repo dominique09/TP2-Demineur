@@ -9,35 +9,53 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.util.Duration;
 
-public final class TimerUtils {
+public class TimerUtils {
+	private static TimerUtils instance;
 	private List<TimerUtilsObserver> observers;
 	private Integer time;
 	private KeyFrame keyFrame;
 	private Timeline timeLine;
 
-	public TimerUtils() {
+	private final class EventHandlerImplementation implements
+			EventHandler<ActionEvent> {
+		@Override
+		public void handle(ActionEvent event) {
+			timeChange();
+		}
+	}
+
+	static {
+		instance = new TimerUtils();
+	}
+	
+	private TimerUtils() {
 		time = 0;
-		
+
 		observers = new ArrayList<TimerUtilsObserver>();
-		
+
 		keyFrame = new KeyFrame(Duration.seconds(1),
-				new EventHandler<ActionEvent>() {
-					@Override
-					public void handle(ActionEvent event) {
-						time++;
-						timeChange();
-					}
-				});
-		timeLine = new Timeline(keyFrame);;
+				new EventHandlerImplementation());
+
+		timeLine = new Timeline(keyFrame);
 		timeLine.setCycleCount(Timeline.INDEFINITE);
 	}
 	
-	public void startTimer(){
+	public static TimerUtils getInstance(){
+		return instance;
+	}
+
+	public void startTimer() {
 		timeLine.play();
 	}
-	
-	public void stopTimer(){
+
+	public void stopTimer() {
 		timeLine.stop();
+	}
+
+	public void resetTimer() {
+		this.time = 0;
+		startTimer();
+		//TODO should resetTimer start the timer ?
 	}
 
 	public void addObserver(TimerUtilsObserver observer) {
@@ -45,8 +63,13 @@ public final class TimerUtils {
 	}
 
 	public void timeChange() {
+		time++;
 		for (TimerUtilsObserver observer : observers) {
 			observer.timeChange((this.time).toString());
 		}
+	}
+	
+	public int getTime(){
+		return this.time;
 	}
 }
