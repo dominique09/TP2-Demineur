@@ -38,4 +38,8 @@ public class Scoreboard {
 			e.printStackTrace();
 		}
 	}
+
+	public Stack<Score> getScoreStack() {
+		return this.scores;
+	}
 }
