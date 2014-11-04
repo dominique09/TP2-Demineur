@@ -80,7 +80,6 @@ public class MainController extends SimpleFXController implements
 
 			timerUtils = TimerUtils.getInstance();
 			timerUtils.addObserver(this);
-			
 
 			faceButton.setGraphic(new ImageView(new Image(getClass()
 					.getResourceAsStream("resources/normal.png"))));
@@ -113,21 +112,20 @@ public class MainController extends SimpleFXController implements
 		}
 	}
 
-	private final class EventHandlerImplementation implements
-			EventHandler<MouseEvent> {
+	private final class EventHandlerImplementation implements EventHandler<MouseEvent> {
 		private int cellX, cellY;
-
-		EventHandlerImplementation(int cellX, int cellY) {
+		
+		EventHandlerImplementation(int cellX,int cellY){
 			this.cellX = cellX;
 			this.cellY = cellY;
 		}
-
+		
 		@Override
 		public void handle(MouseEvent event) {
 			if (event.getButton() == MouseButton.PRIMARY) {
-				minesweeper.activate(this.cellX, this.cellY);
+				minesweeper.activate(this.cellX,this.cellY);
 			} else {
-				minesweeper.toggleCellState(this.cellX, this.cellY);
+				minesweeper.toggleCellState(this.cellX,this.cellY);
 			}
 		}
 	}
@@ -239,11 +237,11 @@ public class MainController extends SimpleFXController implements
 	public void gameIsWon(boolean gameIsWon) {
 		faceButton.setGraphic(new ImageView(new Image(getClass()
 				.getResourceAsStream("resources/win.png"))));
-		
+
 		gameIsFinish();
 	}
-	
-	public void gameIsFinish(){
+
+	public void gameIsFinish() {
 		for (int x = 0; x < sizeX; ++x) {
 			for (int y = 0; y < sizeY; ++y) {
 				cellButtonArray[x][y].setDisable(true);
@@ -263,10 +261,14 @@ public class MainController extends SimpleFXController implements
 			cellButtonArray[coordX][coordY].setGraphic(new ImageView(new Image(
 					getClass().getResourceAsStream("resources/QUESTION.png"))));
 			cellButtonArray[coordX][coordY].setSelected(false);
-		} else if (((!cell.isHidden && (!cell.isFlagged || !cell.isNotSure)) || this.hint)
-				&& cell.type == Cell.CellType.MINE) {
-			cellButtonArray[coordX][coordY].setGraphic(new ImageView(new Image(
-					getClass().getResourceAsStream("resources/MINE.png"))));
+		} else if ((!cell.isHidden && !cell.isFlagged) && cell.type == Cell.CellType.MINE) {
+				cellButtonArray[coordX][coordY].setGraphic(new ImageView(
+						new Image(getClass().getResourceAsStream(
+								"resources/MINE.png"))));
+		} else if (this.hint && cell.type == Cell.CellType.MINE) {
+			cellButtonArray[coordX][coordY].setGraphic(new ImageView(
+					new Image(getClass().getResourceAsStream(
+							"resources/MINE.png"))));
 		} else {
 			if (!cell.isHidden) {
 				cellButtonArray[coordX][coordY].setDisable(true);
@@ -288,11 +290,5 @@ public class MainController extends SimpleFXController implements
 	@Override
 	public void setNumberOfFlagsLeft(int nbFlags) {
 		this.minesLabel.setText(Integer.toString(nbFlags));
-	}
-
-	@Override
-	public void scoreIsHighScore(boolean scoreIsHighScore) {
-		// TODO Auto-generated method stub
-		
 	}
 }

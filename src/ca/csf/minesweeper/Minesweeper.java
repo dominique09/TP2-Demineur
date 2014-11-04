@@ -17,7 +17,7 @@ public class Minesweeper implements TimerUtilsObserver{
 	private boolean playerIsDead;
 	private boolean gameIsWon;
 	private int flagsLeft;
-	private Scoreboard scoreboard;
+	
 
 	public Minesweeper() {
 		observers = new ArrayList<MinesweeperObserver>();
@@ -71,8 +71,6 @@ public class Minesweeper implements TimerUtilsObserver{
 		this.flagsLeft = nbMines;
 		this.playerIsDead = false;
 		this.gameIsWon = false;
-		
-		scoreboard = new Scoreboard();
 
 		cellArray = new Cell[sizeX][sizeY];
 		
@@ -93,7 +91,7 @@ public class Minesweeper implements TimerUtilsObserver{
 		initializeCellArray();
 
 		timerUtils.resetTimer();
-		
+
 		for (MinesweeperObserver observer : observers){
 			observer.setNumberOfFlagsLeft(flagsLeft);
 		}
@@ -309,9 +307,6 @@ public class Minesweeper implements TimerUtilsObserver{
 				}
 			}
 		}
-		
-		timerUtils.stopTimer();
-		gameIsWon = true;
 		
 		System.out.println("Game is won !");
 		
