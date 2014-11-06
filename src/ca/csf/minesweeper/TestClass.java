@@ -10,6 +10,15 @@ public class TestClass {
 		try {
 			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 			msGame.newGame(Minesweeper.Difficulty.MEDIUM);
+			
+			Scoreboard sb = new Scoreboard("scores.txt");
+			
+			while(!sb.getScoreStack().isEmpty()){
+				Score score = sb.getScoreStack().pop();
+				System.out.println(score.name + "\t" + score.time + "\n");
+			}
+			sb.addScore(10, "WorldChampion");
+			
 			while (true){
 			System.out.println("Entrez un X");
 			int x = Integer.parseInt(br.readLine());

@@ -72,7 +72,7 @@ public class Minesweeper implements TimerUtilsObserver{
 		this.playerIsDead = false;
 		this.gameIsWon = false;
 		
-		scoreboard = new Scoreboard();
+		scoreboard = new Scoreboard("scores.txt");
 
 		cellArray = new Cell[sizeX][sizeY];
 		
