@@ -1,6 +1,7 @@
 package ca.csf.minesweeper;
 
 public interface MinesweeperObserver {
+
 	public void playerIsDead();
 	public void gameIsWon();
 	public void scoreIsHighScore();
