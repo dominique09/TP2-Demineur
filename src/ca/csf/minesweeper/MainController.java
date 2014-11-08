@@ -234,7 +234,7 @@ public class MainController extends SimpleFXController implements
 	}
 
 	@Override
-	public void gameIsWon(boolean gameIsWon) {
+	public void gameIsWon() {
 		faceButton.setGraphic(new ImageView(new Image(getClass()
 				.getResourceAsStream("resources/win.png"))));
 
@@ -290,12 +290,6 @@ public class MainController extends SimpleFXController implements
 	@Override
 	public void setNumberOfFlagsLeft(int nbFlags) {
 		this.minesLabel.setText(Integer.toString(nbFlags));
-	}
-
-	@Override
-	public void gameIsWon() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
