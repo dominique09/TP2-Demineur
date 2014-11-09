@@ -19,7 +19,7 @@ public class Main extends SimpleFXApplication {
 					MainController.class.getResource("application.css"),
 					new MainController());
 
-			SimpleFXStage mainFXStage = new SimpleFXStage("Démineur", StageStyle.DECORATED, mainFXScene, this);
+			SimpleFXStage mainFXStage = new SimpleFXStage("DÃ©mineur", StageStyle.DECORATED, mainFXScene, this);
 			mainFXStage.setResizable(false);
 			mainFXStage.show();
 		} catch (Exception ex) {

@@ -18,7 +18,7 @@ public class Minesweeper implements TimerUtilsObserver{
 	private boolean gameIsWon;
 	private int flagsLeft;
 	public Difficulty difficulty;
-	Scoreboard scoreboard;
+	private Scoreboard scoreboard;
 
 	public Minesweeper() {
 		observers = new ArrayList<MinesweeperObserver>();
@@ -56,9 +56,9 @@ public class Minesweeper implements TimerUtilsObserver{
 	}
 
 	public void newGame(Difficulty difficulty) throws IndexOutOfBoundsException {
-		this.difficulty = difficulty;
 		newGame(difficulty.getNbMines(), difficulty.getSizeX(),
 				difficulty.getSizeY());
+		this.difficulty = difficulty;
 	}
 
 	public void newGame(int nbMines, int sizeX, int sizeY) throws IndexOutOfBoundsException {
@@ -375,4 +375,15 @@ public class Minesweeper implements TimerUtilsObserver{
 		return this.scoreboard;
 	}
 	
+	public boolean setScoreboardHighScore(String name, int time){
+		if (difficulty == Difficulty.EASY){
+			return scoreboard.setEasyHighScore(name, time);
+		}
+		else if (difficulty == Difficulty.MEDIUM){
+			return scoreboard.setMediumHighScore(name, time);
+		}
+		else {
+			return scoreboard.setHardHighScore(name, time);
+		}
+	}
 }
