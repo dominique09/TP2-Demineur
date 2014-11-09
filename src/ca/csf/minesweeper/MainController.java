@@ -69,8 +69,8 @@ public class MainController extends SimpleFXController implements TimerUtilsObse
 
 	@FXML
 	public void initialize() {
-		//this.getSimpleFxStage().setOnFocusChanged(new MainWindowFocusHandler());
 		newGame();
+		//this.getSimpleFxStage().setOnFocusChanged(new MainWindowFocusHandler());
 	}
 
 	@FXML
@@ -103,6 +103,7 @@ public class MainController extends SimpleFXController implements TimerUtilsObse
 			cellButtonArray = new CellButton[sizeX][sizeY];
 
 			placeTile();
+			showMines();
 
 			if (this.getSimpleFxStage() != null) {
 				this.getSimpleFxStage().sizeToScene();
@@ -142,10 +143,8 @@ public class MainController extends SimpleFXController implements TimerUtilsObse
 			}
 
 			cellButtonArray[this.cellX][this.cellY].setSelected(!minesweeper.getCellArray()[this.cellX][this.cellY].isHidden);
-			if (hint) {
-				showMines();
 
-			}
+			showMines();
 		}
 	}
 
