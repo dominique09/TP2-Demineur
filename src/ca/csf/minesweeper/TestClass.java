@@ -12,14 +12,12 @@ public class TestClass {
 			//msGame.newGame(Minesweeper.Difficulty.MEDIUM);
 			
 			
-			Scoreboard sb = new Scoreboard("ecpizscoresz.txt");
+			Scoreboard sb = new Scoreboard("boomdavis.txt");
 			
-			while(!sb.getScoreStack().isEmpty()){
-				Score score = sb.getScoreStack().pop();
-				System.out.println(score.name + "\t" + score.time + "\n");
-			}
-			sb.addScore(10, "WorldChampionBro");
-			sb.addScore(5, "Dominique");
+			sb.addScore(40, "fucker");
+			sb.addScore(30,"brobitch");
+			
+			System.out.println(sb.toString());
 			
 			while (true){
 			System.out.println("Entrez un X");

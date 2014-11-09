@@ -85,7 +85,8 @@ public class Scoreboard {
 				bw.newLine();
 				bw.write(Integer.toString(score.time));
 				bw.newLine();
-			}			
+			}
+			
 			bw.flush();
 			bw.close();
 			
@@ -98,5 +99,23 @@ public class Scoreboard {
 
 	public Stack<Score> getScoreStack() {
 		return this.scores;
+	}
+	
+	public String toString(){
+		
+		String returnString = new String("");
+		Stack<Score> tempStack = (Stack<Score>) scores.clone();
+		
+		Score tempScore;
+		
+		while (!tempStack.isEmpty()){
+			
+			tempScore = tempStack.pop();
+			
+			returnString += tempScore.name + "\n";
+			returnString += Integer.toString(tempScore.time) + "\n";
+		}
+		
+		return returnString;
 	}
 }
