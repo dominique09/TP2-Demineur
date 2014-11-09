@@ -26,9 +26,12 @@ public class Scoreboard {
 		if (name.trim() == ""){
 			return false;
 		}
-		scores.push(new Score(time, name));
-		saveScoreFile(scoresFileName);
-		return true;
+		if (isHighScore(time)){
+			scores.push(new Score(time, name));
+			saveScoreFile(scoresFileName);
+			return true;
+		}
+		return false;
 	}
 	
 	public boolean isHighScore(int time){

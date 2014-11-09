@@ -311,7 +311,7 @@ public class Minesweeper implements TimerUtilsObserver{
 		}
 		
 		System.out.println("Game is won !");
-		
+		this.gameIsWon = true;
 		
 		for (MinesweeperObserver observer : observers) {
 			observer.gameIsWon();
@@ -363,4 +363,5 @@ public class Minesweeper implements TimerUtilsObserver{
 	public Scoreboard getScoreboard(){
 		return this.scoreboard;
 	}
+	
 }

@@ -12,13 +12,6 @@ public class TestClass {
 			//msGame.newGame(Minesweeper.Difficulty.MEDIUM);
 			
 			
-			Scoreboard sb = new Scoreboard("boomdavis.txt");
-			
-			sb.addScore(40, "fucker");
-			sb.addScore(30,"brobitch");
-			
-			System.out.println(sb.toString());
-			
 			while (true){
 			System.out.println("Entrez un X");
 			int x = Integer.parseInt(br.readLine());
