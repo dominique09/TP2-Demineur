@@ -6,25 +6,25 @@ import java.io.InputStreamReader;
 public class TestClass {
 
 	public static void main(String[] args) {
-		Minesweeper msGame = new Minesweeper();
+		//Minesweeper msGame = new Minesweeper();
 		try {
 			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-			msGame.newGame(Minesweeper.Difficulty.MEDIUM);
+			//msGame.newGame(Minesweeper.Difficulty.MEDIUM);
 			
-			Scoreboard sb = new Scoreboard("scores.txt");
 			
-			while(!sb.getScoreStack().isEmpty()){
-				Score score = sb.getScoreStack().pop();
-				System.out.println(score.name + "\t" + score.time + "\n");
-			}
-			sb.addScore(10, "WorldChampion");
+			Scoreboard sb = new Scoreboard("boomdavis.txt");
+			
+			sb.addScore(40, "fucker");
+			sb.addScore(30,"brobitch");
+			
+			System.out.println(sb.toString());
 			
 			while (true){
 			System.out.println("Entrez un X");
 			int x = Integer.parseInt(br.readLine());
 			System.out.println("Entrez un Y");
 			int y = Integer.parseInt(br.readLine());
-			msGame.activate(x, y);
+			//msGame.activate(x, y);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

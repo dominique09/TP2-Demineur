@@ -27,7 +27,7 @@ public class Scoreboard {
 			return false;
 		}
 		scores.push(new Score(time, name));
-		saveScoreFile("patate.txt");
+		saveScoreFile(scoresFileName);
 		return true;
 	}
 	
@@ -43,18 +43,29 @@ public class Scoreboard {
 	private void openScoreFile(String filename){
 		try {
 			
-			URL url = getClass().getResource(filename);
+			File file = new File(filename);
 			
-			BufferedReader br = new BufferedReader(new FileReader(url.getPath()));
+			if (!file.exists()){
+				file.createNewFile();
+			}
+			
+			BufferedReader br = new BufferedReader(new FileReader(filename));
 			
 			String tempName = new String("");
-			int tempScore;
+			String tempScore = new String("");
 			
 			while (br.ready()){
-				tempName = br.readLine();
-				tempScore = Integer.parseInt(br.readLine());
+				tempName = br.readLine().trim();
+				if (tempName.isEmpty()){
+					continue;
+				}
 				
-				scores.push(new Score(tempScore, tempName));
+				tempScore = br.readLine().trim();
+				if (tempScore.isEmpty()){
+					continue;
+				}
+					
+				scores.push(new Score(Integer.parseInt(tempScore), tempName));
 			}
 			br.close();
 			
@@ -70,8 +81,10 @@ public class Scoreboard {
 			BufferedWriter bw = new BufferedWriter(new FileWriter(filename));
 			
 			for (Score score : scores){	
-				bw.write(score.name + "\n");
-				bw.write(score.time + "\n");
+				bw.write(score.name);
+				bw.newLine();
+				bw.write(Integer.toString(score.time));
+				bw.newLine();
 			}
 			
 			bw.flush();
@@ -86,5 +99,23 @@ public class Scoreboard {
 
 	public Stack<Score> getScoreStack() {
 		return this.scores;
+	}
+	
+	public String toString(){
+		
+		String returnString = new String("");
+		Stack<Score> tempStack = (Stack<Score>) scores.clone();
+		
+		Score tempScore;
+		
+		while (!tempStack.isEmpty()){
+			
+			tempScore = tempStack.pop();
+			
+			returnString += tempScore.name + "\n";
+			returnString += Integer.toString(tempScore.time) + "\n";
+		}
+		
+		return returnString;
 	}
 }

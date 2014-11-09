@@ -127,16 +127,16 @@ public class MainController extends SimpleFXController implements TimerUtilsObse
 
 	private final class EventHandlerImplementation implements EventHandler<MouseEvent> {
 		private int cellX, cellY;
-
-		EventHandlerImplementation(int cellX, int cellY) {
+		
+		EventHandlerImplementation(int cellX,int cellY){
 			this.cellX = cellX;
 			this.cellY = cellY;
 		}
-
+		
 		@Override
 		public void handle(MouseEvent event) {
 			if (event.getButton() == MouseButton.PRIMARY) {
-				minesweeper.activate(this.cellX, this.cellY);
+				minesweeper.activate(this.cellX,this.cellY);
 			} else {
 				minesweeper.toggleCellState(this.cellX, this.cellY);
 			}
@@ -144,6 +144,7 @@ public class MainController extends SimpleFXController implements TimerUtilsObse
 			cellButtonArray[this.cellX][this.cellY].setSelected(!minesweeper.getCellArray()[this.cellX][this.cellY].isHidden);
 			if (hint) {
 				showMines();
+
 			}
 		}
 	}
