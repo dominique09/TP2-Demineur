@@ -5,8 +5,8 @@ public class Score {
 	public int time;
 	public String name;
 	
-	public Score(int time, String name){
-		this.time = time;
+	public Score(String name, int time){
 		this.name = name;
+		this.time = time;
 	}
 }
