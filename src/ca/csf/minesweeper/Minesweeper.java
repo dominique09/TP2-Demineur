@@ -22,7 +22,6 @@ public class Minesweeper implements TimerUtilsObserver{
 	public Minesweeper() {
 		observers = new ArrayList<MinesweeperObserver>();
 		timerUtils = TimerUtils.getInstance();
-		
 	}
 	
 	public void addObserver(MinesweeperObserver observer) {

@@ -13,33 +13,57 @@ import java.net.URL;
 import java.util.Stack;
 
 public class Scoreboard {
-	private Stack<Score> scores;
+	private Score easyHighScore;
+	private Score mediumHighScore;
+	private Score hardHighScore;
 	private String scoresFileName;
 	
 	public Scoreboard(String scoresFileName) {
-		scores = new Stack<Score>();
+		
+		easyHighScore = null;
+		mediumHighScore = null;
+		hardHighScore = null;
 		
 		this.scoresFileName = scoresFileName;
 		openScoreFile(this.scoresFileName);
 	}
-	public boolean addScore(int time, String name){ // Returns true if score is high score
-		if (name.trim() == ""){
-			return false;
-		}
-		if (isHighScore(time)){
-			scores.push(new Score(time, name));
-			saveScoreFile(scoresFileName);
-			return true;
-		}
-		return false;
+	
+	public boolean isEasyHighScore(int time){
+		return (easyHighScore.time > time);
 	}
 	
-	public boolean isHighScore(int time){
-		for (Score score : scores){
-			if (score.time < time){
-				return false;
-			}
+	public boolean isMediumHighScore(int time){
+		return (mediumHighScore.time > time);
+	}
+	
+	public boolean isHardHighScore(int time){
+		return (hardHighScore.time > time);
+	}
+	
+	public boolean setEasyHighScore(String name, int time){
+		if (name.trim().isEmpty() || !isEasyHighScore(time)){
+			return false;
 		}
+		easyHighScore = new Score(name, time);
+		saveScoreFile(scoresFileName);
+		return true;
+	}
+	
+	public boolean setMediumHighScore(String name, int time){
+		if (name.trim().isEmpty() || !isMediumHighScore(time)){
+			return false;
+		}
+		mediumHighScore = new Score(name, time);
+		saveScoreFile(scoresFileName);
+		return true;
+	}
+	
+	public boolean setHardHighScore(String name, int time){
+		if (name.trim().isEmpty() || !isHardHighScore(time)){
+			return false;
+		}
+		hardHighScore = new Score(name, time);
+		saveScoreFile(scoresFileName);
 		return true;
 	}
 	
@@ -54,22 +78,9 @@ public class Scoreboard {
 			
 			BufferedReader br = new BufferedReader(new FileReader(filename));
 			
-			String tempName = new String("");
-			String tempScore = new String("");
-			
-			while (br.ready()){
-				tempName = br.readLine().trim();
-				if (tempName.isEmpty()){
-					continue;
-				}
-				
-				tempScore = br.readLine().trim();
-				if (tempScore.isEmpty()){
-					continue;
-				}
-					
-				scores.push(new Score(Integer.parseInt(tempScore), tempName));
-			}
+			easyHighScore = new Score(br.readLine().trim(), Integer.valueOf(br.readLine().trim()));
+			mediumHighScore = new Score(br.readLine().trim(), Integer.valueOf(br.readLine().trim()));
+			hardHighScore = new Score(br.readLine().trim(), Integer.valueOf(br.readLine().trim()));
 			br.close();
 			
 		} catch (FileNotFoundException e) {
@@ -83,12 +94,20 @@ public class Scoreboard {
 		try {
 			BufferedWriter bw = new BufferedWriter(new FileWriter(filename));
 			
-			for (Score score : scores){	
-				bw.write(score.name);
-				bw.newLine();
-				bw.write(Integer.toString(score.time));
-				bw.newLine();
-			}
+			bw.write(easyHighScore.name);
+			bw.newLine();
+			bw.write(Integer.toString(easyHighScore.time));
+			bw.newLine();
+			
+			bw.write(mediumHighScore.name);
+			bw.newLine();
+			bw.write(Integer.toString(mediumHighScore.time));
+			bw.newLine();
+			
+			bw.write(hardHighScore.name);
+			bw.newLine();
+			bw.write(Integer.toString(hardHighScore.time));
+			bw.newLine();
 			
 			bw.flush();
 			bw.close();
@@ -100,25 +119,15 @@ public class Scoreboard {
 		}
 	}
 
-	public Stack<Score> getScoreStack() {
-		return this.scores;
+	public Score getEasyHighScore(){
+		return this.easyHighScore;
 	}
 	
-	public String toString(){
-		
-		String returnString = new String("");
-		Stack<Score> tempStack = (Stack<Score>) scores.clone();
-		
-		Score tempScore;
-		
-		while (!tempStack.isEmpty()){
-			
-			tempScore = tempStack.pop();
-			
-			returnString += tempScore.name + "\n";
-			returnString += Integer.toString(tempScore.time) + "\n";
-		}
-		
-		return returnString;
+	public Score getMediumHighScore() {
+		return this.mediumHighScore;
+	}
+	
+	public Score getHardHighScore(){
+		return this.hardHighScore;
 	}
 }
