@@ -15,7 +15,6 @@ public class Minesweeper implements TimerUtilsObserver{
 	private int nbMines;
 	private int[] minesPositions;
 	private boolean playerIsDead;
-	private boolean gameIsWon;
 	private int flagsLeft;
 	public Difficulty difficulty;
 	private Scoreboard scoreboard;
@@ -71,7 +70,6 @@ public class Minesweeper implements TimerUtilsObserver{
 		this.nbMines = nbMines;
 		this.flagsLeft = nbMines;
 		this.playerIsDead = false;
-		this.gameIsWon = false;
 		
 		scoreboard = new Scoreboard("scores.txt");
 
@@ -314,7 +312,6 @@ public class Minesweeper implements TimerUtilsObserver{
 		timerUtils.stopTimer();
 		
 		System.out.println("Game is won !");
-		this.gameIsWon = true;
 		
 		for (MinesweeperObserver observer : observers) {
 			observer.gameIsWon();

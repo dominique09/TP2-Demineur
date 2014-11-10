@@ -70,10 +70,14 @@ public class MainController extends SimpleFXController implements TimerUtilsObse
 
 	@FXML
 	public void initialize() {
-	//	this.getSimpleFxStage().setOnFocusChanged(new MainWindowFocusHandler());
 		newGame();
 	}
 
+	@Override
+	public void onLoadedStage(){
+		this.getSimpleFxStage().setOnFocusChanged(new MainWindowFocusHandler());
+	}
+	
 	@FXML
 	public void newGame() {
 		try {
@@ -211,7 +215,7 @@ public class MainController extends SimpleFXController implements TimerUtilsObse
 	@FXML
 	public void openResults() {
 		try {
-			SimpleFXScene resultScene = new SimpleFXScene(ResultController.class.getResource("Result.fxml"), new ResultController());
+			SimpleFXScene resultScene = new SimpleFXScene(ResultController.class.getResource("Result.fxml"), new ResultController(minesweeper));
 
 			SimpleFXStage resultStage = new SimpleFXStage("Meilleurs Temps !", StageStyle.UTILITY, resultScene, this.getSimpleFXApplication(),
 					this.getSimpleFxStage());
@@ -316,6 +320,11 @@ public class MainController extends SimpleFXController implements TimerUtilsObse
 		String playerName = "";
 		do{
 			playerName = SimpleFXDialogs.showInputBox("Meilleur résultat", "Veuillez entrer votre nom : ", this.getSimpleFxStage());
-		} while(!minesweeper.getScoreboard().setScoreboardHighScore(playerName, timerUtils.getTime()));
+			if (playerName == null){
+				return;
+			}
+		} while(playerName.trim().isEmpty());
+		
+		minesweeper.setScoreboardHighScore(playerName, timerUtils.getTime());
 	}
 }

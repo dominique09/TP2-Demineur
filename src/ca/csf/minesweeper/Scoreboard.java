@@ -14,8 +14,6 @@ public class Scoreboard {
 	private Score hardHighScore;
 	private String scoresFileName;
 	
-	private static final String FALLBACK_SCORES_FILENAME = "default_scores.txt"; 
-	
 	public Scoreboard(String scoresFileName) {
 		
 		easyHighScore = null;
@@ -71,11 +69,7 @@ public class Scoreboard {
 			File file = new File(filename);
 			
 			if (!file.exists()){
-				File fallbackFile = new File(FALLBACK_SCORES_FILENAME);
-				if (!fallbackFile.exists()){
-					throw new FileNotFoundException("Fallback file not found.");
-				}
-				openScoreFile(FALLBACK_SCORES_FILENAME);
+				resetScoreboard();
 				return;
 			}
 			
@@ -123,7 +117,9 @@ public class Scoreboard {
 	}
 	
 	public void resetScoreboard(){
-		openScoreFile(FALLBACK_SCORES_FILENAME);
+		easyHighScore = new Score("-----", 999);
+		mediumHighScore = new Score("-----", 999);
+		hardHighScore = new Score("-----", 999);
 		saveScoreFile(scoresFileName);
 	}
 
