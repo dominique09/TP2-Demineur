@@ -11,6 +11,9 @@ public class TestClass {
 			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 			msGame.newGame(Minesweeper.Difficulty.MEDIUM);
 			
+			Scoreboard sb = new Scoreboard("scores.txt");
+			sb.setEasyHighScore("PATATE", 17);
+			sb.setHardHighScore("FUCK", 37);
 			
 			while (true){
 			System.out.println("Entrez un X");

@@ -64,6 +64,7 @@ public class MainController extends SimpleFXController implements TimerUtilsObse
 			else if(event.getEventType() == WindowFocusEvent.LOOSE_FOCUS){
 				timerUtils.stopTimer();
 			}
+			event.consume();
 		}  
     };
 
@@ -146,6 +147,7 @@ public class MainController extends SimpleFXController implements TimerUtilsObse
 				showMines();
 
 			}
+			event.consume();
 		}
 	}
 
@@ -307,9 +309,9 @@ public class MainController extends SimpleFXController implements TimerUtilsObse
 
 	@Override
 	public void scoreIsHighScore() {
-		String playerName = "";
+		/*String playerName = "";
 		do{
 			playerName = SimpleFXDialogs.showInputBox("Meilleur résultat", "Veuillez entrer votre nom : ", this.getSimpleFxStage());
-		} while(!minesweeper.getScoreboard().addScore(timerUtils.getTime(), playerName));
+		} while(!minesweeper.getScoreboard().addScore(timerUtils.getTime(), playerName));*/
 	}
 }
