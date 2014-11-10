@@ -18,22 +18,29 @@ public class ResultController extends SimpleFXController{
 	@FXML
 	private Label nameHard;
 	
+	private Minesweeper minesweeperGameReference;
+	
+	public ResultController(Minesweeper minesweeper) {
+		this.minesweeperGameReference = minesweeper;
+	}
+	
 	@FXML
 	public void initialize(){
 		writeResult();
 	}
 	
 	private void writeResult(){
-		timeEasy.setText("");
-		nameEasy.setText("");
-		timeMedium.setText("");
-		nameMedium.setText("");
-		timeHard.setText("999 seconds");
-		nameHard.setText("Nom Hard");
+		timeEasy.setText(Integer.toString(minesweeperGameReference.getScoreboard().getEasyHighScore().time) + " s.");
+		nameEasy.setText(minesweeperGameReference.getScoreboard().getEasyHighScore().name);
+		timeMedium.setText(Integer.toString(minesweeperGameReference.getScoreboard().getMediumHighScore().time) + " s.");
+		nameMedium.setText(minesweeperGameReference.getScoreboard().getMediumHighScore().name);
+		timeHard.setText(Integer.toString(minesweeperGameReference.getScoreboard().getHardHighScore().time) + " s.");
+		nameHard.setText(minesweeperGameReference.getScoreboard().getHardHighScore().name);
 	}
 	
 	@FXML
 	public void eraseTime(){
+		this.minesweeperGameReference.getScoreboard().resetScoreboard();
 		writeResult();
 	}
 	
