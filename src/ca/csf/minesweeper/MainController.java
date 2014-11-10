@@ -64,6 +64,7 @@ public class MainController extends SimpleFXController implements TimerUtilsObse
 			else if(event.getEventType() == WindowFocusEvent.LOOSE_FOCUS){
 				timerUtils.stopTimer();
 			}
+			event.consume();
 		}  
     };
 
@@ -146,6 +147,7 @@ public class MainController extends SimpleFXController implements TimerUtilsObse
 				showMines();
 
 			}
+			event.consume();
 		}
 	}
 
