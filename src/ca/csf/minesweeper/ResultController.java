@@ -30,11 +30,11 @@ public class ResultController extends SimpleFXController{
 	}
 	
 	private void writeResult(){
-		timeEasy.setText(Integer.toString(minesweeperGameReference.getScoreboard().getEasyHighScore().time) + " s.");
+		timeEasy.setText(Integer.toString(minesweeperGameReference.getScoreboard().getEasyHighScore().time) + " s");
 		nameEasy.setText(minesweeperGameReference.getScoreboard().getEasyHighScore().name);
-		timeMedium.setText(Integer.toString(minesweeperGameReference.getScoreboard().getMediumHighScore().time) + " s.");
+		timeMedium.setText(Integer.toString(minesweeperGameReference.getScoreboard().getMediumHighScore().time) + " s");
 		nameMedium.setText(minesweeperGameReference.getScoreboard().getMediumHighScore().name);
-		timeHard.setText(Integer.toString(minesweeperGameReference.getScoreboard().getHardHighScore().time) + " s.");
+		timeHard.setText(Integer.toString(minesweeperGameReference.getScoreboard().getHardHighScore().time) + " s");
 		nameHard.setText(minesweeperGameReference.getScoreboard().getHardHighScore().name);
 	}
 	
