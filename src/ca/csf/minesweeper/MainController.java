@@ -104,6 +104,10 @@ public class MainController extends SimpleFXController implements TimerUtilsObse
 			cellButtonArray = new CellButton[sizeX][sizeY];
 
 			placeTile();
+			
+			if (hint){
+				showMines();
+			}
 
 			if (this.getSimpleFxStage() != null) {
 				this.getSimpleFxStage().sizeToScene();
@@ -126,10 +130,10 @@ public class MainController extends SimpleFXController implements TimerUtilsObse
 		}
 	}
 
-	private final class EventHandlerImplementation implements EventHandler<MouseEvent> {
+	private final class CellClickedEventHandler implements EventHandler<MouseEvent> {
 		private int cellX, cellY;
 		
-		EventHandlerImplementation(int cellX,int cellY){
+		CellClickedEventHandler(int cellX,int cellY){
 			this.cellX = cellX;
 			this.cellY = cellY;
 		}
@@ -164,7 +168,7 @@ public class MainController extends SimpleFXController implements TimerUtilsObse
 				CellButton cellButton = new CellButton(x, y);
 				cellButton.setPrefSize(TOGGLE_BUTTON_WIDTH, TOGGLE_BUTTON_HEIGHT);
 
-				cellButton.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandlerImplementation(cellButton.x, cellButton.y));
+				cellButton.addEventHandler(MouseEvent.MOUSE_CLICKED, new CellClickedEventHandler(cellButton.x, cellButton.y));
 
 				cellButtonArray[x][y] = cellButton;
 				gameGrid.add(cellButton, x, y);
