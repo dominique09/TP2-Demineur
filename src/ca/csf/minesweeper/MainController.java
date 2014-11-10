@@ -70,10 +70,14 @@ public class MainController extends SimpleFXController implements TimerUtilsObse
 
 	@FXML
 	public void initialize() {
-	//	this.getSimpleFxStage().setOnFocusChanged(new MainWindowFocusHandler());
 		newGame();
 	}
 
+	@Override
+	public void onLoadedStage(){
+		this.getSimpleFxStage().setOnFocusChanged(new MainWindowFocusHandler());
+	}
+	
 	@FXML
 	public void newGame() {
 		try {
