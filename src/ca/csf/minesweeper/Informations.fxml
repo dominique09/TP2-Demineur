@@ -15,7 +15,7 @@
    <center>
       <VBox alignment="TOP_CENTER" prefHeight="330.0" prefWidth="270.0" BorderPane.alignment="CENTER">
          <children>
-            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="logoImageView" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                <VBox.margin>
                   <Insets top="15.0" />
                </VBox.margin>
