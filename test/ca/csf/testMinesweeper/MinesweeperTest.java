@@ -19,6 +19,7 @@ public class MinesweeperTest {
 		assertEquals(testGame.getNbMines(), 10);
 		assertEquals(testGame.getSizeX(), 9);
 		assertEquals(testGame.getSizeY(), 9);
+		
 	}
 
 	@Test

@@ -16,6 +16,7 @@ public class ScoreboardTest {
 		assertTrue(sb.setEasyHighScore("ME", 30));
 		assertEquals("ME", sb.getEasyHighScore().name);
 		assertEquals(30, sb.getEasyHighScore().time);
+		
 	}
 
 	@Test
