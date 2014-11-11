@@ -160,10 +160,7 @@ public class Minesweeper implements TimerUtilsObserver {
 		}
 
 		if (!cellArray[coordX][coordY].isFlagged && !cellArray[coordX][coordY].isNotSure) {
-			if (cellArray[coordX][coordY].type == Cell.CellType.MINE) { // If
-																		// step
-																		// on a
-																		// mine
+			if (cellArray[coordX][coordY].type == Cell.CellType.MINE) { // If step on a mine
 				playerDead(coordX, coordY);
 			} else {
 				discover(coordX, coordY);
