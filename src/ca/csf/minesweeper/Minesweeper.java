@@ -19,6 +19,8 @@ public class Minesweeper implements TimerUtilsObserver{
 	public Difficulty difficulty;
 	private Scoreboard scoreboard;
 	private boolean isFirstCellClicked;
+	private boolean gameIsWon;
+	
 
 	public Minesweeper() {
 		observers = new ArrayList<MinesweeperObserver>();
@@ -71,6 +73,7 @@ public class Minesweeper implements TimerUtilsObserver{
 		this.nbMines = nbMines;
 		this.flagsLeft = nbMines;
 		this.playerIsDead = false;
+		this.gameIsWon = false;
 		this.isFirstCellClicked = false;
 		timerUtils.reloadTimer();
 		
@@ -177,12 +180,12 @@ public class Minesweeper implements TimerUtilsObserver{
 		System.out.println("You are dead.");
 
 		cellArray[coordX][coordY].type = Cell.CellType.MINEEXPLODED;
+		this.playerIsDead = true;
 		
 		for (int x = 0; x < sizeX; ++x) {
 			for (int y = 0; y < sizeY; ++y) {
 				if (cellArray[x][y].type == Cell.CellType.MINE || cellArray[x][y].type == Cell.CellType.MINEEXPLODED) {
 					cellArray[x][y].isHidden = false;
-					this.playerIsDead = true;
 					
 					for (MinesweeperObserver observer : observers){
 						observer.updateCell(x, y, cellArray[x][y]);
@@ -318,6 +321,7 @@ public class Minesweeper implements TimerUtilsObserver{
 		timerUtils.stopTimer();
 		
 		System.out.println("Game is won !");
+		this.gameIsWon = true;
 		
 		for (MinesweeperObserver observer : observers) {
 			observer.gameIsWon();
@@ -388,5 +392,9 @@ public class Minesweeper implements TimerUtilsObserver{
 		else {
 			return scoreboard.setHardHighScore(name, time);
 		}
+	}
+	
+	public boolean isGameWon() {
+		return this.gameIsWon;
 	}
 }
