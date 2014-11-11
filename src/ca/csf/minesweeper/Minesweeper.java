@@ -72,6 +72,7 @@ public class Minesweeper implements TimerUtilsObserver{
 		this.flagsLeft = nbMines;
 		this.playerIsDead = false;
 		this.isFirstCellClicked = false;
+		timerUtils.reloadTimer();
 		
 		scoreboard = new Scoreboard("scores.txt");
 
