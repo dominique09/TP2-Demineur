@@ -4,14 +4,14 @@ public class Cell {
 	public static enum CellType {
 		EMPTY, MINE, MINEEXPLODED, ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT
 	}
-	
+
 	public boolean isHidden;
 	public boolean isFlagged;
 	public boolean isNotSure;
 	private int nbOfMinesTouched;
-	
+
 	public CellType type;
-	
+
 	public Cell(boolean isHidden) {
 		this.type = null;
 		this.isHidden = isHidden;
@@ -19,10 +19,10 @@ public class Cell {
 		this.isNotSure = false;
 		this.nbOfMinesTouched = 0;
 	}
-	
-	public void setNbOfMinesTouched(int nbOfMines){
+
+	public void setNbOfMinesTouched(int nbOfMines) {
 		this.nbOfMinesTouched = nbOfMines;
-		switch(nbOfMinesTouched){
+		switch (nbOfMinesTouched) {
 		case 0:
 			type = CellType.EMPTY;
 			break;
@@ -52,8 +52,8 @@ public class Cell {
 			break;
 		}
 	}
-	
-	public int getNbMinesTouched(){
+
+	public int getNbMinesTouched() {
 		return this.nbOfMinesTouched;
 	}
 }

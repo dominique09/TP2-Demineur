@@ -17,8 +17,7 @@ public class TimerUtils {
 	private Timeline timeLine;
 	private Boolean isInitialStart;
 
-	private final class EventHandlerImplementation implements
-			EventHandler<ActionEvent> {
+	private final class EventHandlerImplementation implements EventHandler<ActionEvent> {
 		@Override
 		public void handle(ActionEvent event) {
 			timeChange();
@@ -28,19 +27,18 @@ public class TimerUtils {
 	static {
 		instance = new TimerUtils();
 	}
-	
+
 	private TimerUtils() {
 		time = 0;
 		observers = new ArrayList<TimerUtilsObserver>();
 		this.isInitialStart = false;
-		keyFrame = new KeyFrame(Duration.seconds(1),
-				new EventHandlerImplementation());
+		keyFrame = new KeyFrame(Duration.seconds(1), new EventHandlerImplementation());
 
 		timeLine = new Timeline(keyFrame);
 		timeLine.setCycleCount(Timeline.INDEFINITE);
 	}
-	
-	public static TimerUtils getInstance(){
+
+	public static TimerUtils getInstance() {
 		return instance;
 	}
 
@@ -48,20 +46,20 @@ public class TimerUtils {
 		timeLine.play();
 	}
 
-	public void stopTimer(){
+	public void stopTimer() {
 		this.isInitialStart = false;
 		timeLine.stop();
 	}
-	
+
 	public void pauseTimer() {
 		timeLine.stop();
 	}
 
-	public void reloadTimer(){
+	public void reloadTimer() {
 		this.time = 0;
 		showTime();
 	}
-	
+
 	public void resetTimer() {
 		this.isInitialStart = true;
 		startTimer();
@@ -75,18 +73,18 @@ public class TimerUtils {
 		time++;
 		showTime();
 	}
-	
-	public void showTime(){
+
+	public void showTime() {
 		for (TimerUtilsObserver observer : observers) {
 			observer.timeChange((this.time).toString());
 		}
 	}
-	
-	public int getTime(){
+
+	public int getTime() {
 		return this.time;
 	}
-	
-	public Boolean getIsInitialStart(){
+
+	public Boolean getIsInitialStart() {
 		return this.isInitialStart;
 	}
 }

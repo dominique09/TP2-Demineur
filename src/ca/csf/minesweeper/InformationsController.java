@@ -9,15 +9,16 @@ import ca.csf.simpleFx.SimpleFXController;
 public class InformationsController extends SimpleFXController {
 	@FXML
 	public ImageView logoImageView;
-	
+
 	@FXML
-	public void initialize(){
-		logoImageView.setImage(new Image(this.getClass().getResource("resources/logo.png").toExternalForm()));;
+	public void initialize() {
+		logoImageView.setImage(new Image(this.getClass().getResource("resources/logo.png").toExternalForm()));
+		;
 	}
-	
+
 	@FXML
-	public void closeInformations(ActionEvent event){
+	public void closeInformations(ActionEvent event) {
 		this.getSimpleFxStage().close();
 	}
-	
+
 }
