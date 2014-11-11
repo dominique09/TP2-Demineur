@@ -53,22 +53,21 @@ public class MainController extends SimpleFXController implements TimerUtilsObse
 	public void timeChange(String time) {
 		timeLabel.setText(time);
 	}
-	
-	private static class MainWindowFocusHandler implements EventHandler<WindowFocusEvent> {  
+
+	private static class MainWindowFocusHandler implements EventHandler<WindowFocusEvent> {
 
 		@Override
 		public void handle(WindowFocusEvent event) {
-			if (event.getEventType() == WindowFocusEvent.GET_FOCUS){
-				if(timerUtils.getIsInitialStart()){
+			if (timerUtils.getIsInitialStart()) {
+				if (event.getEventType() == WindowFocusEvent.GET_FOCUS) {
 					timerUtils.startTimer();
+				} else if (event.getEventType() == WindowFocusEvent.LOOSE_FOCUS) {
+					timerUtils.stopTimer();
 				}
 			}
-			else if(event.getEventType() == WindowFocusEvent.LOOSE_FOCUS){
-				timerUtils.stopTimer();
-			}
 			event.consume();
-		}  
-    };
+		}
+	};
 
 	@FXML
 	public void initialize() {
@@ -76,10 +75,10 @@ public class MainController extends SimpleFXController implements TimerUtilsObse
 	}
 
 	@Override
-	public void onLoadedStage(){
+	public void onLoadedStage() {
 		this.getSimpleFxStage().setOnFocusChanged(new MainWindowFocusHandler());
 	}
-	
+
 	@FXML
 	public void newGame() {
 		try {
@@ -110,8 +109,8 @@ public class MainController extends SimpleFXController implements TimerUtilsObse
 			cellButtonArray = new CellButton[sizeX][sizeY];
 
 			placeTile();
-			
-			if (hint){
+
+			if (hint) {
 				showMines();
 			}
 
@@ -138,16 +137,16 @@ public class MainController extends SimpleFXController implements TimerUtilsObse
 
 	private final class CellClickedEventHandler implements EventHandler<MouseEvent> {
 		private int cellX, cellY;
-		
-		CellClickedEventHandler(int cellX,int cellY){
+
+		CellClickedEventHandler(int cellX, int cellY) {
 			this.cellX = cellX;
 			this.cellY = cellY;
 		}
-		
+
 		@Override
 		public void handle(MouseEvent event) {
 			if (event.getButton() == MouseButton.PRIMARY) {
-				minesweeper.activate(this.cellX,this.cellY);
+				minesweeper.activate(this.cellX, this.cellY);
 			} else {
 				minesweeper.toggleCellState(this.cellX, this.cellY);
 			}
@@ -188,13 +187,11 @@ public class MainController extends SimpleFXController implements TimerUtilsObse
 	public void showMines() {
 		for (int x = 0; x < sizeX; ++x) {
 			for (int y = 0; y < sizeY; ++y) {
-				if (minesweeper.getCellArray()[x][y].type == Cell.CellType.MINE && !minesweeper.getCellArray()[x][y].isFlagged && !minesweeper.getCellArray()[x][y].isNotSure) {
-					if(this.hint)
-					{
+				if (minesweeper.getCellArray()[x][y].type == Cell.CellType.MINE && !minesweeper.getCellArray()[x][y].isFlagged
+						&& !minesweeper.getCellArray()[x][y].isNotSure) {
+					if (this.hint) {
 						cellButtonArray[x][y].setGraphic(new ImageView(new Image(getClass().getResourceAsStream("resources/MINE.png"))));
-					}
-					else
-					{
+					} else {
 						cellButtonArray[x][y].setGraphic(null);
 					}
 				}
@@ -299,6 +296,8 @@ public class MainController extends SimpleFXController implements TimerUtilsObse
 			cellButtonArray[coordX][coordY].setGraphic(new ImageView(new Image(getClass().getResourceAsStream("resources/BAD_FLAG.png"))));
 		} else if (minesweeper.getPlayerIsDead() && cell.isNotSure && cell.type != Cell.CellType.MINE) {
 			cellButtonArray[coordX][coordY].setGraphic(new ImageView(new Image(getClass().getResourceAsStream("resources/BAD_QUESTION.png"))));
+		} else if (minesweeper.isGameWon() && cell.type == Cell.CellType.MINE) {
+			cellButtonArray[coordX][coordY].setGraphic(new ImageView(new Image(getClass().getResourceAsStream("resources/FLAG.png"))));
 		} else {
 			if (!cell.isHidden) {
 				cellButtonArray[coordX][coordY].setDisable(true);
@@ -324,13 +323,13 @@ public class MainController extends SimpleFXController implements TimerUtilsObse
 	@Override
 	public void scoreIsHighScore() {
 		String playerName = "";
-		do{
+		do {
 			playerName = SimpleFXDialogs.showInputBox("Meilleur résultat", "Veuillez entrer votre nom : ", this.getSimpleFxStage());
-			if (playerName == null){
+			if (playerName == null) {
 				return;
 			}
-		} while(playerName.trim().isEmpty());
-		
+		} while (playerName.trim().isEmpty());
+
 		minesweeper.setScoreboardHighScore(playerName, timerUtils.getTime());
 	}
 }

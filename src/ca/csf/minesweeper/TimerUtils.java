@@ -48,7 +48,12 @@ public class TimerUtils {
 		timeLine.play();
 	}
 
-	public void stopTimer() {
+	public void stopTimer(){
+		this.isInitialStart = false;
+		timeLine.stop();
+	}
+	
+	public void pauseTimer() {
 		timeLine.stop();
 	}
 
