@@ -59,7 +59,9 @@ public class MainController extends SimpleFXController implements TimerUtilsObse
 		@Override
 		public void handle(WindowFocusEvent event) {
 			if (event.getEventType() == WindowFocusEvent.GET_FOCUS){
-				timerUtils.startTimer();
+				if(timerUtils.getIsInitialStart()){
+					timerUtils.startTimer();
+				}
 			}
 			else if(event.getEventType() == WindowFocusEvent.LOOSE_FOCUS){
 				timerUtils.stopTimer();

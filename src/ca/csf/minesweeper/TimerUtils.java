@@ -15,6 +15,7 @@ public class TimerUtils {
 	private Integer time;
 	private KeyFrame keyFrame;
 	private Timeline timeLine;
+	private Boolean isInitialStart;
 
 	private final class EventHandlerImplementation implements
 			EventHandler<ActionEvent> {
@@ -30,9 +31,8 @@ public class TimerUtils {
 	
 	private TimerUtils() {
 		time = 0;
-
 		observers = new ArrayList<TimerUtilsObserver>();
-
+		this.isInitialStart = false;
 		keyFrame = new KeyFrame(Duration.seconds(1),
 				new EventHandlerImplementation());
 
@@ -52,8 +52,13 @@ public class TimerUtils {
 		timeLine.stop();
 	}
 
-	public void resetTimer() {
+	public void reloadTimer(){
 		this.time = 0;
+		showTime();
+	}
+	
+	public void resetTimer() {
+		this.isInitialStart = true;
 		startTimer();
 	}
 
@@ -63,6 +68,10 @@ public class TimerUtils {
 
 	public void timeChange() {
 		time++;
+		showTime();
+	}
+	
+	public void showTime(){
 		for (TimerUtilsObserver observer : observers) {
 			observer.timeChange((this.time).toString());
 		}
@@ -70,5 +79,9 @@ public class TimerUtils {
 	
 	public int getTime(){
 		return this.time;
+	}
+	
+	public Boolean getIsInitialStart(){
+		return this.isInitialStart;
 	}
 }
