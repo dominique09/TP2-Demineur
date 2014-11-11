@@ -18,6 +18,7 @@ public class Minesweeper implements TimerUtilsObserver{
 	private int flagsLeft;
 	public Difficulty difficulty;
 	private Scoreboard scoreboard;
+	private boolean isFirstCellClicked;
 
 	public Minesweeper() {
 		observers = new ArrayList<MinesweeperObserver>();
@@ -70,6 +71,7 @@ public class Minesweeper implements TimerUtilsObserver{
 		this.nbMines = nbMines;
 		this.flagsLeft = nbMines;
 		this.playerIsDead = false;
+		this.isFirstCellClicked = false;
 		
 		scoreboard = new Scoreboard("scores.txt");
 
@@ -90,8 +92,6 @@ public class Minesweeper implements TimerUtilsObserver{
 			minesPositions[i] = (int) randomNumbers.get(i);
 		}
 		initializeCellArray();
-
-		timerUtils.resetTimer();
 
 		for (MinesweeperObserver observer : observers){
 			observer.setNumberOfFlagsLeft(flagsLeft);
@@ -151,6 +151,11 @@ public class Minesweeper implements TimerUtilsObserver{
 	}
 
 	public void activate(int coordX, int coordY) {
+		
+		if (!isFirstCellClicked) {
+			isFirstCellClicked = true;
+			timerUtils.resetTimer();
+		}
 		
 		if (!cellArray[coordX][coordY].isFlagged && !cellArray[coordX][coordY].isNotSure){
 			if (cellArray[coordX][coordY].type == Cell.CellType.MINE) { // If step on a mine
