@@ -319,14 +319,28 @@ public class Minesweeper implements TimerUtilsObserver{
 			}
 		}
 		
+		
 		timerUtils.stopTimer();
 		
 		System.out.println("Game is won !");
 		this.gameIsWon = true;
 		
+		for (int x = 0; x < sizeX; ++x) {
+			for (int y = 0; y < sizeY; ++y) {
+				if (cellArray[x][y].type == Cell.CellType.MINE){
+					
+					for (MinesweeperObserver observer : observers){
+						observer.updateCell(x, y, cellArray[x][y]);
+					}
+				}
+			}
+		}
+		
 		for (MinesweeperObserver observer : observers) {
 			observer.gameIsWon();
 		}
+		
+		
 		
 		boolean isHighScore = false;
 		if (difficulty == Difficulty.EASY){
