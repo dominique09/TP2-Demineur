@@ -184,7 +184,8 @@ public class Minesweeper implements TimerUtilsObserver{
 		
 		for (int x = 0; x < sizeX; ++x) {
 			for (int y = 0; y < sizeY; ++y) {
-				if (cellArray[x][y].type == Cell.CellType.MINE || cellArray[x][y].type == Cell.CellType.MINEEXPLODED) {
+				if (cellArray[x][y].type == Cell.CellType.MINE || cellArray[x][y].type == Cell.CellType.MINEEXPLODED
+						|| cellArray[x][y].isFlagged || cellArray[x][y].isNotSure) {
 					cellArray[x][y].isHidden = false;
 					
 					for (MinesweeperObserver observer : observers){
